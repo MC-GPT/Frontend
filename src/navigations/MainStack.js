@@ -1,8 +1,7 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { WHITE } from '../colors';
-import GameListScreen from '../screens/GameListScreen';
 import HeaderLeftButton from '../components/HeaderLeftButton';
-import HeaderRightButton from '../components/HeaderRightButton';
+import ContentTab from './ContentTab';
 import SettingsScreen from '../screens/SettingsScreen';
 
 const Stack = createNativeStackNavigator();
@@ -17,17 +16,18 @@ const MainStack = () => {
         headerTitleStyle: { fontWeight: '700' },
         headerBackTitleVisible: false,
         headerLeft: HeaderLeftButton,
+        headerShown: false,
       }}
     >
+      <Stack.Screen name={'ContentTab'} component={ContentTab} />
       <Stack.Screen
-        name={'List'}
-        component={GameListScreen}
+        name={'Settings'}
+        component={SettingsScreen}
         options={{
-          title: 'Main',
-          headerRight: HeaderRightButton,
+          title: 'settings',
+          headerShown: true,
         }}
       />
-      <Stack.Screen name={'Settings'} component={SettingsScreen} />
     </Stack.Navigator>
   );
 };

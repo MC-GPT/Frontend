@@ -1,11 +1,19 @@
-import { StyleSheet, Text, View } from 'react-native';
-import PropTypes from 'prop-types';
+import { StyleSheet, View } from 'react-native';
+// import PropTypes from 'prop-types';
 import { WHITE } from '../colors';
+import Button from '../components/Button';
+import { useNavigation } from '@react-navigation/native';
 
 const MypageScreen = () => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>MypageScreen</Text>
+      <View style={styles.settingbutton}>
+        <Button
+          title={'Settings'}
+          onPress={() => navigation.navigate('Settings')}
+        ></Button>
+      </View>
     </View>
   );
 };
@@ -21,6 +29,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
   },
+  settingbutton: {},
 });
 
 export default MypageScreen;

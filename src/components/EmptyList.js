@@ -5,7 +5,7 @@ const EmptyList = () => {
   return (
     <View style={styles.container}>
       <Image source={require('../../assets/LOGO.png')} style={styles.image} />
-      <Text style={styles.title}>Game List</Text>
+      <Text style={styles.title}>Music Playlist</Text>
     </View>
   );
 };

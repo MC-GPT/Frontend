@@ -18,7 +18,7 @@ const ContentTab = () => {
     <Tab.Navigator
       initialRouteName={HomeScreen}
       screenOptions={{
-        headerShown: true,
+        headerShown: false,
         tabBarShowLabel: true,
       }}
     >

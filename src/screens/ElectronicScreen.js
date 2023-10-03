@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { WHITE } from '../colors';
 
 const ElectronicScreen = () => {
