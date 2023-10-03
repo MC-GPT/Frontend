@@ -1,6 +1,6 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { WHITE } from '../colors';
-import ListScreen from '../screens/ListScreen';
+import GameListScreen from '../screens/GameListScreen';
 import HeaderLeftButton from '../components/HeaderLeftButton';
 import HeaderRightButton from '../components/HeaderRightButton';
 import SettingsScreen from '../screens/SettingsScreen';
@@ -21,7 +21,7 @@ const MainStack = () => {
     >
       <Stack.Screen
         name={'List'}
-        component={ListScreen}
+        component={GameListScreen}
         options={{
           title: 'Main',
           headerRight: HeaderRightButton,

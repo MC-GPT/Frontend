@@ -8,7 +8,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Alert, View } from 'react-native';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 
-const ListScreen = () => {
+const GameListScreen = () => {
   const [todos, setTodos] = useState([]);
   const [isBottom, setIsBottom] = useState(false);
   const { bottom } = useSafeAreaInsets();
@@ -73,4 +73,4 @@ const ListScreen = () => {
   );
 };
 
-export default ListScreen;
+export default GameListScreen;
