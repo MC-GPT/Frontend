@@ -1,33 +1,34 @@
-import { StyleSheet, View, Text } from 'react-native';
+import { Alert, StyleSheet, View, Text } from 'react-native';
 import Button from '../components/Button';
-import { useNavigation } from '@react-navigation/native';
 import Input from '../components/Input';
 import { useEffect, useState } from 'react';
+import { useUserContext } from '../contexts/UserContext';
+import { codeIn } from '../api/room';
 
 const RoomScreen = () => {
-  const navigation = useNavigation();
+  const [disabled, setDisabled] = useState(true);
   const [code, setCode] = useState('');
-  // const [disabled, setDisabled] = useState(true);
 
-  // useEffect(() => {
-  //   setDisabled(!code);
-  // }, [code]);
+  const { setRoom } = useUserContext();
 
-  // const onSubmit = async () => {
-  //   if (!disabled) {
-  //     try {
-  //       const data = await signIn(code);
-  //       setUser(data);
-  //     } catch (e) {
-  //       Alert.alert('SignIn Failed', e, [
-  //         {
-  //           text: 'OK',
-  //           onPress: () => setIsLoading(false),
-  //         },
-  //       ]);
-  //     }
-  //   }
-  // };
+  useEffect(() => {
+    setDisabled(!code);
+  }, [code]);
+
+  const onSubmit = async () => {
+    if (!disabled) {
+      try {
+        const data = await codeIn(code);
+        setRoom(data);
+      } catch (e) {
+        Alert.alert('방 입장 실패', e, [
+          {
+            text: 'OK',
+          },
+        ]);
+      }
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -37,45 +38,32 @@ const RoomScreen = () => {
           <Input
             value={code}
             onChangeText={(text) => setCode(text.trim())}
-            title={'code'}
             placeholder={'코드 입력'}
-            // onSubmitEditing={onSubmit}
+            onSubmitEditing={onSubmit}
           />
         </View>
-        <Button
-          title={'Enter'}
-          onPress={() => navigation.navigate('ContentTab')}
-        ></Button>
+        <Button title={'Enter'} disabled={disabled} onPress={onSubmit}></Button>
       </View>
       <View style={styles.style}>
         <Text style={styles.text}>Room 2</Text>
         <View style={styles.inputstyle}>
-          <Input placeholder={'초대코드 입력'}> </Input>
+          <Input placeholder={'코드 입력'} onSubmitEditing={onSubmit} />
         </View>
-        <Button
-          title={'Enter'}
-          onPress={() => navigation.navigate('ContentTab')}
-        ></Button>
+        <Button title={'Enter'} disabled onPress={onSubmit}></Button>
       </View>
       <View style={styles.style}>
         <Text style={styles.text}>Room 3</Text>
         <View style={styles.inputstyle}>
-          <Input placeholder={'초대코드 입력'}> </Input>
+          <Input placeholder={'코드 입력'} onSubmitEditing={onSubmit} />
         </View>
-        <Button
-          title={'Enter'}
-          onPress={() => navigation.navigate('ContentTab')}
-        ></Button>
+        <Button title={'Enter'} disabled onPress={onSubmit}></Button>
       </View>
       <View style={styles.style}>
         <Text style={styles.text}>Room 4</Text>
         <View style={styles.inputstyle}>
-          <Input placeholder={'초대코드 입력'}> </Input>
+          <Input placeholder={'코드 입력'} onSubmitEditing={onSubmit} />
         </View>
-        <Button
-          title={'Enter'}
-          onPress={() => navigation.navigate('ContentTab')}
-        ></Button>
+        <Button title={'Enter'} disabled onPress={onSubmit}></Button>
       </View>
     </View>
   );
