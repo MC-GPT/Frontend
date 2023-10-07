@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import GameListScreen from '../screens/GameListScreen';
 import ElectronicScreen from '../screens/ElectronicScreen';
-import MypageScreen from '../screens/MypageScreen';
 import { Ionicons } from '@expo/vector-icons';
 import { PRIMARY } from '../colors';
+import SettingsScreen from '../screens/SettingsScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -51,10 +51,10 @@ const ContentTab = () => {
         }}
       />
       <Tab.Screen
-        name="MyPage"
-        component={MypageScreen}
+        name="Settings"
+        component={SettingsScreen}
         options={{
-          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'person' }),
+          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'settings' }),
           tabBarActiveTintColor: PRIMARY.DARK,
           tabBarInactiveTintColor: PRIMARY.LIGHT,
         }}

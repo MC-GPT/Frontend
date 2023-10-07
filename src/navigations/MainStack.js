@@ -3,6 +3,7 @@ import { WHITE } from '../colors';
 import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import SettingsScreen from '../screens/SettingsScreen';
+import RoomScreen from '../screens/RoomScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,7 @@ const MainStack = () => {
         headerShown: false,
       }}
     >
+      <Stack.Screen name={'Room'} component={RoomScreen} />
       <Stack.Screen name={'ContentTab'} component={ContentTab} />
       <Stack.Screen
         name={'Settings'}
