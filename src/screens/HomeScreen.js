@@ -1,76 +1,95 @@
-import { useEffect, useState } from 'react';
-import EmptyList from '../components/EmptyList';
-import InputFAB from '../components/InputFAB';
-import List from '../components/List';
-import 'react-native-get-random-values';
-import { nanoid } from 'nanoid';
+import { Image, StyleSheet, Text, View } from 'react-native';
+import { WHITE } from '../colors';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Alert, View } from 'react-native';
-import { useAsyncStorage } from '@react-native-async-storage/async-storage';
+import SafeInputView from '../components/SafeInputView';
 
 const HomeScreen = () => {
-  const [todos, setTodos] = useState([]);
-  const [isBottom, setIsBottom] = useState(false);
-  const { bottom } = useSafeAreaInsets();
-  const { getItem, setItem } = useAsyncStorage('todos');
-
-  const save = async (data) => {
-    try {
-      await setItem(JSON.stringify(data));
-      setTodos(data);
-    } catch (e) {
-      Alert.alert('저장 실패');
-    }
-  };
-
-  const load = async () => {
-    try {
-      const data = await getItem();
-      const todos = JSON.parse(data || '[]');
-      setTodos(todos);
-    } catch (e) {
-      Alert.alert('불러오기 실패');
-    }
-  };
-
-  useEffect(() => {
-    load();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  const onInsert = (task) => {
-    const id = nanoid();
-    const newTask = { id, task, isDone: false };
-    save([newTask, ...todos]);
-  };
-
-  const onDelete = (id) => {
-    const newTodos = todos.filter((item) => item.id !== id);
-    save(newTodos);
-  };
-
-  const onToggle = (id) => {
-    const newTodos = todos.map((item) =>
-      item.id === id ? { ...item, isDone: !item.isDone } : item
-    );
-    save(newTodos);
-  };
-
+  const insets = useSafeAreaInsets();
   return (
-    <View style={{ paddingBottom: bottom, flex: 1 }}>
-      {todos.length ? (
-        <List
-          data={todos}
-          setIsBottom={setIsBottom}
-          onDelete={onDelete}
-          onToggle={onToggle}
-        />
-      ) : (
-        <EmptyList />
-      )}
-      <InputFAB onInsert={onInsert} isBottom={isBottom} />
-    </View>
+    <SafeInputView>
+      <View
+        style={[
+          styles.container,
+          { paddingTop: insets.top, paddingBottom: insets.bottom - 100 },
+        ]}
+      >
+        <Text style={styles.notice}>공지사항</Text>
+        <View style={styles.musicbox}>
+          <View style={styles.image}>
+            <Image
+              source={require('../../assets/NewJeans.png')}
+              style={styles.image}
+            />
+          </View>
+          <Text style={styles.title}>Super Shy</Text>
+          <Text style={styles.artist}>NewJeans</Text>
+          <View style={styles.music_icon}>
+            <View style={styles.icon_each}>
+              <MaterialIcons name="shuffle" size={30} color="black" />
+            </View>
+            <View style={styles.icon_each}>
+              <MaterialIcons name="skip-previous" size={30} color="black" />
+            </View>
+            <View style={styles.icon_each}>
+              <MaterialIcons name="play-arrow" size={30} color="black" />
+            </View>
+            <View style={styles.icon_each}>
+              <MaterialIcons name="skip-next" size={30} color="black" />
+            </View>
+            <View style={styles.icon_each}>
+              <MaterialIcons name="replay" size={30} color="black" />
+            </View>
+          </View>
+        </View>
+      </View>
+    </SafeInputView>
   );
 };
+
+HomeScreen.propTypes = {};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: WHITE,
+  },
+  notice: {
+    fontSize: 28,
+  },
+  musicbox: {
+    flex: 1,
+    width: '100%',
+    height: 500,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#9e42f5',
+  },
+  title: {
+    fontSize: 28,
+    padding: 10,
+    height: 50,
+  },
+  artist: {
+    fontSize: 18,
+    height: 20,
+  },
+  image: {
+    width: 250,
+    height: 250,
+  },
+  music_icon: {
+    flexDirection: 'row',
+    padding: 10,
+    alignItems: 'space-between',
+    height: 70,
+  },
+  icon_each: {
+    margin: 8,
+  },
+});
 
 export default HomeScreen;

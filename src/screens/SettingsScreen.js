@@ -4,6 +4,7 @@ import { useUserContext } from '../contexts/UserContext';
 
 const SettingsScreen = () => {
   const { setUser } = useUserContext();
+  const { setRoom } = useUserContext();
 
   return (
     <View style={styles.container}>
@@ -11,6 +12,13 @@ const SettingsScreen = () => {
         <Button
           title="SIGNOUT"
           onPress={() => setUser(null)}
+          buttonType={ButtonTypes.DANGER}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="CODEOUT"
+          onPress={() => setRoom(null)}
           buttonType={ButtonTypes.DANGER}
         />
       </View>
@@ -26,7 +34,7 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    paddingHorizontal: 20,
+    padding: 20,
   },
 });
 
