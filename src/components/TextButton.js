@@ -1,6 +1,6 @@
 import { Pressable, StyleSheet, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import { PRIMARY, WHITE } from '../colors';
+import { PRIMARY } from '../colors';
 
 const TextButton = ({ title, onPress, hitSlop }) => {
   return (
