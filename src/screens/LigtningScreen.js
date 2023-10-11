@@ -12,7 +12,7 @@ import { useRef, useState } from 'react';
 import Input from '../components/Input';
 // import PropTypes from 'prop-types';
 
-const ElectronicScreen = () => {
+const LightningScreen = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [serialNumber, setSerialNumber] = useState('');
   const [name, setName] = useState('');
@@ -62,13 +62,13 @@ const ElectronicScreen = () => {
         style={[styles.button, styles.buttonOpen]}
         onPress={() => setModalVisible(true)}
       >
-        <Text style={styles.textStyle}>가전 추가</Text>
+        <Text style={styles.textStyle}>조명 추가</Text>
       </Pressable>
     </SafeAreaView>
   );
 };
 
-ElectronicScreen.propTypes = {};
+LightningScreen.propTypes = {};
 
 const styles = StyleSheet.create({
   container: {
@@ -114,4 +114,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ElectronicScreen;
+export default LightningScreen;

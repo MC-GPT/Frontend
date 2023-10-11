@@ -17,9 +17,11 @@ import TextButton from '../components/TextButton';
 const SignUpScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const emailRef = useRef(null);
+  const nicknameRef = useRef(null);
   const passwordRef = useRef(null);
   const passwordconfirmRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
@@ -70,6 +72,16 @@ const SignUpScreen = ({ navigation }) => {
           placeholder={'name'}
           returnKeyType={ReturnKeyTypes.NEXT}
           iconName={IconNames.USERNAME}
+          onSubmitEditing={() => nicknameRef.current.focus()}
+        />
+        <Input
+          ref={nicknameRef}
+          value={nickname}
+          onChangeText={(text) => setNickname(text.trim())}
+          title={'nickname'}
+          placeholder={'nickname'}
+          returnKeyType={ReturnKeyTypes.NEXT}
+          iconName={IconNames.HAPPY}
           onSubmitEditing={() => emailRef.current.focus()}
         />
         <Input

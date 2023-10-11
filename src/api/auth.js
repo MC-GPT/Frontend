@@ -4,11 +4,12 @@ const PASSWORD = '1234';
 export const signIn = (email, password) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      if (email === EMAIL && password === PASSWORD) {
+      // if (email === EMAIL && password === PASSWORD) {
+      if (1) {
         resolve(email);
       } else {
         reject('The email or password is wrong.');
       }
-    }, 1000);
+    }, 1);
   });
 };

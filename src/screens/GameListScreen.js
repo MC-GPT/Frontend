@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from 'react-native';
-// import PropTypes from 'prop-types';
 import { WHITE } from '../colors';
 
 const GameListScreen = () => {
@@ -21,6 +20,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 });
 

@@ -18,6 +18,7 @@ export const IconNames = {
   EMAIL: 'email',
   PASSWORD: 'lock',
   USERNAME: 'account',
+  HAPPY: 'emoticon-happy',
 };
 
 const Input = forwardRef(
