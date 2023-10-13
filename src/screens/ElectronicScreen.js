@@ -8,15 +8,33 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { WHITE } from '../colors';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Input from '../components/Input';
-// import PropTypes from 'prop-types';
+import axios from 'axios';
+import Button from '../components/Button';
+import PropTypes from 'prop-types';
 
-const ElectronicScreen = () => {
+const ElectronicScreen = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [serialNumber, setSerialNumber] = useState('');
   const [name, setName] = useState('');
   const nameRef = useRef(null);
+  const [jsonData, setJsonData] = useState([]);
+
+  const getElectronics = async () => {
+    try {
+      const value = await axios.get(
+        'https://my-json-server.typicode.com/typicode/demo/posts'
+      );
+      setJsonData(value.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getElectronics();
+  });
 
   const onSubmit = () => {};
 
@@ -64,11 +82,24 @@ const ElectronicScreen = () => {
       >
         <Text style={styles.textStyle}>가전 추가</Text>
       </Pressable>
+      <View style={styles.button}>
+        {jsonData.map((v) => {
+          return (
+            <Button
+              key={v.id}
+              title={v.title}
+              onPress={() => navigation.navigate('ElectroInfo')}
+            />
+          );
+        })}
+      </View>
     </SafeAreaView>
   );
 };
 
-ElectronicScreen.propTypes = {};
+ElectronicScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   container: {

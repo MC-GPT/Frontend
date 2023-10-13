@@ -8,20 +8,49 @@ import {
   SafeAreaView,
 } from 'react-native';
 import { WHITE } from '../colors';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import Input from '../components/Input';
-// import PropTypes from 'prop-types';
+import Button from '../components/Button';
+import PropTypes from 'prop-types';
+import axios from 'axios';
 
-const LightningScreen = () => {
+const LightningScreen = ({ navigation }) => {
+  const [input, setInput] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
   const [serialNumber, setSerialNumber] = useState('');
   const [name, setName] = useState('');
   const nameRef = useRef(null);
+  const [jsonData, setJsonData] = useState([]);
+
+  const getLightnings = async () => {
+    try {
+      const value = await axios.get(
+        'https://my-json-server.typicode.com/typicode/demo/posts'
+      );
+      setJsonData(value.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getLightnings();
+  });
 
   const onSubmit = () => {};
 
+  const textSubmit = () => {};
+
   return (
     <SafeAreaView style={styles.container}>
+      <Input
+        value={input}
+        onChangeText={(text) => setInput(text.trim())}
+        title={'Input'}
+        placeholder={'조명색깔을 무엇으로 할까요'}
+        onSubmitEditing={textSubmit}
+      ></Input>
+
       <Modal
         animationType="fade"
         transparent={true}
@@ -64,11 +93,24 @@ const LightningScreen = () => {
       >
         <Text style={styles.textStyle}>조명 추가</Text>
       </Pressable>
+      <View style={styles.button}>
+        {jsonData.map((v) => {
+          return (
+            <Button
+              key={v.id}
+              title={v.title}
+              onPress={() => navigation.navigate('Mood')}
+            />
+          );
+        })}
+      </View>
     </SafeAreaView>
   );
 };
 
-LightningScreen.propTypes = {};
+LightningScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   container: {

@@ -14,7 +14,7 @@ const HomeScreen = () => {
           { paddingTop: insets.top, paddingBottom: insets.bottom - 100 },
         ]}
       >
-        <Text style={styles.notice}>공지사항</Text>
+        <Text style={styles.notice}></Text>
         <View style={styles.musicbox}>
           <View style={styles.image}>
             <Image

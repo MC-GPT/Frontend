@@ -1,41 +1,72 @@
-import { StyleSheet, View } from 'react-native';
-import Button, { ButtonTypes } from '../components/Button';
-import { useUserContext } from '../contexts/UserContext';
+import { View, TouchableOpacity, Image, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
+import favicon from '../../assets/favicon.png';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const SettingsScreen = () => {
-  const { setUser } = useUserContext();
-  const { setRoom } = useUserContext();
-
+export default function SettingScreen() {
   return (
-    <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="SIGNOUT"
-          onPress={() => setUser(null)}
-          buttonType={ButtonTypes.DANGER}
-        />
+    <SafeAreaView>
+      <View style={styles.myInfo}>
+        <View>
+          <Text style={styles.myInfoText}>내 정보</Text>
+          <Text style={styles.myInfoContent}>이름: 박종수 </Text>
+          <Text style={styles.myInfoContent}>ID: JSJS </Text>
+        </View>
+        <View style={styles.profile}>
+          <Image source={favicon} style={styles.profileImg}></Image>
+        </View>
       </View>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="CODEOUT"
-          onPress={() => setRoom(null)}
-          buttonType={ButtonTypes.DANGER}
-        />
-      </View>
-    </View>
+      <TouchableOpacity style={styles.listContainer}>
+        <Text style={styles.listText}>계정 설정</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.listContainer}>
+        <Text style={styles.listText}>코드 리프레쉬</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  listContainer: {
+    backgroundColor: '#ffffff',
+    alignItems: 'flex-start',
     justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonContainer: {
+    paddingLeft: 20,
     width: '100%',
-    padding: 20,
+    height: 70,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ebebeb',
+  },
+  listText: {
+    color: '#555555',
+  },
+  myInfo: {
+    height: 200,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-evenly',
+    backgroundColor: 'white',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ebebeb',
+  },
+  myInfoText: {
+    fontSize: 20,
+    marginBottom: 10,
+  },
+  myInfoContent: {
+    fontSize: 17,
+    marginBottom: 10,
+  },
+  profile: {
+    height: 100,
+    width: 100,
+    backgroundColor: '#ebebeb',
+    borderRadius: 10,
+  },
+  profileImg: {
+    height: 100,
+    width: 100,
+    opacity: 0.3,
+    borderRadius: 10,
   },
 });
-
-export default SettingsScreen;

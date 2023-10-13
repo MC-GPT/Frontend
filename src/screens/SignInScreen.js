@@ -24,9 +24,17 @@ const SignInScreen = ({ navigation }) => {
 
   const { setUser } = useUserContext();
 
+  // const loginPost = async () => {
+  //   try {
+
+  //   }
+  // }
+
   useEffect(() => {
     setDisabled(!email || !password);
   }, [email, password]);
+
+  // useEffect(()=>{loginPost();})
 
   const onSubmit = async () => {
     if (!disabled && !isLoading) {

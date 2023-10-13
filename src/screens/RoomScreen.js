@@ -1,75 +1,68 @@
-import { Alert, StyleSheet, View, Text } from 'react-native';
-import Button from '../components/Button';
-import Input from '../components/Input';
+import { StyleSheet, View } from 'react-native';
+import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
-import { codeIn } from '../api/room';
+import PropTypes from 'prop-types';
 
-const RoomScreen = () => {
-  const [disabled, setDisabled] = useState(true);
-  const [code, setCode] = useState('');
+const RoomScreen = ({ navigation }) => {
+  const { setUser } = useUserContext();
+  const [jsonData, setJsonData] = useState([]);
 
-  const { setRoom } = useUserContext();
+  // let jsonData = [
+  //   { id: 1, name: '101호', code: '55501' },
+  //   { id: 2, name: '102호', code: '53521' },
+  //   { id: 3, name: '103호', code: '93991' },
+  // ];
 
-  useEffect(() => {
-    setDisabled(!code);
-  }, [code]);
-
-  const onSubmit = async () => {
-    if (!disabled) {
-      try {
-        const data = await codeIn(code);
-        setRoom(data);
-      } catch (e) {
-        Alert.alert('방 입장 실패', e, [
-          {
-            text: 'OK',
-          },
-        ]);
-      }
+  //방 정보 받기 위한 axios 코드
+  const getRoom = async () => {
+    try {
+      const value = await axios.get(
+        'https://my-json-server.typicode.com/typicode/demo/posts'
+      );
+      setJsonData(value.data);
+    } catch (error) {
+      console.error(error);
     }
   };
 
+  useEffect(() => {
+    getRoom();
+  });
+
   return (
     <View style={styles.container}>
-      <View style={styles.style}>
-        <Text style={styles.text}>Room 1</Text>
-        <View style={styles.inputstyle}>
-          <Input
-            value={code}
-            onChangeText={(text) => setCode(text.trim())}
-            placeholder={'코드 입력'}
-            onSubmitEditing={onSubmit}
-          />
-        </View>
-        <Button title={'Enter'} disabled={disabled} onPress={onSubmit}></Button>
+      <View style={styles.buttonContainer}>
+        <Button
+          title="SIGNOUT"
+          onPress={() => setUser(null)}
+          buttonType={ButtonTypes.DANGER}
+        />
       </View>
-      <View style={styles.style}>
-        <Text style={styles.text}>Room 2</Text>
-        <View style={styles.inputstyle}>
-          <Input placeholder={'코드 입력'} onSubmitEditing={onSubmit} />
-        </View>
-        <Button title={'Enter'} disabled onPress={onSubmit}></Button>
+      <View style={styles.buttonContainer}></View>
+      <View style={styles.inputstyle}>
+        {jsonData.map((v) => {
+          return (
+            <Button
+              key={v.id}
+              title={v.title}
+              onPress={() => navigation.navigate('Code')}
+            />
+          );
+        })}
       </View>
-      <View style={styles.style}>
-        <Text style={styles.text}>Room 3</Text>
-        <View style={styles.inputstyle}>
-          <Input placeholder={'코드 입력'} onSubmitEditing={onSubmit} />
-        </View>
-        <Button title={'Enter'} disabled onPress={onSubmit}></Button>
-      </View>
-      <View style={styles.style}>
-        <Text style={styles.text}>Room 4</Text>
-        <View style={styles.inputstyle}>
-          <Input placeholder={'코드 입력'} onSubmitEditing={onSubmit} />
-        </View>
-        <Button title={'Enter'} disabled onPress={onSubmit}></Button>
-      </View>
+      <Button
+        title={'방 생성'}
+        onPress={() => navigation.navigate('Create')}
+      ></Button>
     </View>
   );
 };
 
-RoomScreen.propTypes = {};
+RoomScreen.propTypes = {
+  navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -89,6 +82,7 @@ const styles = StyleSheet.create({
   },
   inputstyle: {
     width: '40%',
+    PaddingBottom: 10,
   },
 });
 
