@@ -4,10 +4,13 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
 import PropTypes from 'prop-types';
+import Popup, { PopupTypes } from '../components/Popup';
 
 const RoomScreen = ({ navigation }) => {
   const { setUser } = useUserContext();
   const [jsonData, setJsonData] = useState([]);
+  const [visibleTop, setVisibleTop] = useState(false);
+  const [visibleBottom, setVisibleBottom] = useState(false);
 
   // let jsonData = [
   //   { id: 1, name: '101호', code: '55501' },
@@ -47,15 +50,28 @@ const RoomScreen = ({ navigation }) => {
             <Button
               key={v.id}
               title={v.title}
-              onPress={() => navigation.navigate('Code')}
+              onPress={() => setVisibleBottom(true)}
             />
           );
         })}
       </View>
-      <Button
-        title={'방 생성'}
-        onPress={() => navigation.navigate('Create')}
-      ></Button>
+      <Button title={'방 생성'} onPress={() => setVisibleTop(true)}></Button>
+      <Popup
+        visible={visibleTop}
+        onClose={() => setVisibleTop(false)}
+        onSubmit={() =>
+          navigation.navigate('ContentTab') & setVisibleTop(false)
+        }
+        popupType={PopupTypes.ROOMCREATE}
+      ></Popup>
+      <Popup
+        visible={visibleBottom}
+        onClose={() => setVisibleBottom(false)}
+        onSubmit={() =>
+          navigation.navigate('ContentTab') & setVisibleBottom(false)
+        }
+        popupType={PopupTypes.ROOMENTER}
+      ></Popup>
     </View>
   );
 };

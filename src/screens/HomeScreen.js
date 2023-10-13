@@ -6,6 +6,7 @@ import SafeInputView from '../components/SafeInputView';
 
 const HomeScreen = () => {
   const insets = useSafeAreaInsets();
+
   return (
     <SafeInputView>
       <View

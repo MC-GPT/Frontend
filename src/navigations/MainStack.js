@@ -4,8 +4,6 @@ import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import SettingsScreen from '../screens/SettingsScreen';
 import RoomScreen from '../screens/RoomScreen';
-import CodeScreen from '../screens/CodeScreen';
-import CreateRoomScreen from '../screens/CreateRoomScreen';
 import MoodLightScreen from '../screens/MoodLightScreen';
 import GamePlayScreen from '../screens/GamePlayScreen';
 import ElectroInfoScreen from '../screens/ElectroInfoScreen';
@@ -26,15 +24,6 @@ const MainStack = () => {
       }}
     >
       <Stack.Screen name={'Room'} component={RoomScreen} />
-      <Stack.Screen
-        name={'Code'}
-        component={CodeScreen}
-        options={{
-          title: 'Code',
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen name={'Create'} component={CreateRoomScreen} />
       <Stack.Screen name={'ContentTab'} component={ContentTab} />
       <Stack.Screen
         name={'Mood'}
