@@ -1,17 +1,18 @@
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Text, Pressable } from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
 import PropTypes from 'prop-types';
 import Popup, { PopupTypes } from '../components/Popup';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const RoomScreen = ({ navigation }) => {
   const { setUser } = useUserContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleTop, setVisibleTop] = useState(false);
   const [visibleBottom, setVisibleBottom] = useState(false);
-
   // let jsonData = [
   //   { id: 1, name: '101호', code: '55501' },
   //   { id: 2, name: '102호', code: '53521' },
@@ -35,27 +36,41 @@ const RoomScreen = ({ navigation }) => {
   });
 
   return (
-    <View style={styles.container}>
-      <View style={styles.buttonContainer}>
-        <Button
-          title="SIGNOUT"
-          onPress={() => setUser(null)}
-          buttonType={ButtonTypes.DANGER}
-        />
+    <SafeAreaView style={styles.container}>
+      <View style={styles.top}>
+        <Text style={styles.title}>방을 선택하세요</Text>
+        <View style={styles.logoutButton}>
+          <Pressable
+            onPress={() => setUser(null)}
+            buttonType={ButtonTypes.DANGER}
+          >
+            <MaterialIcons name="logout" size={24} color="black" />
+          </Pressable>
+        </View>
       </View>
-      <View style={styles.buttonContainer}></View>
-      <View style={styles.inputstyle}>
-        {jsonData.map((v) => {
-          return (
-            <Button
-              key={v.id}
-              title={v.title}
-              onPress={() => setVisibleBottom(true)}
-            />
-          );
-        })}
+      <View style={styles.main}>
+        <View style={styles.roomButton}>
+          {jsonData.map((v) => {
+            return (
+              <Button
+                key={v.id}
+                title={v.title}
+                onPress={() => setVisibleBottom(true)}
+                buttonType={ButtonTypes.ROOM}
+                styles={buttonStyles}
+              />
+            );
+          })}
+        </View>
       </View>
-      <Button title={'방 생성'} onPress={() => setVisibleTop(true)}></Button>
+      <View style={styles.bottom}>
+        <View style={styles.createButton}>
+          <Button
+            title={'방 생성'}
+            onPress={() => setVisibleTop(true)}
+          ></Button>
+        </View>
+      </View>
       <Popup
         visible={visibleTop}
         onClose={() => setVisibleTop(false)}
@@ -72,13 +87,29 @@ const RoomScreen = ({ navigation }) => {
         }
         popupType={PopupTypes.ROOMENTER}
       ></Popup>
-    </View>
+    </SafeAreaView>
   );
 };
 
 RoomScreen.propTypes = {
   navigation: PropTypes.object,
 };
+
+const buttonStyles = StyleSheet.create({
+  container: {
+    width: 140,
+    // backgroundColor: 'black',
+    marginHorizontal: 10,
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    width: '100%',
+    height: 140,
+    borderRadius: 20,
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -87,18 +118,47 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 30,
   },
-  style: {
+  top: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    // backgroundColor: 'skyblue',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  title: {
+    fontSize: 24,
+    marginLeft: 105,
+  },
+  logoutButton: {
+    marginLeft: 60,
+  },
+  main: {
+    flex: 5,
+    width: '100%',
+    // backgroundColor: 'yellow',
+    flexDirection: 'column',
+  },
+  roomButton: {
+    // backgroundColor: 'aqua',
+    flex: 1,
     flexDirection: 'row',
-    padding: 10,
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    marginHorizontal: 35,
   },
-  text: {
-    marginRight: 10,
+  bottom: {
+    flex: 2,
+    width: '100%',
+    // backgroundColor: 'brown',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  inputstyle: {
-    width: '40%',
-    PaddingBottom: 10,
+  createButton: {
+    // backgroundColor: 'black',
+    flex: 1,
+    width: 320,
+    justifyContent: 'top',
   },
 });
 

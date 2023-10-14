@@ -16,4 +16,11 @@ export const DANGER = {
 export const GRAY = {
   LIGHT: '#e5e5e5',
   DEFAULT: '#a3a3a3',
+  DARK: '#4b5563',
+};
+
+export const ROOM = {
+  LIGHT: '#bef264',
+  DEFAULT: '#65a30d',
+  DARK: '#365314',
 };

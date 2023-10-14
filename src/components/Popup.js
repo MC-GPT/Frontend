@@ -1,6 +1,6 @@
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
-import Button from './Button';
+import Button, { ButtonTypes } from './Button';
 import Input from './Input';
 
 export const PopupTypes = {
@@ -11,11 +11,11 @@ export const PopupTypes = {
 const PopupProps = {
   ROOMCREATE: {
     title: '방 생성',
-    message: '이름 :',
+    message: '방 제목을 입력하세요',
   },
   ROOMENTER: {
     title: '방 입장',
-    message: '코드입력 : ',
+    message: '코드를 입력하세요',
   },
 };
 
@@ -33,18 +33,19 @@ const Popup = ({ visible, onClose, onSubmit, popupType }) => {
         <View style={styles.popup}>
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.message}>{message}</Text>
-          <Input title="입력"></Input>
-
+          <Input title=""></Input>
           <View style={styles.buttonContainer}>
             <Button
               title={'뒤로'}
               onPress={onClose}
-              styles={{ buttonStyles }}
+              styles={buttonStyles}
+              buttonType={ButtonTypes.CANCEL}
             ></Button>
             <Button
               title={'확인'}
               onPress={onSubmit}
-              styles={{ buttonStyles }}
+              styles={buttonStyles}
+              buttonType={ButtonTypes.PRIMARY}
             ></Button>
           </View>
         </View>

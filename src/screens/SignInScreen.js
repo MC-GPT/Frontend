@@ -24,19 +24,11 @@ const SignInScreen = ({ navigation }) => {
 
   const { setUser } = useUserContext();
 
-  // const loginPost = async () => {
-  //   try {
-
-  //   }
-  // }
-
   useEffect(() => {
     setDisabled(!email || !password);
   }, [email, password]);
 
-  // useEffect(()=>{loginPost();})
-
-  const onSubmit = async () => {
+  const login = async () => {
     if (!disabled && !isLoading) {
       Keyboard.dismiss();
       setIsLoading(true);
@@ -86,13 +78,13 @@ const SignInScreen = ({ navigation }) => {
           title={'password'}
           secureTextEntry
           iconName={IconNames.PASSWORD}
-          onSubmitEditing={onSubmit}
+          onSubmitEditing={login}
         />
 
         <View style={styles.buttonContainer}>
           <Button
             title={'로그인'}
-            onPress={onSubmit}
+            onPress={login}
             disabled={disabled}
             isLoading={isLoading}
           />
