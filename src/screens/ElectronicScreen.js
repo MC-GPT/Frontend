@@ -1,27 +1,22 @@
-import {
-  StyleSheet,
-  Text,
-  View,
-  Modal,
-  Alert,
-  Pressable,
-  SafeAreaView,
-} from 'react-native';
-import { WHITE } from '../colors';
-import { useRef, useState, useEffect } from 'react';
-import Input from '../components/Input';
+import { StyleSheet, View } from 'react-native';
+import Button, { ButtonTypes } from '../components/Button';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Button from '../components/Button';
 import PropTypes from 'prop-types';
+import PopupB, { PopupTypesB } from '../components/PopupB';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-const ElectronicScreen = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [serialNumber, setSerialNumber] = useState('');
-  const [name, setName] = useState('');
-  const nameRef = useRef(null);
+const LightningScreen = ({ navigation }) => {
   const [jsonData, setJsonData] = useState([]);
+  const [visibleLight, setVisibleLight] = useState(false);
+  // let jsonData = [
+  //   { id: 1, name: '101호', code: '55501' },
+  //   { id: 2, name: '102호', code: '53521' },
+  //   { id: 3, name: '103호', code: '93991' },
+  // ];
 
-  const getElectronics = async () => {
+  //방 정보 받기 위한 axios 코드
+  const getRoom = async () => {
     try {
       const value = await axios.get(
         'https://my-json-server.typicode.com/typicode/demo/posts'
@@ -33,116 +28,116 @@ const ElectronicScreen = ({ navigation }) => {
   };
 
   useEffect(() => {
-    getElectronics();
+    getRoom();
   });
-
-  const onSubmit = () => {};
 
   return (
     <SafeAreaView style={styles.container}>
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => {
-          Alert.alert('Modal has been closed.');
-          setModalVisible(!modalVisible);
-        }}
-      >
-        <View style={styles.container}>
-          <View style={styles.modalView}>
-            <Input
-              value={serialNumber}
-              onChangeText={(text) => setSerialNumber(text.trim())}
-              title={'serialNumber'}
-              placeholder={'시리얼넘버'}
-              onSubmitEditing={() => nameRef.current.focus()}
-            ></Input>
-            <Input
-              ref={nameRef}
-              value={name}
-              onChangeText={(text) => setName(text.trim())}
-              title={'name'}
-              placeholder={'이름'}
-              onSubmitEditing={onSubmit}
-            />
-
-            <Pressable
-              style={[styles.button, styles.buttonClose]}
-              onPress={() => setModalVisible(!modalVisible)}
-            >
-              <Text style={styles.textStyle}>추가</Text>
-            </Pressable>
-          </View>
+      <View style={styles.top}></View>
+      <View style={styles.main}>
+        <View style={styles.roomButton}>
+          {jsonData.map((v) => {
+            return (
+              <Button
+                key={v.id}
+                title={v.title}
+                onPress={() => navigation.navigate('ElectroInfo')}
+                buttonType={ButtonTypes.ROOM}
+                styles={buttonStyles}
+              />
+            );
+          })}
         </View>
-      </Modal>
-      <Pressable
-        style={[styles.button, styles.buttonOpen]}
-        onPress={() => setModalVisible(true)}
-      >
-        <Text style={styles.textStyle}>가전 추가</Text>
-      </Pressable>
-      <View style={styles.button}>
-        {jsonData.map((v) => {
-          return (
-            <Button
-              key={v.id}
-              title={v.title}
-              onPress={() => navigation.navigate('ElectroInfo')}
-            />
-          );
-        })}
       </View>
+      <View style={styles.bottom}>
+        <View style={styles.createButton}>
+          <Button
+            title={'가전 추가'}
+            onPress={() => setVisibleLight(true)}
+          ></Button>
+        </View>
+      </View>
+      <PopupB
+        visible={visibleLight}
+        onClose={() => setVisibleLight(false)}
+        onSubmit={() => setVisibleLight(false)}
+        popupType={PopupTypesB.ELECTRO}
+      ></PopupB>
     </SafeAreaView>
   );
 };
 
-ElectronicScreen.propTypes = {
+LightningScreen.propTypes = {
   navigation: PropTypes.object,
 };
+
+const buttonStyles = StyleSheet.create({
+  container: {
+    width: 140,
+    // backgroundColor: 'black',
+    marginHorizontal: 10,
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    width: '100%',
+    height: 140,
+    borderRadius: 20,
+  },
+});
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: WHITE,
+    fontSize: 30,
   },
-  modalView: {
-    margin: 20,
-    backgroundColor: 'white',
-    borderRadius: 20,
-    padding: 35,
+  top: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    // backgroundColor: 'skyblue',
+    justifyContent: 'center',
     alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
   },
-  button: {
-    borderRadius: 20,
-    padding: 10,
-    elevation: 2,
+  title: {
+    fontSize: 24,
+    marginLeft: 105,
   },
-  buttonOpen: {
-    backgroundColor: '#F194FF',
+  logoutButton: {
+    marginLeft: 60,
   },
-  buttonClose: {
-    backgroundColor: '#2196F3',
+  main: {
+    flex: 5,
+    width: '100%',
+    // backgroundColor: 'yellow',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  textStyle: {
-    color: 'white',
-    fontWeight: 'bold',
-    textAlign: 'center',
+  roomButton: {
+    // backgroundColor: 'aqua',
+    flex: 1,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+    marginHorizontal: 35,
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: 'center',
+  bottom: {
+    flex: 2,
+    width: '100%',
+    // backgroundColor: 'brown',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  createButton: {
+    // backgroundColor: 'black',
+    flex: 1,
+    width: 320,
+    justifyContent: 'top',
   },
 });
 
-export default ElectronicScreen;
+export default LightningScreen;

@@ -6,13 +6,23 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { DANGER, GRAY, PRIMARY, WHITE, ROOM } from '../colors';
+import {
+  DANGER,
+  GRAY,
+  PRIMARY,
+  WHITE,
+  ROOM,
+  GAME,
+  APPLIANCES,
+} from '../colors';
 
 export const ButtonTypes = {
   PRIMARY: 'PRIMARY',
   DANGER: 'DANGER',
   CANCEL: 'CANCEL',
   ROOM: 'ROOM',
+  GAME: 'GAME',
+  APPLIANCES: 'APPLIANCES',
 };
 
 const ButtonTypeColors = {
@@ -20,6 +30,8 @@ const ButtonTypeColors = {
   DANGER,
   CANCEL: GRAY,
   ROOM,
+  GAME,
+  APPLIANCES,
 };
 
 const Button = ({

@@ -7,6 +7,7 @@ import RoomScreen from '../screens/RoomScreen';
 import MoodLightScreen from '../screens/MoodLightScreen';
 import GamePlayScreen from '../screens/GamePlayScreen';
 import ElectroInfoScreen from '../screens/ElectroInfoScreen';
+import GameManageScreen from '../screens/GameManageScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -49,7 +50,22 @@ const MainStack = () => {
           headerShown: true,
         }}
       />
-      <Stack.Screen name={'GamePlay'} component={GamePlayScreen} />
+      <Stack.Screen
+        name={'GamePlay'}
+        component={GamePlayScreen}
+        options={{
+          title: '',
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name={'GameManage'}
+        component={GameManageScreen}
+        options={{
+          title: '',
+          headerShown: true,
+        }}
+      />
     </Stack.Navigator>
   );
 };

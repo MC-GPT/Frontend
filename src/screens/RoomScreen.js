@@ -55,7 +55,7 @@ const RoomScreen = ({ navigation }) => {
               <Button
                 key={v.id}
                 title={v.title}
-                onPress={() => setVisibleBottom(true)}
+                onPress={() => navigation.navigate('ContentTab')}
                 buttonType={ButtonTypes.ROOM}
                 styles={buttonStyles}
               />
@@ -68,6 +68,12 @@ const RoomScreen = ({ navigation }) => {
           <Button
             title={'방 생성'}
             onPress={() => setVisibleTop(true)}
+          ></Button>
+        </View>
+        <View style={styles.createButton}>
+          <Button
+            title={'코드 입력'}
+            onPress={() => setVisibleBottom(true)}
           ></Button>
         </View>
       </View>
@@ -138,6 +144,8 @@ const styles = StyleSheet.create({
     width: '100%',
     // backgroundColor: 'yellow',
     flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   roomButton: {
     // backgroundColor: 'aqua',

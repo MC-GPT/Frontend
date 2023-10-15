@@ -24,3 +24,15 @@ export const ROOM = {
   DEFAULT: '#65a30d',
   DARK: '#365314',
 };
+
+export const GAME = {
+  LIGHT: '#bef264',
+  DEFAULT: '#65a30d',
+  DARK: '#365314',
+};
+
+export const APPLIANCES = {
+  LIGHT: '#bef264',
+  DEFAULT: '#65a30d',
+  DARK: '#365314',
+};
