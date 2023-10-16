@@ -22,7 +22,7 @@ const SignInScreen = ({ navigation }) => {
 
   const insets = useSafeAreaInsets();
 
-  const { setUser } = useUserContext();
+  const { setUser, setId } = useUserContext();
 
   useEffect(() => {
     setDisabled(!email || !password);
@@ -35,6 +35,7 @@ const SignInScreen = ({ navigation }) => {
       try {
         const data = await signIn(email, password);
         setUser(data);
+        setId(email);
       } catch (e) {
         Alert.alert('SignIn Failed', e, [
           {

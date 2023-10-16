@@ -5,13 +5,14 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
+  const [id, setId] = useState('');
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, id, setId }}>
       {children}
     </UserContext.Provider>
   );
 };
+
 UserProvider.propTypes = {
   children: PropTypes.node,
 };
