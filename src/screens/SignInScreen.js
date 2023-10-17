@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
 import TextButton from '../components/TextButton';
 import { PropTypes } from 'prop-types';
+import axios from 'axios';
 
 const SignInScreen = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -33,9 +34,14 @@ const SignInScreen = ({ navigation }) => {
       Keyboard.dismiss();
       setIsLoading(true);
       try {
-        const data = await signIn(email, password);
-        setUser(data);
-        setId(email);
+        const data = await axios.post('https://reqres.in/api/login', {
+          email: email,
+          password: password,
+        });
+        if (data.status === 200) {
+          setUser(data.status);
+          setId(email);
+        } else return false;
       } catch (e) {
         Alert.alert('SignIn Failed', e, [
           {

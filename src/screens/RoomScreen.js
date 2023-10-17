@@ -7,17 +7,14 @@ import PropTypes from 'prop-types';
 import Popup, { PopupTypes } from '../components/Popup';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
+// import { useRoomContext } from '../contexts/RoomContext';
 
 const RoomScreen = ({ navigation }) => {
   const { setUser } = useUserContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleTop, setVisibleTop] = useState(false);
   const [visibleBottom, setVisibleBottom] = useState(false);
-  // let jsonData = [
-  //   { id: 1, name: '101호', code: '55501' },
-  //   { id: 2, name: '102호', code: '53521' },
-  //   { id: 3, name: '103호', code: '93991' },
-  // ];
+  // const {setRoom} = useRoomContext();
 
   //방 정보 받기 위한 axios 코드
   const getRoom = async () => {
