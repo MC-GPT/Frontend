@@ -37,17 +37,11 @@ const SignInScreen = ({ navigation }) => {
           email: email,
           password: password,
         });
-        if (data.status === 200) {
-          setUser(data.status);
-          setId(email);
-        } else return false;
+        setUser(data.status);
+        setId(email);
       } catch (e) {
-        Alert.alert('SignIn Failed', e, [
-          {
-            text: 'OK',
-            onPress: () => setIsLoading(false),
-          },
-        ]);
+        setIsLoading(false);
+        Alert.alert('로그인 실패');
       }
     }
   };

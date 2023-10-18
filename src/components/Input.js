@@ -51,7 +51,7 @@ const Input = forwardRef(
             placeholderTextColor={GRAY.DEFAULT}
             autoCapitalize={'none'}
             autoCorrect={false}
-            textContentType={'none'}
+            textContentType={'oneTimeCode'}
             keyboardAppearance={'light'}
             onBlur={() => setIsFocused(false)}
             onFocus={() => setIsFocused(true)}
@@ -89,6 +89,7 @@ Input.propTypes = {
   placeholder: PropTypes.string,
   value: PropTypes.string,
   iconName: PropTypes.oneOf(Object.values(IconNames)),
+  textContentType: PropTypes.string,
 };
 
 const styles = StyleSheet.create({

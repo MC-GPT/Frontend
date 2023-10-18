@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Keyboard, StyleSheet, View } from 'react-native';
-// import { signIn } from '../api/auth';
 import Button from '../components/Button';
 import Input, {
   IconNames,
@@ -9,10 +8,9 @@ import Input, {
 } from '../components/Input';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { useUserContext } from '../contexts/UserContext';
-// import TextButton from '../components/TextButton';
 import { PropTypes } from 'prop-types';
 import TextButton from '../components/TextButton';
+import axios from 'axios';
 
 const SignUpScreen = ({ navigation }) => {
   const [username, setUsername] = useState('');
@@ -29,31 +27,36 @@ const SignUpScreen = ({ navigation }) => {
 
   const insets = useSafeAreaInsets();
 
-  const { setUser } = useUserContext();
-
   useEffect(() => {
     setDisabled(
-      !username || !email || !password || password !== passwordConfirm
+      //!username ||
+      !email || !password || password !== passwordConfirm
+      // ||
+      //nickname
     );
-  }, [username, email, password, passwordConfirm]);
+  }, [username, email, password, passwordConfirm, nickname]);
 
-  // const onSubmit = async () => {
-  //   if (!disabled && !isLoading) {
-  //     Keyboard.dismiss();
-  //     setIsLoading(true);
-  //     try {
-  //       const data = await signIn(email, password);
-  //       setUser(data);
-  //     } catch (e) {
-  //       Alert.alert('회원가입 실패', e, [
-  //         {
-  //           text: 'OK',
-  //           onPress: () => setIsLoading(false),
-  //         },
-  //       ]);
-  //     }
-  //   }
-  // };
+  const onSubmit = async () => {
+    if (!disabled && !isLoading) {
+      Keyboard.dismiss();
+      setIsLoading(true);
+      try {
+        // eslint-disable-next-line no-unused-vars
+        const data = await axios.post('https://reqres.in/api/register', {
+          //username,
+          email,
+          password,
+          //nickname
+        });
+        setIsLoading(false);
+        Alert.alert('회원가입 성공, 로그인하세요');
+        navigation.navigate('SignIn');
+      } catch (e) {
+        setIsLoading(false);
+        Alert.alert('회원가입 실패');
+      }
+    }
+  };
 
   return (
     <SafeInputView>
@@ -100,7 +103,7 @@ const SignUpScreen = ({ navigation }) => {
           value={password}
           onChangeText={(text) => setPassword(text.trim())}
           title={'password'}
-          // secureTextEntry
+          secureTextEntry
           returnKeyType={ReturnKeyTypes.NEXT}
           iconName={IconNames.PASSWORD}
           onSubmitEditing={() => passwordconfirmRef.current.focus()}
@@ -111,10 +114,10 @@ const SignUpScreen = ({ navigation }) => {
           value={passwordConfirm}
           onChangeText={(text) => setPasswordConfirm(text.trim())}
           title={'passwordconfirm'}
-          // secureTextEntry
+          secureTextEntry
           returnKeyType={ReturnKeyTypes.DONE}
           iconName={IconNames.PASSWORD}
-          onSubmitEditing={onSubmit}
+          onSubmitEditing={() => Keyboard.dismiss()}
         />
 
         <View style={styles.buttonContainer}>
