@@ -17,6 +17,6 @@ RoomProvider.propTypes = {
   children: PropTypes.node,
 };
 
-export const useUserContext = () => useContext(RoomContext);
+export const useRoomContext = () => useContext(RoomContext);
 
 export default RoomContext;

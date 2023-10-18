@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Keyboard, StyleSheet, View } from 'react-native';
-import { signIn } from '../api/auth';
+// import { signIn } from '../api/auth';
 import Button from '../components/Button';
 import Input, {
   IconNames,
@@ -37,23 +37,23 @@ const SignUpScreen = ({ navigation }) => {
     );
   }, [username, email, password, passwordConfirm]);
 
-  const onSubmit = async () => {
-    if (!disabled && !isLoading) {
-      Keyboard.dismiss();
-      setIsLoading(true);
-      try {
-        const data = await signIn(email, password);
-        setUser(data);
-      } catch (e) {
-        Alert.alert('회원가입 실패', e, [
-          {
-            text: 'OK',
-            onPress: () => setIsLoading(false),
-          },
-        ]);
-      }
-    }
-  };
+  // const onSubmit = async () => {
+  //   if (!disabled && !isLoading) {
+  //     Keyboard.dismiss();
+  //     setIsLoading(true);
+  //     try {
+  //       const data = await signIn(email, password);
+  //       setUser(data);
+  //     } catch (e) {
+  //       Alert.alert('회원가입 실패', e, [
+  //         {
+  //           text: 'OK',
+  //           onPress: () => setIsLoading(false),
+  //         },
+  //       ]);
+  //     }
+  //   }
+  // };
 
   return (
     <SafeInputView>

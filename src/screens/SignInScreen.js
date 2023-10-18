@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
 import { Alert, Image, Keyboard, StyleSheet, View } from 'react-native';
-import { signIn } from '../api/auth';
 import Button from '../components/Button';
 import Input, {
   IconNames,
