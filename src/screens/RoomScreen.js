@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, Pressable } from 'react-native';
+import { StyleSheet, View, Text, Pressable, Alert } from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -14,9 +14,10 @@ const RoomScreen = ({ navigation }) => {
   const [jsonData, setJsonData] = useState([]);
   const [visibleTop, setVisibleTop] = useState(false);
   const [visibleBottom, setVisibleBottom] = useState(false);
-  // const {setRoom} = useRoomContext();
+  const [roomName, setRoomName] = useState('');
+  // const [roomCode, setRoomCode] = useState('');
 
-  //방 정보 받기 위한 axios 코드
+  //방 정보 get
   const getRoom = async () => {
     try {
       const value = await axios.get(
@@ -27,6 +28,33 @@ const RoomScreen = ({ navigation }) => {
       console.error(error);
     }
   };
+  //방 생성 post
+  const postRoom = async () => {
+    try {
+      // eslint-disable-next-line no-unused-vars
+      const data = await axios.post('https://reqres.in/api/users', {
+        roomName,
+      });
+      Alert.alert('방 생성 완료');
+      setVisibleTop(false);
+      getRoom();
+    } catch (e) {
+      Alert.alert('방 생성 실패');
+    }
+  };
+
+  //방 코드 확인 후 이동 (로그인이랑 같은 방법)
+  // const postCode = async () => {
+  //   try {
+  //     const data = await axios.post('url', {
+  //       roomCode,
+  //     });
+  //     setVisibleBottom(false);
+  //     setRoomCode(data.code);
+  //   } catch (e) {
+  //     Alert.alert('잘못된 코드입니다');
+  //   }
+  // };
 
   useEffect(() => {
     getRoom();
@@ -77,14 +105,15 @@ const RoomScreen = ({ navigation }) => {
       <Popup
         visible={visibleTop}
         onClose={() => setVisibleTop(false)}
-        onSubmit={() =>
-          navigation.navigate('ContentTab') & setVisibleTop(false)
-        }
+        onChangeText={(text) => setRoomName(text.trim())}
+        onSubmit={() => postRoom()}
         popupType={PopupTypes.ROOMCREATE}
       ></Popup>
       <Popup
         visible={visibleBottom}
         onClose={() => setVisibleBottom(false)}
+        // onChangeText={(text) => setRoomCode(text.trim())}
+        //onSubmit={() => postCode()}
         onSubmit={() =>
           navigation.navigate('ContentTab') & setVisibleBottom(false)
         }

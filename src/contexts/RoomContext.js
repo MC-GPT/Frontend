@@ -4,8 +4,8 @@ import PropTypes from 'prop-types';
 const RoomContext = createContext();
 
 export const RoomProvider = ({ children }) => {
-  const [code, setCode] = useState(null);
-  const [room, setRoom] = useState('');
+  const [code, setCode] = useState([]);
+  const [room, setRoom] = useState([]);
   return (
     <RoomContext.Provider value={{ code, setCode, room, setRoom }}>
       {children}

@@ -21,8 +21,12 @@ const SignInScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const insets = useSafeAreaInsets();
-
-  const { setUser, setId } = useUserContext();
+  //  주석처리된 부분 백엔드 연결하고 풀 예정
+  const {
+    setUser,
+    setAccount,
+    //setName, setNickName
+  } = useUserContext();
 
   useEffect(() => {
     setDisabled(!email || !password);
@@ -38,7 +42,9 @@ const SignInScreen = ({ navigation }) => {
           password: password,
         });
         setUser(data.status);
-        setId(email);
+        setAccount(email);
+        //setName(data.name);
+        //setNickName(data.nickname);
       } catch (e) {
         setIsLoading(false);
         Alert.alert('로그인 실패');
