@@ -15,7 +15,7 @@ export const ReturnKeyTypes = {
 };
 
 export const IconNames = {
-  EMAIL: 'email',
+  ID: 'identifier',
   PASSWORD: 'lock',
   USERNAME: 'account',
   HAPPY: 'emoticon-happy',

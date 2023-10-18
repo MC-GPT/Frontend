@@ -13,12 +13,12 @@ import TextButton from '../components/TextButton';
 import axios from 'axios';
 
 const SignUpScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
+  const [id, setId] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-  const emailRef = useRef(null);
+  const idRef = useRef(null);
   const nicknameRef = useRef(null);
   const passwordRef = useRef(null);
   const passwordconfirmRef = useRef(null);
@@ -29,12 +29,9 @@ const SignUpScreen = ({ navigation }) => {
 
   useEffect(() => {
     setDisabled(
-      //!username ||
-      !email || !password || password !== passwordConfirm
-      // ||
-      //nickname
+      !name || !id || !password || password !== passwordConfirm || !nickname
     );
-  }, [username, email, password, passwordConfirm, nickname]);
+  }, [name, id, password, passwordConfirm, nickname]);
 
   const onSubmit = async () => {
     if (!disabled && !isLoading) {
@@ -42,11 +39,11 @@ const SignUpScreen = ({ navigation }) => {
       setIsLoading(true);
       try {
         // eslint-disable-next-line no-unused-vars
-        const data = await axios.post('https://reqres.in/api/register', {
-          //username,
-          email,
+        const data = await axios.post('url', {
+          name,
+          id,
           password,
-          //nickname
+          nickname,
         });
         setIsLoading(false);
         Alert.alert('회원가입 성공, 로그인하세요');
@@ -69,9 +66,9 @@ const SignUpScreen = ({ navigation }) => {
         {/* <View style={StyleSheet.absoluteFillObject}> */}
         {/* </View> */}
         <Input
-          value={username}
-          onChangeText={(text) => setUsername(text.trim())}
-          title={'username'}
+          value={name}
+          onChangeText={(text) => setName(text.trim())}
+          title={'name'}
           placeholder={'name'}
           returnKeyType={ReturnKeyTypes.NEXT}
           iconName={IconNames.USERNAME}
@@ -85,17 +82,17 @@ const SignUpScreen = ({ navigation }) => {
           placeholder={'nickname'}
           returnKeyType={ReturnKeyTypes.NEXT}
           iconName={IconNames.HAPPY}
-          onSubmitEditing={() => emailRef.current.focus()}
+          onSubmitEditing={() => idRef.current.focus()}
         />
         <Input
-          ref={emailRef}
-          value={email}
-          onChangeText={(text) => setEmail(text.trim())}
-          title={'email'}
-          placeholder={'your@email.com'}
+          ref={idRef}
+          value={id}
+          onChangeText={(text) => setId(text.trim())}
+          title={'ID'}
+          placeholder={'your ID'}
           keyboardType={KeyboardTypes.EMAIL}
           returnKeyType={ReturnKeyTypes.NEXT}
-          iconName={IconNames.EMAIL}
+          iconName={IconNames.ID}
           onSubmitEditing={() => passwordRef.current.focus()}
         />
         <Input

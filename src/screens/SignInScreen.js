@@ -14,37 +14,35 @@ import { PropTypes } from 'prop-types';
 import axios from 'axios';
 
 const SignInScreen = ({ navigation }) => {
-  const [email, setEmail] = useState('');
+  const [id, setId] = useState('');
   const [password, setPassword] = useState('');
   const passwordRef = useRef(null);
   const [disabled, setDisabled] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const insets = useSafeAreaInsets();
-  //  주석처리된 부분 백엔드 연결하고 풀 예정
-  const {
-    setUser,
-    setAccount,
-    //setName, setNickName
-  } = useUserContext();
+  //  로컬에 저장될 변수들
+  const { setUser, setAccount, setName, setNickName } = useUserContext();
 
   useEffect(() => {
-    setDisabled(!email || !password);
-  }, [email, password]);
+    setDisabled(!id || !password);
+  }, [id, password]);
 
   const login = async () => {
     if (!disabled && !isLoading) {
       Keyboard.dismiss();
       setIsLoading(true);
       try {
-        const data = await axios.post('https://reqres.in/api/login', {
-          email: email,
-          password: password,
+        // url 적기
+        const data = await axios.post('url', {
+          id,
+          password,
         });
+        //이 밑에 4줄 떄문에 사소한 오류날 수도 있음 근데 금방 고침
         setUser(data.status);
-        setAccount(email);
-        //setName(data.name);
-        //setNickName(data.nickname);
+        setAccount(id);
+        setName(data.name);
+        setNickName(data.nickname);
       } catch (e) {
         setIsLoading(false);
         Alert.alert('로그인 실패');
@@ -68,13 +66,13 @@ const SignInScreen = ({ navigation }) => {
         />
         {/* </View> */}
         <Input
-          value={email}
-          onChangeText={(text) => setEmail(text.trim())}
-          title={'email'}
-          placeholder={'your@email.com'}
+          value={id}
+          onChangeText={(text) => setId(text.trim())}
+          title={'ID'}
+          placeholder={''}
           keyboardType={KeyboardTypes.EMAIL}
           returnKeyType={ReturnKeyTypes.NEXT}
-          iconName={IconNames.EMAIL}
+          iconName={IconNames.ID}
           onSubmitEditing={() => passwordRef.current.focus()}
         />
         <Input
