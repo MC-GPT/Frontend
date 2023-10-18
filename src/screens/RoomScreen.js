@@ -17,17 +17,29 @@ const RoomScreen = ({ navigation }) => {
   const [roomName, setRoomName] = useState('');
   // const [roomCode, setRoomCode] = useState('');
 
-  //방 정보 get
+  // jwt token
+  const { jwt } = useUserContext();
+  
+
+  // 방 정보 get
   const getRoom = async () => {
     try {
+      console.log(jwt);
       const value = await axios.get(
-        'https://my-json-server.typicode.com/typicode/demo/posts'
+        'http://127.0.0.1:8080/homes',
+        {
+          headers: {
+            'Authorization': `Bearer ${jwt}`,
+          },
+        }
       );
+      console.log(value.data);
       setJsonData(value.data);
     } catch (error) {
       console.error(error);
     }
   };
+
   //방 생성 post
   const postRoom = async () => {
     try {

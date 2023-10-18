@@ -6,20 +6,20 @@ const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [account, setAccount] = useState('');
-  const [name, setName] = useState('');
-  const [nickName, setNickName] = useState('');
+  const [nickname, setNickname] = useState('');
+  const [jwt, setJwt] = useState('');
 
   return (
     <UserContext.Provider
       value={{
         user,
         setUser,
-        account,
+        account, 
         setAccount,
-        name,
-        setName,
-        nickName,
-        setNickName,
+        nickname,
+        setNickname,
+        jwt, // 로그인 시, 매 요청마다 header 에 포함해서 보내야함
+        setJwt
       }}
     >
       {children}

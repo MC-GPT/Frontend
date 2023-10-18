@@ -38,16 +38,20 @@ const SignUpScreen = ({ navigation }) => {
       Keyboard.dismiss();
       setIsLoading(true);
       try {
-        // eslint-disable-next-line no-unused-vars
-        const data = await axios.post('url', {
-          name,
-          id,
-          password,
-          nickname,
+        const data = await axios.post('http://127.0.0.1:8080/signup', {
+          account: id,
+          name: name,
+          nickname: nickname,
+          password: password
         });
         setIsLoading(false);
-        Alert.alert('회원가입 성공, 로그인하세요');
-        navigation.navigate('SignIn');
+        if (data.data === true) {
+          Alert.alert('회원가입 성공, 로그인하세요');
+          navigation.navigate('SignIn');
+        } else {
+          Alert.alert('회원가입 실패, 다시 시도하세요');
+        }
+        
       } catch (e) {
         setIsLoading(false);
         Alert.alert('회원가입 실패');

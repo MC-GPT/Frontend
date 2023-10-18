@@ -5,13 +5,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
 
 export default function SettingScreen() {
-  const { account } = useUserContext();
+  const { nickname, account } = useUserContext();
   return (
     <SafeAreaView>
       <View style={styles.myInfo}>
         <View>
           <Text style={styles.myInfoText}>내 정보</Text>
-          <Text style={styles.myInfoContent}>이름: Jason</Text>
+          <Text style={styles.myInfoContent}>닉네임: {nickname}</Text>
           <Text style={styles.myInfoContent}>ID: {account} </Text>
         </View>
         <View style={styles.profile}>

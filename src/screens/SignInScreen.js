@@ -22,7 +22,7 @@ const SignInScreen = ({ navigation }) => {
 
   const insets = useSafeAreaInsets();
   //  로컬에 저장될 변수들
-  const { setUser, setAccount, setName, setNickName } = useUserContext();
+  const { setUser, setAccount, setNickname, setJwt } = useUserContext();
 
   useEffect(() => {
     setDisabled(!id || !password);
@@ -33,17 +33,16 @@ const SignInScreen = ({ navigation }) => {
       Keyboard.dismiss();
       setIsLoading(true);
       try {
-        // url 적기
-        const data = await axios.post('url', {
-          id,
-          password,
+        const data = await axios.post('http://127.0.0.1:8080/login', {
+          account: id,
+          password: password,
         });
-        //이 밑에 4줄 떄문에 사소한 오류날 수도 있음 근데 금방 고침
         setUser(data.status);
-        setAccount(id);
-        setName(data.name);
-        setNickName(data.nickname);
+        setAccount(data.data.account);
+        setNickname(data.data.nickname);
+        setJwt(data.data.accessToken);
       } catch (e) {
+        console.log(e)
         setIsLoading(false);
         Alert.alert('로그인 실패');
       }
