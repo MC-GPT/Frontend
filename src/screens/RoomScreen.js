@@ -11,20 +11,16 @@ import { MaterialIcons } from '@expo/vector-icons';
 
 const RoomScreen = ({ navigation }) => {
   const { setUser } = useUserContext();
+  const { jwt } = useUserContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleTop, setVisibleTop] = useState(false);
   const [visibleBottom, setVisibleBottom] = useState(false);
   const [roomName, setRoomName] = useState('');
   // const [roomCode, setRoomCode] = useState('');
 
-  // jwt token
-  const { jwt } = useUserContext();
-  
-
   // 방 정보 get
   const getRoom = async () => {
     try {
-      console.log(jwt);
       const value = await axios.get(
         'http://127.0.0.1:8080/homes',
         {
@@ -33,7 +29,6 @@ const RoomScreen = ({ navigation }) => {
           },
         }
       );
-      console.log(value.data);
       setJsonData(value.data);
     } catch (error) {
       console.error(error);
@@ -70,7 +65,7 @@ const RoomScreen = ({ navigation }) => {
 
   useEffect(() => {
     getRoom();
-  });
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -91,7 +86,7 @@ const RoomScreen = ({ navigation }) => {
             return (
               <Button
                 key={v.id}
-                title={v.title}
+                title={v.name}
                 onPress={() => navigation.navigate('ContentTab')}
                 buttonType={ButtonTypes.ROOM}
                 styles={buttonStyles}

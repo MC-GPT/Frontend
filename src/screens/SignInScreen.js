@@ -37,10 +37,10 @@ const SignInScreen = ({ navigation }) => {
           account: id,
           password: password,
         });
-        setUser(data.status);
         setAccount(data.data.account);
         setNickname(data.data.nickname);
         setJwt(data.data.accessToken);
+        setUser(data.status); // 넘기는 역할
       } catch (e) {
         console.log(e)
         setIsLoading(false);
