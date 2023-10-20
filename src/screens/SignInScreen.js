@@ -86,7 +86,6 @@ const SignInScreen = ({ navigation }) => {
           iconName={IconNames.PASSWORD}
           onSubmitEditing={login}
         />
-
         <View style={styles.buttonContainer}>
           <Button
             title={'로그인'}

@@ -1,15 +1,16 @@
-import { StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View } from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Input from '../components/Input';
+import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 
 const LightningScreen = ({ navigation }) => {
   const [jsonData, setJsonData] = useState([]);
   const [visibleLight, setVisibleLight] = useState(false);
+  const [input, setInput] = useState('');
   // let jsonData = [
   //   { id: 1, name: '101호', code: '55501' },
   //   { id: 2, name: '102호', code: '53521' },
@@ -32,10 +33,22 @@ const LightningScreen = ({ navigation }) => {
     getRoom();
   });
 
+  const onSubmit = () => {
+    Alert.alert('입력완료');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}>
-        <Input title={'원하는 조명을 입력해주세요'} placeholder={''}></Input>
+        <Input
+          value={input}
+          onChangeText={(text) => setInput(text.trim())}
+          title={'원하는 조명을 입력하세요'}
+          placeholder={''}
+          keyboardType={KeyboardTypes.EMAIL}
+          returnKeyType={ReturnKeyTypes.DONE}
+          onSubmitEditing={onSubmit}
+        />
       </View>
       <View style={styles.main}>
         <View style={styles.roomButton}>

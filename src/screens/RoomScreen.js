@@ -55,7 +55,7 @@ const RoomScreen = ({ navigation }) => {
     }
   };
 
-  // 방 코드 확인 후 추가 (로그인이랑 같은 방법)
+  //방 코드 확인 후 추가 (로그인이랑 같은 방법)
   const postCode = async (roomCode) => {
     try {
       // eslint-disable-next-line no-unused-vars

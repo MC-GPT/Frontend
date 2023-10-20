@@ -7,6 +7,7 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 export const KeyboardTypes = {
   DEFAULT: 'default',
   EMAIL: 'email-address',
+  NUMBER: 'numbers-and-punctuation',
 };
 
 export const ReturnKeyTypes = {

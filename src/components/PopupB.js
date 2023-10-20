@@ -1,7 +1,7 @@
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Button, { ButtonTypes } from './Button';
-import Input from './Input';
+import Input, { KeyboardTypes } from './Input';
 
 export const PopupTypesB = {
   LIGHT: 'LIGHT',
@@ -37,11 +37,19 @@ const Popup = ({ visible, onClose, onSubmit, popupType, ...props }) => {
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.message}>{number}</Text>
             <View style={styles.inputstyle}>
-              <Input {...props} title=""></Input>
+              <Input
+                {...props}
+                title=""
+                keyboardType={KeyboardTypes.NUMBER}
+              ></Input>
             </View>
             <Text style={styles.message}>{name}</Text>
             <View style={styles.inputstyle}>
-              <Input {...props} title=""></Input>
+              <Input
+                {...props}
+                title=""
+                keyboardType={KeyboardTypes.EMAIL}
+              ></Input>
             </View>
             <View style={styles.buttonContainer}>
               <Button
