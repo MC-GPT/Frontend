@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Pressable,
-  PropTypes,
+  // PropTypes,
 } from 'react-native';
 import { WHITE } from '../colors';
 import { MaterialIcons } from '@expo/vector-icons';

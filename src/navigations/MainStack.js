@@ -25,8 +25,8 @@ const MainStack = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name={'Home'} component={HomeScreen} />
       <Stack.Screen name={'Room'} component={RoomScreen} />
+      <Stack.Screen name={'Home'} component={HomeScreen} />
       <Stack.Screen name={'ContentTab'} component={ContentTab} />
       <Stack.Screen
         name={'Mood'}
