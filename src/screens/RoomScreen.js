@@ -36,11 +36,15 @@ const RoomScreen = ({ navigation }) => {
   };
 
   //방 생성 post
-  const postRoom = async () => {
+  const postRoom = async (roomName) => {
+    console.log("roomName: ", roomName);
     try {
-      // eslint-disable-next-line no-unused-vars
-      const data = await axios.post('https://reqres.in/api/users', {
-        roomName,
+      const data = await axios.post('http://127.0.0.1:8080/create-home', {
+        name: roomName,
+    }, {
+        headers: {
+          'Authorization': `Bearer ${jwt}`,
+        },
       });
       Alert.alert('방 생성 완료');
       setVisibleTop(false);
@@ -113,7 +117,7 @@ const RoomScreen = ({ navigation }) => {
         visible={visibleTop}
         onClose={() => setVisibleTop(false)}
         onChangeText={(text) => setRoomName(text.trim())}
-        onSubmit={() => postRoom()}
+        onSubmit={() => postRoom(roomName)}
         popupType={PopupTypes.ROOMCREATE}
       ></Popup>
       <Popup
