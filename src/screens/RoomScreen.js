@@ -16,7 +16,7 @@ const RoomScreen = ({ navigation }) => {
   const [visibleTop, setVisibleTop] = useState(false);
   const [visibleBottom, setVisibleBottom] = useState(false);
   const [roomName, setRoomName] = useState('');
-  // const [roomCode, setRoomCode] = useState('');
+  const [roomCode, setRoomCode] = useState('');
 
   // 방 정보 get
   const getRoom = async () => {
@@ -34,9 +34,7 @@ const RoomScreen = ({ navigation }) => {
 
   //방 생성 post
   const postRoom = async (roomName) => {
-    console.log('roomName: ', roomName);
     try {
-      // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
         'http://127.0.0.1:8080/create-home',
         {
@@ -56,22 +54,32 @@ const RoomScreen = ({ navigation }) => {
     }
   };
 
-  //방 코드 확인 후 이동 (로그인이랑 같은 방법)
-  // const postCode = async () => {
-  //   try {
-  //     const data = await axios.post('url', {
-  //       roomCode,
-  //     });
-  //     setVisibleBottom(false);
-  //     setRoomCode(data.code);
-  //   } catch (e) {
-  //     Alert.alert('잘못된 코드입니다');
-  //   }
-  // };
+  // 방 코드 확인 후 추가 (로그인이랑 같은 방법)
+  const postCode = async (roomCode) => {
+    try {
+      const data = await axios.post(
+        'http://127.0.0.1:8080/enter-home',
+        {
+          home_code: roomCode,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      Alert.alert('방 추가 완료');
+      setVisibleTop(false);
+      getRoom();
+    } catch (e) {
+      Alert.alert('방 추가 실패');
+    }
+  };
 
   useEffect(() => {
     getRoom();
-  });
+  }, []);
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -125,11 +133,8 @@ const RoomScreen = ({ navigation }) => {
       <Popup
         visible={visibleBottom}
         onClose={() => setVisibleBottom(false)}
-        // onChangeText={(text) => setRoomCode(text.trim())}
-        //onSubmit={() => postCode()}
-        onSubmit={() =>
-          navigation.navigate('ContentTab') & setVisibleBottom(false)
-        }
+        onChangeText={(text) => setRoomCode(text.trim())}
+        onSubmit={() => postCode(roomCode)}
         popupType={PopupTypes.ROOMENTER}
       ></Popup>
     </SafeAreaView>
