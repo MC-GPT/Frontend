@@ -69,17 +69,20 @@ const RoomScreen = ({ navigation }) => {
         }
       );
       Alert.alert('방 추가 완료');
-      setVisibleTop(false);
+      setVisibleBottom(false);
       getRoom();
     } catch (e) {
       Alert.alert('방 추가 실패');
     }
   };
+  // const postCode = () => {
+  //   navigation.navigate('ContentTab');
+  //   setVisibleBottom(false);
+  // };
 
   useEffect(() => {
     getRoom();
   }, []);
-
 
   return (
     <SafeAreaView style={styles.container}>

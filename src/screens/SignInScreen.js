@@ -42,12 +42,15 @@ const SignInScreen = ({ navigation }) => {
         setJwt(data.data.accessToken);
         setUser(data.status); // 넘기는 역할
       } catch (e) {
-        console.log(e)
+        console.log(e);
         setIsLoading(false);
         Alert.alert('로그인 실패');
       }
     }
   };
+  // const login = () => {
+  //   setUser(1);
+  // };
 
   return (
     <SafeInputView>

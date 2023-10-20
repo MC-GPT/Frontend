@@ -1,10 +1,19 @@
-import { Image, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  View,
+  Pressable,
+  PropTypes,
+} from 'react-native';
 import { WHITE } from '../colors';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SafeInputView from '../components/SafeInputView';
+import { ButtonTypes } from '../components/Button';
 
-const HomeScreen = () => {
+// eslint-disable-next-line react/prop-types
+const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
 
   return (
@@ -15,7 +24,20 @@ const HomeScreen = () => {
           { paddingTop: insets.top, paddingBottom: insets.bottom - 100 },
         ]}
       >
-        <Text style={styles.notice}></Text>
+        <View style={styles.top}>
+          <Text style={styles.notice}></Text>
+          <View style={styles.logoutButton}>
+            <Pressable
+              // eslint-disable-next-line react/prop-types
+              onPress={() => navigation.navigate('Room')}
+              buttonType={ButtonTypes.DANGER}
+            >
+              <Text>방 선택화면으로 돌아가기</Text>
+              {/* <MaterialIcons name="logout" size={24} color="black" /> */}
+            </Pressable>
+          </View>
+        </View>
+
         <View style={styles.musicbox}>
           <View style={styles.image}>
             <Image
@@ -48,7 +70,9 @@ const HomeScreen = () => {
   );
 };
 
-HomeScreen.propTypes = {};
+HomeScreen.propTypes = {
+  // navigation: PropTypes.object,
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -61,6 +85,7 @@ const styles = StyleSheet.create({
   notice: {
     fontSize: 28,
   },
+  logoutButton: {},
   musicbox: {
     flex: 1,
     width: '100%',
