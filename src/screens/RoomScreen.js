@@ -21,14 +21,11 @@ const RoomScreen = ({ navigation }) => {
   // 방 정보 get
   const getRoom = async () => {
     try {
-      const value = await axios.get(
-        'http://127.0.0.1:8080/homes',
-        {
-          headers: {
-            'Authorization': `Bearer ${jwt}`,
-          },
-        }
-      );
+      const value = await axios.get('http://127.0.0.1:8080/homes', {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
       setJsonData(value.data);
     } catch (error) {
       console.error(error);
@@ -37,15 +34,20 @@ const RoomScreen = ({ navigation }) => {
 
   //방 생성 post
   const postRoom = async (roomName) => {
-    console.log("roomName: ", roomName);
+    console.log('roomName: ', roomName);
     try {
-      const data = await axios.post('http://127.0.0.1:8080/create-home', {
-        name: roomName,
-    }, {
-        headers: {
-          'Authorization': `Bearer ${jwt}`,
+      // eslint-disable-next-line no-unused-vars
+      const data = await axios.post(
+        'http://127.0.0.1:8080/create-home',
+        {
+          name: roomName,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
       Alert.alert('방 생성 완료');
       setVisibleTop(false);
       getRoom();
@@ -69,7 +71,7 @@ const RoomScreen = ({ navigation }) => {
 
   useEffect(() => {
     getRoom();
-  }, []);
+  });
 
   return (
     <SafeAreaView style={styles.container}>

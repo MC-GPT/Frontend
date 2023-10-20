@@ -19,7 +19,7 @@ const PopupProps = {
   },
 };
 
-const Popup = ({ visible, onClose, onSubmit, popupType }) => {
+const Popup = ({ visible, onClose, onSubmit, popupType, ...props }) => {
   const { title, message } = PopupProps[popupType];
   return (
     <Modal
@@ -35,7 +35,7 @@ const Popup = ({ visible, onClose, onSubmit, popupType }) => {
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.message}>{message}</Text>
             <View style={styles.inputstyle}>
-              <Input title=""></Input>
+              <Input {...props} title=""></Input>
             </View>
             <View style={styles.buttonContainer}>
               <Button
