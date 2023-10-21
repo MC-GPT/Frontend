@@ -1,12 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
+//import { StatusBar } from 'expo-status-bar';
 import { UserProvider } from './contexts/UserContext';
 import Navigation from './navigations';
+import { RoomProvider } from './contexts/RoomContext';
+import { MainProvider } from './contexts/MainContext';
 
 const App = () => {
   return (
     <UserProvider>
-      <StatusBar style="dark" />
-      <Navigation />
+      <RoomProvider>
+        <MainProvider>
+          <Navigation />
+        </MainProvider>
+      </RoomProvider>
     </UserProvider>
   );
 };

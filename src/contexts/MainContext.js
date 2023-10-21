@@ -8,15 +8,20 @@ export const MainProvider = ({ children }) => {
   const [apps, setApps] = useState([]);
   const [games, setGames] = useState([]);
   const [owner, setOwner] = useState(false);
-  
+
   return (
-    <MainContext.Provider 
-    value={{ 
-        home_name, setHomeName, 
-        apps, setApps, 
-        games, setGames, 
-        owner, setOwner
-        }}>
+    <MainContext.Provider
+      value={{
+        home_name,
+        setHomeName,
+        apps,
+        setApps,
+        games,
+        setGames,
+        owner,
+        setOwner,
+      }}
+    >
       {children}
     </MainContext.Provider>
   );
