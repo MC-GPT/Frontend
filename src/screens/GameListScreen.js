@@ -22,6 +22,7 @@ const GameListScreen = ({ navigation }) => {
   useEffect(() => {
     getGames();
   });
+  
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>

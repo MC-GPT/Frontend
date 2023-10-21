@@ -3,6 +3,7 @@ import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
+import { useMainContext } from '../contexts/MainContext';
 import PropTypes from 'prop-types';
 import Popup, { PopupTypes } from '../components/Popup';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -32,7 +33,7 @@ const RoomScreen = ({ navigation }) => {
     }
   };
 
-  //방 생성 post
+  // 방 생성 post
   const postRoom = async (roomName) => {
     try {
       // eslint-disable-next-line no-unused-vars
@@ -55,7 +56,7 @@ const RoomScreen = ({ navigation }) => {
     }
   };
 
-  //방 코드 확인 후 추가 (로그인이랑 같은 방법)
+  // 방 코드로 추가
   const postCode = async (roomCode) => {
     try {
       // eslint-disable-next-line no-unused-vars
@@ -82,6 +83,29 @@ const RoomScreen = ({ navigation }) => {
   //   setVisibleBottom(false);
   // };
 
+  // 방 입장시 받아올, 방-가전-게임 등 메인 정보
+  // const { setApps, setGames, setOwner } = useMainContext();
+  const getMain = async (roomId) => {
+    try {
+        const url = 'http://127.0.0.1:8080/main?home=' + roomId; // URL 문자열을 올바르게 구성
+        console.log(url);
+        const data = await axios.get(url, {
+            headers: {
+                Authorization: `Bearer ${jwt}`,
+            },
+        });
+        // setHomeName(data.data.home_name);
+        // setApps(data.data.apps);
+        // setGames(data.data.games);
+        // setOwner(data.data.owner);
+        console.log(data.data.apps);
+        console.log(data.data.games);
+        navigation.navigate('ContentTab');
+    } catch (e) {
+        console.error(e);
+    }
+  };
+
   useEffect(() => {
     getRoom();
   }, []);
@@ -106,7 +130,7 @@ const RoomScreen = ({ navigation }) => {
               <Button
                 key={v.id}
                 title={v.name}
-                onPress={() => navigation.navigate('ContentTab')}
+                onPress={() => getMain(v.id)}
                 buttonType={ButtonTypes.ROOM}
                 styles={buttonStyles}
               />

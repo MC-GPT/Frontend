@@ -12,14 +12,10 @@ export const UserProvider = ({ children }) => {
   return (
     <UserContext.Provider
       value={{
-        user,
-        setUser,
-        account, 
-        setAccount,
-        nickname,
-        setNickname,
-        jwt, // 로그인 시, 매 요청마다 header 에 포함해서 보내야함
-        setJwt
+        user, setUser,
+        account, setAccount,
+        nickname, setNickname,
+        jwt, setJwt // 매 요청마다 header 포함해서 전송
       }}
     >
       {children}
