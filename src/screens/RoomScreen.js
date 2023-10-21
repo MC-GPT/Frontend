@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import Popup, { PopupTypes } from '../components/Popup';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
-// import { useRoomContext } from '../contexts/RoomContext';
 
 const RoomScreen = ({ navigation }) => {
   const { setUser } = useUserContext();
