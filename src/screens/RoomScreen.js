@@ -35,7 +35,6 @@ const RoomScreen = ({ navigation }) => {
   // 방 생성 post
   const postRoom = async (roomName) => {
     try {
-      // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
         'http://127.0.0.1:8080/create-home',
         {
@@ -58,7 +57,6 @@ const RoomScreen = ({ navigation }) => {
   //방 코드로 추가
   const postCode = async (roomCode) => {
     try {
-      // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
         'http://127.0.0.1:8080/enter-home',
         {
@@ -83,22 +81,21 @@ const RoomScreen = ({ navigation }) => {
   // };
 
   // 방 입장시 받아올, 방-가전-게임 등 메인 정보
-  const { setHomeName, setApps, setGames, setOwner } = useMainContext();
+  const { setHomeId, setHomeName, setHomeCode, setApps, setGames, setOwner } = useMainContext();
   const getMain = async (roomId) => {
     try {
-      const url = 'http://127.0.0.1:8080/main?home=' + roomId; // URL 문자열을 올바르게 구성
-      console.log(url);
+      const url = 'http://127.0.0.1:8080/main?home=' + roomId;
       const data = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${jwt}`,
         },
       });
+      setHomeId(data.data.home_id);
       setHomeName(data.data.home_name);
+      setHomeCode(data.data.home_code);
       setApps(data.data.apps);
       setGames(data.data.games);
       setOwner(data.data.owner);
-      console.log(data.data.apps);
-      console.log(data.data.games);
       navigation.navigate('ContentTab');
     } catch (e) {
       console.error(e);
@@ -129,7 +126,7 @@ const RoomScreen = ({ navigation }) => {
               <Button
                 key={v.id}
                 title={v.name}
-                onPress={getMain(v.id)}
+                onPress={() => getMain(v.id)}
                 buttonType={ButtonTypes.ROOM}
                 styles={buttonStyles}
               />

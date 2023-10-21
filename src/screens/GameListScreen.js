@@ -2,26 +2,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import Button, { ButtonTypes } from '../components/Button';
 import PropTypes from 'prop-types';
-import axios from 'axios';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMainContext } from '../contexts/MainContext';
 
 const GameListScreen = ({ navigation }) => {
+  const { games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
 
-  const getGames = async () => {
-    try {
-      const jsonData = await axios.get(
-        'https://my-json-server.typicode.com/typicode/demo/posts'
-      );
-      setJsonData(jsonData.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    getGames();
-  });
+    setJsonData(games);
+  }, []);
   
   return (
     <SafeAreaView style={styles.container}>
@@ -35,7 +25,7 @@ const GameListScreen = ({ navigation }) => {
               return (
                 <Button
                   key={v.id}
-                  title={v.title}
+                  title={v.name}
                   onPress={() => navigation.navigate('GameManage')}
                   buttonType={ButtonTypes.GAME}
                   styles={buttonStyles}

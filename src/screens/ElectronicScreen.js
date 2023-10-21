@@ -5,8 +5,10 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useMainContext } from '../contexts/MainContext';
 
 const LightningScreen = ({ navigation }) => {
+  const { apps } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleLight, setVisibleLight] = useState(false);
   // let jsonData = [
@@ -15,32 +17,22 @@ const LightningScreen = ({ navigation }) => {
   //   { id: 3, name: '103호', code: '93991' },
   // ];
 
-  //방 정보 받기 위한 axios 코드
-  const getRoom = async () => {
-    try {
-      const value = await axios.get(
-        'https://my-json-server.typicode.com/typicode/demo/posts'
-      );
-      setJsonData(value.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
   useEffect(() => {
-    getRoom();
-  });
+    setJsonData(apps);
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.top}></View>
       <View style={styles.main}>
         <View style={styles.roomButton}>
-          {jsonData.map((v) => {
+          {jsonData
+          .filter((v) => !v.light)
+          .map((v) => {
             return (
               <Button
                 key={v.id}
-                title={v.title}
+                title={v.name}
                 onPress={() => navigation.navigate('ElectroInfo')}
                 buttonType={ButtonTypes.ROOM}
                 styles={buttonStyles}
