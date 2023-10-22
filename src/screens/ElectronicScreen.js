@@ -23,7 +23,6 @@ const LightningScreen = ({ navigation }) => {
   //   { id: 3, name: '103호', code: '93991' },
   // ];
 
-  // 1. 무조건 false로 들어가는 이유 2. 새로고침 안됨
   const postApp = async (number, name) => {
     try {
       // eslint-disable-next-line no-unused-vars
@@ -33,7 +32,7 @@ const LightningScreen = ({ navigation }) => {
           serialNumber: number,
           name: name,
           home_id: home_id,
-          isLight: true
+          light: false
         },
         {
           headers: {
@@ -44,7 +43,6 @@ const LightningScreen = ({ navigation }) => {
       Alert.alert('조명 생성 완료');
       setVisibleLight(false);
       getApp();
-      setJsonData(apps);
     } catch (e) {
       Alert.alert('조명 생성 실패');
     }
@@ -59,8 +57,6 @@ const LightningScreen = ({ navigation }) => {
         },
       });
       setApps(value.data);
-      setJsonData(apps);
-      console.log(value.data);
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +64,7 @@ const LightningScreen = ({ navigation }) => {
 
   useEffect(() => {
     setJsonData(apps);
-  }, []);
+  }, [apps]);
 
   const onSubmit = () => {
     Alert.alert('입력완료');
