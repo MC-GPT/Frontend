@@ -18,7 +18,7 @@ import TextAnimation from '../components/TextAnimation';
 // eslint-disable-next-line react/prop-types
 const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
-  const { homename, homecode } = useMainContext();
+  const { home_name, home_code } = useMainContext();
   const [isPlaying, setIsPlaying] = useState(false);
 
   const togglePlayback = () => {
@@ -34,7 +34,7 @@ const HomeScreen = ({ navigation }) => {
         ]}
       >
         <View style={styles.top}>
-          <Text style={styles.homename}>홈네임 {homename}</Text>
+          <Text style={styles.homename}>{home_name}</Text>
           <View style={styles.topright}>
             <View style={styles.logoutButton}>
               <Pressable
@@ -46,7 +46,7 @@ const HomeScreen = ({ navigation }) => {
                 {/* <MaterialIcons name="logout" size={24} color="black" /> */}
               </Pressable>
             </View>
-            <Text style={styles.codestyle}> 코드번호 {homecode} </Text>
+            <Text style={styles.codestyle}>{home_code} </Text>
           </View>
         </View>
         <View style={styles.notice}>

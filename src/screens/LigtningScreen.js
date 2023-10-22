@@ -2,14 +2,14 @@ import { Alert, StyleSheet, View } from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import PropTypes from 'prop-types';
+import PropTypes, { number } from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useMainContext } from '../contexts/MainContext';
 
 const LightningScreen = ({ navigation }) => {
-  const { apps } = useMainContext();
+  const { home_id, apps, setApps } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleLight, setVisibleLight] = useState(false);
   const [input, setInput] = useState('');
@@ -18,6 +18,46 @@ const LightningScreen = ({ navigation }) => {
   //   { id: 2, name: '102호', code: '53521' },
   //   { id: 3, name: '103호', code: '93991' },
   // ];
+
+  const postApp = async (number, name) => {
+    console.log("number: ", number);
+    console.log("name:", name);
+    try {
+      const data = await axios.post(
+        'http://127.0.0.1:8080/create-app',
+        {
+          serialNumber: number,
+          name: name,
+          home_id: home_id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      Alert.alert('조명 생성 완료');
+      setVisibleLight(false);
+      getApp();
+      setJsonData(apps);
+    } catch (e) {
+      Alert.alert('조명 생성 실패');
+    }
+  };
+
+  const getApp = async () => {
+    url = 'http://127.0.0.1:8080/apps?home=' + home_id;
+    try {
+      const value = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      setApps(value.data.apps);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   useEffect(() => {
     setJsonData(apps);
@@ -68,7 +108,7 @@ const LightningScreen = ({ navigation }) => {
       <PopupB
         visible={visibleLight}
         onClose={() => setVisibleLight(false)}
-        onSubmit={() => setVisibleLight(false)}
+        onSubmit={() => postApp(number, name)}
         popupType={PopupTypesB.LIGHT}
       ></PopupB>
     </SafeAreaView>
