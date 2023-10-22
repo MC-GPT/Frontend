@@ -18,9 +18,8 @@ const LightningScreen = ({ navigation }) => {
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
 
+  // 1. 무조건 false로 들어가는 이유 2. 새로고침 안됨
   const postApp = async (number, name) => {
-    console.log('number: ', number);
-    console.log('name:', name);
     try {
       // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
@@ -29,6 +28,7 @@ const LightningScreen = ({ navigation }) => {
           serialNumber: number,
           name: name,
           home_id: home_id,
+          isLight: true
         },
         {
           headers: {
@@ -53,7 +53,8 @@ const LightningScreen = ({ navigation }) => {
           Authorization: `Bearer ${jwt}`,
         },
       });
-      setApps(value.data.apps);
+      setApps(value.data);
+      setJsonData(apps);
     } catch (error) {
       console.error(error);
     }
