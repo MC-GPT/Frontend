@@ -12,14 +12,25 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SafeInputView from '../components/SafeInputView';
 import { ButtonTypes } from '../components/Button';
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useMainContext } from '../contexts/MainContext';
+import TextAnimation from '../components/TextAnimation';
 
 // eslint-disable-next-line react/prop-types
 const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
-  const notice = useRef(new Animated.Value(0)).current;
   const { homename, homecode } = useMainContext();
+
+  // const notice = useRef(new Animated.Value(NOTICEMARGIN)).current;
+
+  // const noticeAnimation = () => {
+
+  //   Animated.timing(NOTICEMARGIN, )
+  // }
+
+  // useEffect(() => {
+  //   noticeAnimation();
+  // });
 
   return (
     <SafeInputView>
@@ -45,7 +56,9 @@ const HomeScreen = ({ navigation }) => {
             <Text style={styles.codestyle}> 코드번호 {homecode} </Text>
           </View>
         </View>
-        <Animated.Text style={styles.notice}>공지사항</Animated.Text>
+        <View style={styles.notice}>
+          <TextAnimation />
+        </View>
         <View style={styles.musicbox}>
           <View style={styles.image}>
             <Image
