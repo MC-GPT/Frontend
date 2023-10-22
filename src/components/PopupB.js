@@ -87,6 +87,8 @@ Popup.propTypes = {
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
   popupType: PropTypes.oneOf(Object.values(PopupTypesB)),
+  onChangeTextNumber: PropTypes.func,
+  onChangeTextName: PropTypes.func,
 };
 
 const buttonStyles = StyleSheet.create({

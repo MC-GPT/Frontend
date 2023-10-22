@@ -18,33 +18,6 @@ const LightningScreen = ({ navigation }) => {
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
 
-  // 1. 무조건 false로 들어가는 이유 2. 새로고침 안됨
-  const postApp = async (number, name) => {
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const data = await axios.post(
-        'http://127.0.0.1:8080/create-app',
-        {
-          serialNumber: number,
-          name: name,
-          home_id: home_id,
-          isLight: true
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      Alert.alert('조명 생성 완료');
-      setVisibleLight(false);
-      getApp();
-      setJsonData(apps);
-    } catch (e) {
-      Alert.alert('조명 생성 실패');
-    }
-  };
-
   const getApp = async () => {
     const url = 'http://127.0.0.1:8080/apps?home=' + home_id;
     try {
@@ -60,8 +33,34 @@ const LightningScreen = ({ navigation }) => {
     }
   };
 
+  // 1. 무조건 false로 들어가는 이유 2. 새로고침 안됨
+  const postApp = async (number, name) => {
+    try {
+      // eslint-disable-next-line no-unused-vars
+      const data = await axios.post(
+        'http://127.0.0.1:8080/create-app',
+        {
+          serialNumber: number,
+          name: name,
+          home_id: home_id,
+          isLight: true,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      Alert.alert('조명 생성 완료');
+      setVisibleLight(false);
+      getApp();
+    } catch (e) {
+      Alert.alert('조명 생성 실패');
+    }
+  };
+
   useEffect(() => {
-    setJsonData(apps);
+    getApp();
   }, []);
 
   const onSubmit = () => {
