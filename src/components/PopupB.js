@@ -21,7 +21,15 @@ const PopupProps = {
   },
 };
 
-const Popup = ({ visible, onClose, onSubmit, popupType, ...props }) => {
+const Popup = ({
+  visible,
+  onClose,
+  onSubmit,
+  popupType,
+  onChangeTextNumber,
+  onChangeTextName,
+  ...props
+}) => {
   const { title, number, name } = PopupProps[popupType];
   return (
     <Modal
@@ -41,6 +49,7 @@ const Popup = ({ visible, onClose, onSubmit, popupType, ...props }) => {
                 {...props}
                 title=""
                 keyboardType={KeyboardTypes.NUMBER}
+                onChangeText={onChangeTextNumber}
               ></Input>
             </View>
             <Text style={styles.message}>{name}</Text>
@@ -49,6 +58,7 @@ const Popup = ({ visible, onClose, onSubmit, popupType, ...props }) => {
                 {...props}
                 title=""
                 keyboardType={KeyboardTypes.EMAIL}
+                onChangeText={onChangeTextName}
               ></Input>
             </View>
             <View style={styles.buttonContainer}>
