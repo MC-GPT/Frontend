@@ -62,35 +62,47 @@ const HomeScreen = ({ navigation }) => {
           <Text style={styles.title}>Super Shy</Text>
           <Text style={styles.artist}>NewJeans</Text>
           <View style={styles.music_icon}>
-            <View style={styles.icon_each}>
-              <MaterialIcons name="shuffle" size={30} color="black" />
-            </View>
-            <View style={styles.icon_each}>
-              <MaterialIcons name="skip-previous" size={30} color="black" />
-            </View>
-            <View style={styles.icon_each}>
-              <Pressable onPress={togglePlayback}>
-                {isPlaying ? (
-                  <MaterialIcons name="pause" size={30} color="black" />
-                ) : (
-                  <MaterialIcons name="play-arrow" size={30} color="black" />
-                )}
+            {[
+              {
+                name: 'shuffle',
+                action: () => {},
+              },
+              {
+                name: 'skip-previous',
+                action: () => {},
+              },
+              {
+                name: isPlaying ? 'pause' : 'play-arrow',
+                action: togglePlayback,
+              },
+              {
+                name: 'skip-next',
+                action: () => {},
+              },
+              {
+                name: 'replay',
+                action: () => {},
+              },
+            ].map((icon, index) => (
+              <Pressable
+                key={index}
+                style={({ pressed }) => [
+                  styles.icon_each,
+                  pressed && { backgroundColor: 'lightgrey' },
+                ]}
+                onPress={icon.action}
+              >
+                <MaterialIcons name={icon.name} size={30} color="black" />
               </Pressable>
-            </View>
-            <View style={styles.icon_each}>
-              <MaterialIcons name="skip-next" size={30} color="black" />
-            </View>
-            <View style={styles.icon_each}>
-              <MaterialIcons name="replay" size={30} color="black" />
-            </View>
+            ))}
           </View>
         </View>
         <View style={styles.bottom}>
-          <Text style={styles.musiclist}>Music list1</Text>
-          <Text style={styles.musiclist}>Music list2</Text>
-          <Text style={styles.musiclist}>Music list3</Text>
-          <Text style={styles.musiclist}>Music list4</Text>
-          <Text style={styles.musiclist}>Music list5</Text>
+          {[1, 2, 3, 4, 5].map((item, index) => (
+            <Text style={styles.musiclist} key={index}>
+              Music list{item}
+            </Text>
+          ))}
         </View>
       </View>
     </SafeInputView>
