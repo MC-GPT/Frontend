@@ -2,33 +2,33 @@ import { Alert, StyleSheet, View } from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import PropTypes, { number } from 'prop-types';
+import PropTypes from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useMainContext } from '../contexts/MainContext';
+import { useUserContext } from '../contexts/UserContext';
 
 const LightningScreen = ({ navigation }) => {
   const { home_id, apps, setApps } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleLight, setVisibleLight] = useState(false);
   const [input, setInput] = useState('');
-  // let jsonData = [
-  //   { id: 1, name: '101호', code: '55501' },
-  //   { id: 2, name: '102호', code: '53521' },
-  //   { id: 3, name: '103호', code: '93991' },
-  // ];
+  const { jwt } = useUserContext();
+  const [number, setNumber] = useState('');
+  const [name, setName] = useState('');
 
   const postApp = async (number, name) => {
-    console.log("number: ", number);
-    console.log("name:", name);
+    console.log('number: ', number);
+    console.log('name:', name);
     try {
+      // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
         'http://127.0.0.1:8080/create-app',
         {
           serialNumber: number,
           name: name,
-          home_id: home_id
+          home_id: home_id,
         },
         {
           headers: {
@@ -46,7 +46,7 @@ const LightningScreen = ({ navigation }) => {
   };
 
   const getApp = async () => {
-    url = 'http://127.0.0.1:8080/apps?home=' + home_id;
+    const url = 'http://127.0.0.1:8080/apps?home=' + home_id;
     try {
       const value = await axios.get(url, {
         headers: {
@@ -83,18 +83,18 @@ const LightningScreen = ({ navigation }) => {
       <View style={styles.main}>
         <View style={styles.roomButton}>
           {jsonData
-          .filter((v) => v.light)
-          .map((v) => {
-            return (
-              <Button
-                key={v.id}
-                title={v.name}
-                onPress={() => navigation.navigate('Mood')}
-                buttonType={ButtonTypes.ROOM}
-                styles={buttonStyles}
-              />
-            );
-          })}
+            .filter((v) => v.light)
+            .map((v) => {
+              return (
+                <Button
+                  key={v.id}
+                  title={v.name}
+                  onPress={() => navigation.navigate('Mood')}
+                  buttonType={ButtonTypes.ROOM}
+                  styles={buttonStyles}
+                />
+              );
+            })}
         </View>
       </View>
       <View style={styles.bottom}>
@@ -108,6 +108,8 @@ const LightningScreen = ({ navigation }) => {
       <PopupB
         visible={visibleLight}
         onClose={() => setVisibleLight(false)}
+        onChangeTextNumber={(text) => setNumber(text.trim())}
+        onChangeTextName={(text) => setName(text.trim())}
         onSubmit={() => postApp(number, name)}
         popupType={PopupTypesB.LIGHT}
       ></PopupB>

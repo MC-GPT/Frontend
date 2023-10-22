@@ -8,6 +8,11 @@ const Sample = () => {
     </View>
   );
 };
+// let jsonData = [
+//   { id: 1, name: '101호', code: '55501' },
+//   { id: 2, name: '102호', code: '53521' },
+//   { id: 3, name: '103호', code: '93991' },
+// ];
 
 Sample.propTypes = {};
 
