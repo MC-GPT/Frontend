@@ -4,6 +4,7 @@ import {
   Text,
   View,
   Pressable,
+  Animated,
   // PropTypes,
 } from 'react-native';
 import { WHITE } from '../colors';
@@ -11,10 +12,14 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SafeInputView from '../components/SafeInputView';
 import { ButtonTypes } from '../components/Button';
+import { useRef } from 'react';
+import { useMainContext } from '../contexts/MainContext';
 
 // eslint-disable-next-line react/prop-types
 const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
+  const notice = useRef(new Animated.Value(0)).current;
+  const { homename, homecode } = useMainContext();
 
   return (
     <SafeInputView>
@@ -25,19 +30,22 @@ const HomeScreen = ({ navigation }) => {
         ]}
       >
         <View style={styles.top}>
-          <Text style={styles.notice}></Text>
-          <View style={styles.logoutButton}>
-            <Pressable
-              // eslint-disable-next-line react/prop-types
-              onPress={() => navigation.navigate('Room')}
-              buttonType={ButtonTypes.DANGER}
-            >
-              <Text>방 선택화면으로 돌아가기</Text>
-              {/* <MaterialIcons name="logout" size={24} color="black" /> */}
-            </Pressable>
+          <Text style={styles.homename}>홈네임 {homename}</Text>
+          <View style={styles.topright}>
+            <View style={styles.logoutButton}>
+              <Pressable
+                // eslint-disable-next-line react/prop-types
+                onPress={() => navigation.navigate('Room')}
+                buttonType={ButtonTypes.DANGER}
+              >
+                <Text>방 선택화면으로 돌아가기</Text>
+                {/* <MaterialIcons name="logout" size={24} color="black" /> */}
+              </Pressable>
+            </View>
+            <Text style={styles.codestyle}> 코드번호 {homecode} </Text>
           </View>
         </View>
-
+        <Animated.Text style={styles.notice}>공지사항</Animated.Text>
         <View style={styles.musicbox}>
           <View style={styles.image}>
             <Image
@@ -65,6 +73,13 @@ const HomeScreen = ({ navigation }) => {
             </View>
           </View>
         </View>
+        <View style={styles.bottom}>
+          <Text style={styles.musiclist}>Music list1</Text>
+          <Text style={styles.musiclist}>Music list2</Text>
+          <Text style={styles.musiclist}>Music list3</Text>
+          <Text style={styles.musiclist}>Music list4</Text>
+          <Text style={styles.musiclist}>Music list5</Text>
+        </View>
       </View>
     </SafeInputView>
   );
@@ -82,17 +97,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: WHITE,
   },
-  notice: {
-    fontSize: 28,
-  },
-  logoutButton: {},
-  musicbox: {
+  top: {
     flex: 1,
+    width: '100%',
+    // backgroundColor: 'green',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  homename: {
+    fontSize: 22,
+    marginLeft: 20,
+  },
+  topright: {
+    flexDirection: '',
+    // backgroundColor: 'yellow',
+    alignItems: 'center',
+  },
+  codestyle: {
+    paddingTop: 20,
+    fontSize: 18,
+  },
+  logoutButton: {
+    // backgroundColor: 'white',
+  },
+  notice: {
+    flex: 1,
+    fontSize: 20,
+    marginTop: 10,
+  },
+  musicbox: {
+    flex: 7,
     width: '100%',
     height: 500,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#9e42f5',
+    //  backgroundColor: '#9e42f5',
   },
   title: {
     fontSize: 28,
@@ -116,6 +156,11 @@ const styles = StyleSheet.create({
   icon_each: {
     margin: 8,
   },
+  bottom: {
+    flex: 3,
+    // backgroundColor: 'blue',
+  },
+  musiclist: { fontSize: 20 },
 });
 
 export default HomeScreen;

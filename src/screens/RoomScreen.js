@@ -55,33 +55,34 @@ const RoomScreen = ({ navigation }) => {
   };
 
   //방 코드로 추가
-  const postCode = async (roomCode) => {
-    try {
-      const data = await axios.post(
-        'http://127.0.0.1:8080/enter-home',
-        {
-          home_code: roomCode,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      Alert.alert('방 추가 완료');
-      setVisibleBottom(false);
-      getRoom();
-    } catch (e) {
-      Alert.alert('방 추가 실패');
-    }
-  };
-  // const postCode = () => {
-  //   navigation.navigate('ContentTab');
-  //   setVisibleBottom(false);
+  // const postCode = async (roomCode) => {
+  //   try {
+  //     const data = await axios.post(
+  //       'http://127.0.0.1:8080/enter-home',
+  //       {
+  //         home_code: roomCode,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${jwt}`,
+  //         },
+  //       }
+  //     );
+  //     Alert.alert('방 추가 완료');
+  //     setVisibleBottom(false);
+  //     getRoom();
+  //   } catch (e) {
+  //     Alert.alert('방 추가 실패');
+  //   }
   // };
+  const postCode = () => {
+    navigation.navigate('ContentTab');
+    setVisibleBottom(false);
+  };
 
   // 방 입장시 받아올, 방-가전-게임 등 메인 정보
-  const { setHomeId, setHomeName, setHomeCode, setApps, setGames, setOwner } = useMainContext();
+  const { setHomeId, setHomeName, setHomeCode, setApps, setGames, setOwner } =
+    useMainContext();
   const getMain = async (roomId) => {
     try {
       const url = 'http://127.0.0.1:8080/main?home=' + roomId;
