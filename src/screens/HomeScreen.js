@@ -4,7 +4,6 @@ import {
   Text,
   View,
   Pressable,
-  Animated,
   // PropTypes,
 } from 'react-native';
 import { WHITE } from '../colors';
@@ -12,7 +11,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import SafeInputView from '../components/SafeInputView';
 import { ButtonTypes } from '../components/Button';
-import { useRef, useEffect } from 'react';
+import { useState } from 'react';
 import { useMainContext } from '../contexts/MainContext';
 import TextAnimation from '../components/TextAnimation';
 
@@ -20,17 +19,11 @@ import TextAnimation from '../components/TextAnimation';
 const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const { homename, homecode } = useMainContext();
+  const [isPlaying, setIsPlaying] = useState(false);
 
-  // const notice = useRef(new Animated.Value(NOTICEMARGIN)).current;
-
-  // const noticeAnimation = () => {
-
-  //   Animated.timing(NOTICEMARGIN, )
-  // }
-
-  // useEffect(() => {
-  //   noticeAnimation();
-  // });
+  const togglePlayback = () => {
+    setIsPlaying((prevState) => !prevState);
+  };
 
   return (
     <SafeInputView>
@@ -76,7 +69,13 @@ const HomeScreen = ({ navigation }) => {
               <MaterialIcons name="skip-previous" size={30} color="black" />
             </View>
             <View style={styles.icon_each}>
-              <MaterialIcons name="play-arrow" size={30} color="black" />
+              <Pressable onPress={togglePlayback}>
+                {isPlaying ? (
+                  <MaterialIcons name="pause" size={30} color="black" />
+                ) : (
+                  <MaterialIcons name="play-arrow" size={30} color="black" />
+                )}
+              </Pressable>
             </View>
             <View style={styles.icon_each}>
               <MaterialIcons name="skip-next" size={30} color="black" />
