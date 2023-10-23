@@ -1,13 +1,58 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 import { useEffect, useState } from 'react';
 import Button, { ButtonTypes } from '../components/Button';
 import PropTypes from 'prop-types';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMainContext } from '../contexts/MainContext';
+import axios from 'axios';
+import { useUserContext } from '../contexts/UserContext';
 
 const GameListScreen = ({ navigation }) => {
-  const { games } = useMainContext();
+  const { jwt } = useUserContext();
+  const { home_id, games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
+
+  const postCreateGame = async (game_id) => {
+    try {
+      const data = await axios.post(
+        'http://127.0.0.1:8080/new-game',
+        {
+          home_id: home_id,
+          game_id: game_id
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      navigation.navigate('GameManage');
+    } catch (e) {
+      Alert.alert('게임방 생성 실패');
+    }
+  };
+
+  const postEnterGame = async (game_id) => {
+    url = 'http://127.0.0.1:8080/enter-game?home=' + home_id;
+    try {
+      const data = await axios.get(
+        url,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      if(data.data != null) {
+        // 개별 게임방 id context에 저장
+        navigation.navigate('GamePlay');
+      } else {
+        Alert.alert('게임방 생성 실패');
+      }
+    } catch (e) {
+      Alert.alert('게임방 생성 실패');
+    }
+  };
 
   useEffect(() => {
     setJsonData(games);
@@ -26,7 +71,7 @@ const GameListScreen = ({ navigation }) => {
                 <Button
                   key={v.id}
                   title={v.name}
-                  onPress={() => navigation.navigate('GameManage')}
+                  onPress={() => postCreateGame(v.id)}
                   buttonType={ButtonTypes.GAME}
                   styles={buttonStyles}
                 />
@@ -38,7 +83,7 @@ const GameListScreen = ({ navigation }) => {
           <View style={styles.createButton}>
             <Button
               title={'입장'}
-              onPress={() => navigation.navigate('GamePlay')}
+              onPress={() => postEnterGame(v.id)}
               buttonType={ButtonTypes.GAME}
             ></Button>
           </View>
