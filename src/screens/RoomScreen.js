@@ -55,7 +55,7 @@ const RoomScreen = ({ navigation }) => {
     }
   };
 
-  //방 코드로 추가
+  // 방 코드로 추가
   // const postCode = async (roomCode) => {
   //   try {
   //     const data = await axios.post(

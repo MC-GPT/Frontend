@@ -5,25 +5,17 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useUserContext } from '../contexts/UserContext';
 import { useMainContext } from '../contexts/MainContext';
 
-const LightningScreen = ({ navigation }) => {
+const ElectronicScreen = ({ navigation }) => {
   const { home_id, apps, setApps } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleLight, setVisibleLight] = useState(false);
-  const [input, setInput] = useState('');
   const { jwt } = useUserContext();
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
-  // let jsonData = [
-  //   { id: 1, name: '101호', code: '55501' },
-  //   { id: 2, name: '102호', code: '53521' },
-  //   { id: 3, name: '103호', code: '93991' },
-  // ];
 
-  // 1. 무조건 false로 들어가는 이유 2. 새로고침 안됨
   const postApp = async (number, name) => {
     try {
       // eslint-disable-next-line no-unused-vars
@@ -33,7 +25,7 @@ const LightningScreen = ({ navigation }) => {
           serialNumber: number,
           name: name,
           home_id: home_id,
-          isLight: true
+          light: false,
         },
         {
           headers: {
@@ -41,12 +33,11 @@ const LightningScreen = ({ navigation }) => {
           },
         }
       );
-      Alert.alert('조명 생성 완료');
+      Alert.alert('가전 생성 완료');
       setVisibleLight(false);
       getApp();
-      setJsonData(apps);
     } catch (e) {
-      Alert.alert('조명 생성 실패');
+      Alert.alert('가전 생성 실패');
     }
   };
 
@@ -59,8 +50,6 @@ const LightningScreen = ({ navigation }) => {
         },
       });
       setApps(value.data);
-      setJsonData(apps);
-      console.log(value.data);
     } catch (error) {
       console.error(error);
     }
@@ -68,7 +57,7 @@ const LightningScreen = ({ navigation }) => {
 
   useEffect(() => {
     setJsonData(apps);
-  }, []);
+  }, [apps]);
 
   const onSubmit = () => {
     Alert.alert('입력완료');
@@ -114,7 +103,7 @@ const LightningScreen = ({ navigation }) => {
   );
 };
 
-LightningScreen.propTypes = {
+ElectronicScreen.propTypes = {
   navigation: PropTypes.object,
 };
 
@@ -187,4 +176,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LightningScreen;
+export default ElectronicScreen;

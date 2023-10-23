@@ -18,32 +18,15 @@ const LightningScreen = ({ navigation }) => {
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
 
-  const getApp = async () => {
-    const url = 'http://127.0.0.1:8080/apps?home=' + home_id;
-    try {
-      const value = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
-      setApps(value.data);
-      setJsonData(apps);
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
-  // 1. 무조건 false로 들어가는 이유 2. 새로고침 안됨
   const postApp = async (number, name) => {
     try {
-      // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
         'http://127.0.0.1:8080/create-app',
         {
           serialNumber: number,
           name: name,
           home_id: home_id,
-          isLight: true,
+          light: true,
         },
         {
           headers: {
@@ -59,9 +42,23 @@ const LightningScreen = ({ navigation }) => {
     }
   };
 
+  const getApp = async () => {
+    const url = 'http://127.0.0.1:8080/apps?home=' + home_id;
+    try {
+      const value = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      setApps(value.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   useEffect(() => {
-    getApp();
-  }, []);
+    setJsonData(apps);
+  }, [apps]);
 
   const onSubmit = () => {
     Alert.alert('입력완료');
