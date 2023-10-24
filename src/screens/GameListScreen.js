@@ -6,11 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMainContext } from '../contexts/MainContext';
 import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
+import { useGameContext } from '../contexts/GameContext';
 
 const GameListScreen = ({ navigation }) => {
   const { jwt } = useUserContext();
   const { home_id, games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
+  const { setGamePlayId } = useGameContext();
 
   const postCreateGame = async (game_id) => {
     try {
@@ -18,7 +20,7 @@ const GameListScreen = ({ navigation }) => {
         'http://127.0.0.1:8080/new-game',
         {
           home_id: home_id,
-          game_id: game_id
+          game_id: game_id,
         },
         {
           headers: {
@@ -32,19 +34,17 @@ const GameListScreen = ({ navigation }) => {
     }
   };
 
-  const postEnterGame = async (game_id) => {
-    url = 'http://127.0.0.1:8080/enter-game?home=' + home_id;
+  const EnterGame = async () => {
+    const url = 'http://127.0.0.1:8080/enter-game?home=' + home_id;
     try {
-      const data = await axios.get(
-        url,
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      if(data.data != null) {
+      const data = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${jwt}`,
+        },
+      });
+      if (data.data != null) {
         // 개별 게임방 id context에 저장
+        setGamePlayId(data.data);
         navigation.navigate('GamePlay');
       } else {
         Alert.alert('게임방 생성 실패');
@@ -57,7 +57,7 @@ const GameListScreen = ({ navigation }) => {
   useEffect(() => {
     setJsonData(games);
   }, []);
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.wrapper}>
@@ -83,7 +83,7 @@ const GameListScreen = ({ navigation }) => {
           <View style={styles.createButton}>
             <Button
               title={'입장'}
-              onPress={() => postEnterGame(v.id)}
+              onPress={() => EnterGame()}
               buttonType={ButtonTypes.GAME}
             ></Button>
           </View>
