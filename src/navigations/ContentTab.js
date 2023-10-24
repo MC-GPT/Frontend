@@ -32,20 +32,20 @@ const ContentTab = () => {
         }}
       />
       <Tab.Screen
-        name="Game"
-        component={GameListScreen}
+        name="Appliances"
+        component={Appliances}
         options={{
-          tabBarIcon: (props) =>
-            getTabBarIcon({ ...props, name: 'game-controller' }),
+          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'bulb' }),
           tabBarActiveTintColor: PRIMARY.DARK,
           tabBarInactiveTintColor: PRIMARY.LIGHT,
         }}
       />
       <Tab.Screen
-        name="Appliances"
-        component={Appliances}
+        name="Game"
+        component={GameListScreen}
         options={{
-          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'bulb' }),
+          tabBarIcon: (props) =>
+            getTabBarIcon({ ...props, name: 'game-controller' }),
           tabBarActiveTintColor: PRIMARY.DARK,
           tabBarInactiveTintColor: PRIMARY.LIGHT,
         }}
