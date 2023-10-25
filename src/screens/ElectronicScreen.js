@@ -5,7 +5,6 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useUserContext } from '../contexts/UserContext';
 import { useMainContext } from '../contexts/MainContext';
 
