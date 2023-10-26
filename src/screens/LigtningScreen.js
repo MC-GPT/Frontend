@@ -21,7 +21,7 @@ const LightningScreen = ({ navigation }) => {
   const postApp = async (number, name) => {
     try {
       const data = await axios.post(
-        'http://127.0.0.1:8080/create-app',
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/create-app',
         {
           serialNumber: number,
           name: name,
@@ -43,7 +43,9 @@ const LightningScreen = ({ navigation }) => {
   };
 
   const getApp = async () => {
-    const url = 'http://127.0.0.1:8080/apps?home=' + home_id;
+    const url =
+      'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/apps?home=' +
+      home_id;
     try {
       const value = await axios.get(url, {
         headers: {

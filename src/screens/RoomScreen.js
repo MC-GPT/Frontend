@@ -21,11 +21,14 @@ const RoomScreen = ({ navigation }) => {
   // 방 정보 get
   const getRoom = async () => {
     try {
-      const value = await axios.get('http://127.0.0.1:8080/homes', {
-        headers: {
-          Authorization: `Bearer ${jwt}`,
-        },
-      });
+      const value = await axios.get(
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/homes',
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
       setJsonData(value.data);
     } catch (error) {
       console.error(error);
@@ -37,7 +40,7 @@ const RoomScreen = ({ navigation }) => {
     try {
       // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
-        'http://127.0.0.1:8080/create-home',
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/create-home',
         {
           name: roomName,
         },

@@ -17,7 +17,7 @@ const GameListScreen = ({ navigation }) => {
   const postCreateGame = async (game_id, game_name) => {
     try {
       const data = await axios.post(
-        'http://127.0.0.1:8080/new-game',
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/new-game',
         {
           home_id: home_id,
           game_id: game_id,
@@ -36,7 +36,9 @@ const GameListScreen = ({ navigation }) => {
   };
 
   const EnterGame = async () => {
-    const url = 'http://127.0.0.1:8080/enter-game?home=' + home_id;
+    const url =
+      'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/enter-game?home=' +
+      home_id;
     try {
       const data = await axios.get(url, {
         headers: {

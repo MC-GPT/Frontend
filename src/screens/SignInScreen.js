@@ -28,29 +28,32 @@ const SignInScreen = ({ navigation }) => {
     setDisabled(!id || !password);
   }, [id, password]);
 
-  // const login = async () => {
-  //   if (!disabled && !isLoading) {
-  //     Keyboard.dismiss();
-  //     setIsLoading(true);
-  //     try {
-  //       const data = await axios.post('http://127.0.0.1:8080/login', {
-  //         account: id,
-  //         password: password,
-  //       });
-  //       setAccount(data.data.account);
-  //       setNickname(data.data.nickname);
-  //       setJwt(data.data.accessToken);
-  //       setUser(data.status); // 넘기는 역할
-  //     } catch (e) {
-  //       console.log(e);
-  //       setIsLoading(false);
-  //       Alert.alert('로그인 실패');
-  //     }
-  //   }
-  // };
-  const login = () => {
-    setUser(1);
+  const login = async () => {
+    if (!disabled && !isLoading) {
+      Keyboard.dismiss();
+      setIsLoading(true);
+      try {
+        const data = await axios.post(
+          'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/login',
+          {
+            account: id,
+            password: password,
+          }
+        );
+        setAccount(data.data.account);
+        setNickname(data.data.nickname);
+        setJwt(data.data.accessToken);
+        setUser(data.status); // 넘기는 역할
+      } catch (e) {
+        console.log(e);
+        setIsLoading(false);
+        Alert.alert('로그인 실패');
+      }
+    }
   };
+  // const login = () => {
+  //   setUser(1);
+  // };
 
   return (
     <SafeInputView>

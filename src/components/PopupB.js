@@ -1,7 +1,8 @@
 import { Modal, Pressable, StyleSheet, View, Text } from 'react-native';
 import PropTypes from 'prop-types';
 import Button, { ButtonTypes } from './Button';
-import Input, { KeyboardTypes } from './Input';
+import Input, { KeyboardTypes, ReturnKeyTypes } from './Input';
+import { useRef } from 'react';
 
 export const PopupTypesB = {
   LIGHT: 'LIGHT',
@@ -31,6 +32,7 @@ const Popup = ({
   ...props
 }) => {
   const { title, number, name } = PopupProps[popupType];
+  const nameRef = useRef(null);
   return (
     <Modal
       visible={visible}
@@ -49,6 +51,8 @@ const Popup = ({
                 {...props}
                 title=""
                 keyboardType={KeyboardTypes.NUMBER}
+                returnKeyType={ReturnKeyTypes.NEXT}
+                onSubmitEditing={() => nameRef.current.focus()}
                 onChangeText={onChangeTextNumber}
               ></Input>
             </View>
@@ -56,6 +60,7 @@ const Popup = ({
             <View style={styles.inputstyle}>
               <Input
                 {...props}
+                ref={nameRef}
                 title=""
                 keyboardType={KeyboardTypes.EMAIL}
                 onChangeText={onChangeTextName}

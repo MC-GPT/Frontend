@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useGameContext } from '../contexts/GameContext';
 import { useEffect, useState } from 'react';
 import { WebSocket } from 'react-native-websocket';
@@ -6,6 +6,7 @@ import { WebSocket } from 'react-native-websocket';
 const GameManageScreen = () => {
   const { gamePlayId, gameName } = useGameContext();
   const [socket, setSocket] = useState(null);
+  const [imageSource, setImageSource] = useState(null);
 
   useEffect(() => {
     const url = 'basic url' + gamePlayId; // 뭔가 이렇게 하지 않을까 싶어서
@@ -23,22 +24,20 @@ const GameManageScreen = () => {
     };
   }, []);
 
-  const sendWebSocketMessage = (message) => {
-    if (socket) {
-      socket.send(JSON.stringify(message));
-    }
-  };
-
   const handleWebSocketMessage = (message) => {
     switch (message.type) {
-      case 'INITIAL_DATA':
+      case 'INITIAL_DATA': {
         // 서버로부터 초기 게임 데이터 수신 및 화면에 렌더링
-        handleInitialGameData(message.data);
+        const initialImageData = message.data.image; // 서버에서 이미지 데이터를 받아옴
+        setImageSource(initialImageData);
         break;
-      case 'NEXT_DATA':
+      }
+      case 'NEXT_DATA': {
         // '다음 문제' 버튼을 눌렀을 때 처리
-        handleNextGameData(message.data);
+        const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
+        setImageSource(nextImageData);
         break;
+      }
       case 'GAME_END':
         // '종료' 버튼을 눌렀을 때 게임 종료 처리
         handleGameEnd();
@@ -49,18 +48,15 @@ const GameManageScreen = () => {
     }
   };
 
-  const handleInitialGameData = (data) => {
-    // 초기 게임 데이터를 사용하여 화면에 게임 정보 표시
-  };
-
-  const handleNextGameData = (data) => {
-    // '다음 문제' 버튼을 눌렀을 때 다음 게임 데이터를 사용하여 화면 갱신
-  };
-
   const handleGameEnd = () => {
     // '종료' 버튼을 눌렀을 때 게임 종료 처리
   };
 
+  const sendWebSocketMessage = (message) => {
+    if (socket) {
+      socket.send(JSON.stringify(message));
+    }
+  };
   const sendNextRequest = () => {
     sendWebSocketMessage({ type: 'NEXT' });
   };
@@ -85,13 +81,15 @@ const GameManageScreen = () => {
           </View>
           <View style={styles.next}>
             <Pressable onPress={sendNextRequest}>
-              <Text style={{ fontSize: 20 }}> 다음 문서 </Text>
+              <Text style={{ fontSize: 20 }}> 다음 문제 </Text>
             </Pressable>
           </View>
         </View>
       </View>
       <View style={styles.main}>
-        <Text style={{ fontSize: 20 }}>웹소켓</Text>
+        <View style={styles.image}>
+          <Image source={{ uri: imageSource }} style={styles.image} />
+        </View>
       </View>
       <View style={styles.bottom}></View>
     </View>
