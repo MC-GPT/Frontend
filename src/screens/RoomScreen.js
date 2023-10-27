@@ -59,29 +59,25 @@ const RoomScreen = ({ navigation }) => {
   };
 
   // 방 코드로 추가
-  // const postCode = async (roomCode) => {
-  //   try {
-  //     const data = await axios.post(
-  //       'http://127.0.0.1:8080/enter-home',
-  //       {
-  //         home_code: roomCode,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${jwt}`,
-  //         },
-  //       }
-  //     );
-  //     Alert.alert('방 추가 완료');
-  //     setVisibleBottom(false);
-  //     getRoom();
-  //   } catch (e) {
-  //     Alert.alert('방 추가 실패');
-  //   }
-  // };
-  const postCode = () => {
-    navigation.navigate('ContentTab');
-    setVisibleBottom(false);
+  const postCode = async (roomCode) => {
+    try {
+      const data = await axios.post(
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/enter-home',
+        {
+          home_code: roomCode,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      Alert.alert('방 추가 완료');
+      setVisibleBottom(false);
+      getRoom();
+    } catch (e) {
+      Alert.alert('방 추가 실패');
+    }
   };
 
   // 방 입장시 받아올, 방-가전-게임 등 메인 정보
@@ -89,7 +85,9 @@ const RoomScreen = ({ navigation }) => {
     useMainContext();
   const getMain = async (roomId) => {
     try {
-      const url = 'http://127.0.0.1:8080/main?home=' + roomId;
+      const url =
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/main?home=' +
+        roomId;
       const data = await axios.get(url, {
         headers: {
           Authorization: `Bearer ${jwt}`,
@@ -105,6 +103,41 @@ const RoomScreen = ({ navigation }) => {
     } catch (e) {
       console.error(e);
     }
+  };
+  // 방 삭제 함수
+  const deleteRoom = async (roomId) => {
+    try {
+      const response = await axios.delete(
+        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/delete-home/${roomId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      if (response.status === 204) {
+        Alert.alert('방 삭제 완료');
+        getRoom();
+      } else {
+        Alert.alert('방 삭제 실패');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('방 삭제 실패');
+    }
+  };
+
+  const handleLongPress = (roomId, roomName) => {
+    Alert.alert('방 삭제', `방 "${roomName}"을 삭제하시겠습니까?`, [
+      {
+        text: '취소',
+        style: 'cancel',
+      },
+      {
+        text: '확인',
+        onPress: () => deleteRoom(roomId),
+      },
+    ]);
   };
 
   useEffect(() => {
@@ -126,17 +159,25 @@ const RoomScreen = ({ navigation }) => {
       </View>
       <View style={styles.main}>
         <View style={styles.roomButton}>
-          {jsonData.map((v) => {
-            return (
-              <Button
-                key={v.id}
-                title={v.name}
-                onPress={() => getMain(v.id)}
-                buttonType={ButtonTypes.ROOM}
-                styles={buttonStyles}
-              />
-            );
-          })}
+          {jsonData.length > 0 ? (
+            jsonData.map((v) => {
+              if (v && v.name) {
+                return (
+                  <Button
+                    key={v.id}
+                    title={v.name}
+                    onPress={() => getMain(v.id)}
+                    onLongPress={() => handleLongPress(v.id, v.name)}
+                    buttonType={ButtonTypes.ROOM}
+                    styles={buttonStyles}
+                  />
+                );
+              }
+              return null;
+            })
+          ) : (
+            <Text>No rooms available</Text>
+          )}
         </View>
       </View>
       <View style={styles.bottom}>
@@ -212,6 +253,18 @@ const styles = StyleSheet.create({
   },
   logoutButton: {
     marginLeft: 60,
+  },
+  editModeButton: {
+    backgroundColor: 'blue', // 토글 버튼의 배경색
+    padding: 10,
+    borderRadius: 5,
+    margin: 10,
+    alignItems: 'center',
+  },
+
+  editModeButtonText: {
+    color: 'white', // 버튼 텍스트 색상
+    fontWeight: 'bold',
   },
   main: {
     flex: 5,

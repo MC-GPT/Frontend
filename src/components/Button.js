@@ -37,6 +37,7 @@ const ButtonTypeColors = {
 const Button = ({
   title,
   onPress,
+  onLongPress,
   disabled,
   isLoading,
   styles,
@@ -48,6 +49,7 @@ const Button = ({
     <View style={[defaultStyles.container, styles?.container]}>
       <Pressable
         onPress={onPress}
+        onLongPress={onLongPress}
         disabled={disabled || isLoading}
         style={({ pressed }) => [
           defaultStyles.button,
@@ -83,6 +85,7 @@ Button.defaultProps = {
 Button.propTypes = {
   title: PropTypes.string,
   onPress: PropTypes.func,
+  onLongPress: PropTypes.func,
   disabled: PropTypes.bool,
   isLoading: PropTypes.bool,
   styles: PropTypes.object,
