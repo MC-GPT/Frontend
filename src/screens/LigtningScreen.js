@@ -70,7 +70,7 @@ const LightningScreen = ({ navigation }) => {
           },
         }
       );
-      console.log(response);
+
       if (response.status === 200) {
         Alert.alert('조명 삭제 완료');
         getApp();
@@ -210,14 +210,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  lightContainer: {},
   roomButton: {
     // backgroundColor: 'aqua',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',
-    marginHorizontal: 35,
+    marginHorizontal: 54,
+  },
+  lightContainer: {
+    //backgroundColor: 'black',
   },
   deleteButton: {},
   bottom: {

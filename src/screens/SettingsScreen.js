@@ -3,9 +3,15 @@ import { StyleSheet } from 'react-native';
 import favicon from '../../assets/favicon.png';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
+import { useNavigation } from '@react-navigation/native';
 
 export default function SettingScreen() {
   const { nickname, account } = useUserContext();
+  const navigation = useNavigation();
+
+  const handleCodeRefresh = () => {
+    navigation.navigate('Room');
+  };
   return (
     <SafeAreaView>
       <View style={styles.myInfo}>
@@ -21,7 +27,10 @@ export default function SettingScreen() {
       <TouchableOpacity style={styles.listContainer}>
         <Text style={styles.listText}>계정 설정</Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.listContainer}>
+      <TouchableOpacity
+        style={styles.listContainer}
+        onPress={handleCodeRefresh}
+      >
         <Text style={styles.listText}>코드 리프레쉬</Text>
       </TouchableOpacity>
     </SafeAreaView>
