@@ -1,19 +1,21 @@
 import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useGameContext } from '../contexts/GameContext';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
-  const [socket, setSocket] = useState(null);
   const [imageSource, setImageSource] = useState(null);
+  const [sendMsg, setSendMsg] = useState(false);
+
+  const ws = useRef(null);
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
-    const ws = new WebSocket(
+    ws.current = new WebSocket(
       'ws://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/ws/game'
     );
 
-    ws.onopen = () => {
+    ws.current.onopen = () => {
       const enterMessage = {
         messageType: 'ENTER',
         roomId: 952,
@@ -21,30 +23,33 @@ const GameManageScreen = () => {
         message: '',
         imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
       };
-      ws.send(JSON.stringify(enterMessage));
+      ws.current.send(JSON.stringify(enterMessage));
+      setSendMsg(true);
       console.log('enter');
     };
-
-    ws.onmessage = (event) => {
-      console.log(event.data);
-      const message = JSON.parse(event.data);
-      handleWebSocketMessage(message);
-    };
-
-    ws.onerror = (e) => {
+    ws.current.onerror = (e) => {
       console.log(e.message);
     };
 
-    ws.onclose = () => {
+    ws.current.onclose = () => {
       console.log('close');
     };
 
-    setSocket(ws);
-
     return () => {
-      ws.close();
+      console.log('clean up');
+      ws.current.close();
     };
   }, []);
+
+  useEffect(() => {
+    if (sendMsg) {
+      ws.current.onmessage = (event) => {
+        console.log(event.data);
+        const message = JSON.parse(event.data);
+        handleWebSocketMessage(message);
+      };
+    }
+  }, [sendMsg]);
 
   const handleWebSocketMessage = (message) => {
     switch (message.type) {
@@ -62,7 +67,6 @@ const GameManageScreen = () => {
       }
       case 'END':
         // '종료' 버튼을 눌렀을 때 게임 종료 처리
-        handleGameEnd();
         break;
       default:
         // 다른 메시지 유형에 대한 처리
@@ -70,21 +74,30 @@ const GameManageScreen = () => {
     }
   };
 
-  const handleGameEnd = () => {
-    // '종료' 버튼을 눌렀을 때 게임 종료 처리
-  };
-
-  const sendWebSocketMessage = (message) => {
-    if (socket) {
-      socket.send(JSON.stringify(message));
-    }
-  };
   const sendNextRequest = () => {
-    sendWebSocketMessage({ type: 'NEXT' });
+    {
+      const nextMessage = {
+        messageType: 'NEXT',
+        roomId: 952,
+        sender: 'host',
+        message: '',
+        imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
+      };
+      ws.current.send(JSON.stringify(nextMessage));
+      setSendMsg(true);
+    }
   };
 
   const sendExitRequest = () => {
-    sendWebSocketMessage({ type: 'EXIT' });
+    const exitMessage = {
+      messageType: 'EXIT',
+      roomId: 952,
+      sender: 'host',
+      message: '',
+      imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
+    };
+    ws.current.send(JSON.stringify(exitMessage));
+    setSendMsg(true);
   };
 
   return (
