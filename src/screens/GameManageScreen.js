@@ -9,19 +9,30 @@ const GameManageScreen = () => {
   const [imageSource, setImageSource] = useState(null);
 
   useEffect(() => {
-    const url = 'basic url' + gamePlayId; // 뭔가 이렇게 하지 않을까 싶어서
-    const ws = new WebSocket(url); //웹소켓 데이터 저장
+    const ws = new WebSocket('ws:localhost:8080/ws/game');
+
+    ws.onopen = () => {
+      ws.send('something');
+    };
 
     ws.onmessage = (event) => {
       const message = JSON.parse(event.data);
       handleWebSocketMessage(message);
     };
 
+    ws.onerror = (e) => {
+      console.log(e.message);
+    };
+
+    ws.onclose = (e) => {
+      console.log(e.code, e.reason);
+    };
+
     setSocket(ws);
 
-    return () => {
-      ws.close();
-    };
+    // return () => {
+    //   ws.onclose();
+    // };
   }, []);
 
   const handleWebSocketMessage = (message) => {

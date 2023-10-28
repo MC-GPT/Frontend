@@ -43,6 +43,7 @@ const SignInScreen = ({ navigation }) => {
         setAccount(data.data.account);
         setNickname(data.data.nickname);
         setJwt(data.data.accessToken);
+        //  console.log(data.data.accessToken);
         setUser(data.status); // 넘기는 역할
       } catch (e) {
         console.log(e);
@@ -51,9 +52,6 @@ const SignInScreen = ({ navigation }) => {
       }
     }
   };
-  // const login = () => {
-  //   setUser(1);
-  // };
 
   return (
     <SafeInputView>

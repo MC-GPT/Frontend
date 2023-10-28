@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from 'react-native';
+import { Alert, StyleSheet, View, Pressable } from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -8,6 +8,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useMainContext } from '../contexts/MainContext';
 import { useUserContext } from '../contexts/UserContext';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const LightningScreen = ({ navigation }) => {
   const { home_id, apps, setApps } = useMainContext();
@@ -58,6 +59,42 @@ const LightningScreen = ({ navigation }) => {
     }
   };
 
+  const deleteLight = async (appId) => {
+    try {
+      const response = await axios.delete(
+        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/delete-app?app=` +
+          appId,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      console.log(response);
+      if (response.status === 200) {
+        Alert.alert('조명 삭제 완료');
+        getApp();
+      } else {
+        Alert.alert('조명 삭제 실패');
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert('조명 삭제 실패');
+    }
+  };
+  const handleDeleteLight = (appId, appName) => {
+    Alert.alert('조명 삭제', `"${appName}"을 삭제하시겠습니까?`, [
+      {
+        text: '취소',
+        style: 'cancel',
+      },
+      {
+        text: '확인',
+        onPress: () => deleteLight(appId),
+      },
+    ]);
+  };
+
   useEffect(() => {
     setJsonData(apps);
   }, [apps]);
@@ -85,13 +122,20 @@ const LightningScreen = ({ navigation }) => {
             .filter((v) => v.light)
             .map((v) => {
               return (
-                <Button
-                  key={v.id}
-                  title={v.name}
-                  onPress={() => navigation.navigate('Mood')}
-                  buttonType={ButtonTypes.ROOM}
-                  styles={buttonStyles}
-                />
+                <View key={v.id} style={styles.lightContainer}>
+                  <Button
+                    title={v.name}
+                    onPress={() => navigation.navigate('Mood')}
+                    buttonType={ButtonTypes.ROOM}
+                    styles={buttonStyles}
+                  />
+                  <Pressable
+                    style={styles.deleteButton}
+                    onPress={() => handleDeleteLight(v.id, v.name)}
+                  >
+                    <MaterialIcons name="delete" size={24} color="red" />
+                  </Pressable>
+                </View>
               );
             })}
         </View>
@@ -166,6 +210,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  lightContainer: {},
   roomButton: {
     // backgroundColor: 'aqua',
     flex: 1,
@@ -174,6 +219,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginHorizontal: 35,
   },
+  deleteButton: {},
   bottom: {
     flex: 2,
     width: '100%',

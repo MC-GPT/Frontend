@@ -108,18 +108,20 @@ const RoomScreen = ({ navigation }) => {
   const deleteRoom = async (roomId) => {
     try {
       const response = await axios.delete(
-        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/delete-home/${roomId}`,
+        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/delete-home?home=` +
+          roomId,
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
           },
         }
       );
-      if (response.status === 204) {
+      console.log(response);
+      if (response.status === 200) {
         Alert.alert('방 삭제 완료');
         getRoom();
       } else {
-        Alert.alert('방 삭제 실패');
+        Alert.alert('실패');
       }
     } catch (error) {
       console.error(error);
@@ -128,7 +130,7 @@ const RoomScreen = ({ navigation }) => {
   };
 
   const handleLongPress = (roomId, roomName) => {
-    Alert.alert('방 삭제', `방 "${roomName}"을 삭제하시겠습니까?`, [
+    Alert.alert('방 삭제', `"${roomName}"을 삭제하시겠습니까?`, [
       {
         text: '취소',
         style: 'cancel',
