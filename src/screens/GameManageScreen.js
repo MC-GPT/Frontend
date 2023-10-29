@@ -1,55 +1,96 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
 import { useGameContext } from '../contexts/GameContext';
 import { useEffect, useRef, useState } from 'react';
+import axios from 'axios';
+import { useMainContext } from '../contexts/MainContext';
+import { useUserContext } from '../contexts/UserContext';
 
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState(null);
-  const [sendMsg, setSendMsg] = useState(false);
+  const { home_id } = useMainContext();
+  const { jwt } = useUserContext();
 
   const ws = useRef(null);
 
+  const postCreateGame = async (game_id) => {
+    console.log(home_id, game_id, 'home_id, game_id 받아오기');
+    try {
+      // eslint-disable-next-line no-unused-vars
+      const data = await axios.post(
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/new-game',
+        {
+          home_id: home_id,
+          game_id: game_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      console.log('방 생성 완료');
+    } catch (e) {
+      Alert.alert('게임 생성 실패');
+    }
+  };
+
   useEffect(() => {
+    postCreateGame(1);
+
     // eslint-disable-next-line no-undef
-    ws.current = new WebSocket(
+    const socket = new WebSocket(
       'ws://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/ws/game'
     );
 
-    ws.current.onopen = () => {
+    socket.onopen = () => {
+      console.log('웹소켓 연결 성공');
       const enterMessage = {
         messageType: 'ENTER',
-        roomId: 952,
+        roomId: 53,
         sender: 'host',
         message: '',
-        imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
+        imageUrls: 'https://www.naver.com/',
       };
-      ws.current.send(JSON.stringify(enterMessage));
-      setSendMsg(true);
-      console.log('enter');
+      socket.send(JSON.stringify(enterMessage));
+      console.log(JSON.stringify(enterMessage));
+      console.log('enter 완료');
     };
-    ws.current.onerror = (e) => {
+
+    socket.onmessage = (event) => {
+      console.log('Received message:', event.data);
+      try {
+        const message = JSON.parse(event.data);
+        console.log('Parsed message:', message);
+        handleWebSocketMessage(message);
+      } catch (error) {
+        console.error('Error parsing message:', error);
+      }
+    };
+
+    socket.onerror = (e) => {
       console.log(e.message);
     };
 
-    ws.current.onclose = () => {
+    socket.onclose = () => {
       console.log('close');
     };
 
+    ws.current = socket;
+
+    // const keepAliveInterval = setInterval(() => {
+    //   if (ws.current.readyState === WebSocket.OPEN) {
+    //     ws.current.send('ping');
+    //     console.log('ping 보내기');
+    //   }
+    // });
+
     return () => {
-      console.log('clean up');
-      ws.current.close();
+      // clearInterval(keepAliveInterval); // 컴포넌트 언마운트 시 간격 해제
+      socket.close();
+      console.log('clear');
     };
   }, []);
-
-  useEffect(() => {
-    if (sendMsg) {
-      ws.current.onmessage = (event) => {
-        console.log(event.data);
-        const message = JSON.parse(event.data);
-        handleWebSocketMessage(message);
-      };
-    }
-  }, [sendMsg]);
 
   const handleWebSocketMessage = (message) => {
     switch (message.type) {
@@ -67,6 +108,7 @@ const GameManageScreen = () => {
       }
       case 'END':
         // '종료' 버튼을 눌렀을 때 게임 종료 처리
+
         break;
       default:
         // 다른 메시지 유형에 대한 처리
@@ -84,7 +126,6 @@ const GameManageScreen = () => {
         imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
       };
       ws.current.send(JSON.stringify(nextMessage));
-      setSendMsg(true);
     }
   };
 
@@ -97,7 +138,6 @@ const GameManageScreen = () => {
       imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
     };
     ws.current.send(JSON.stringify(exitMessage));
-    setSendMsg(true);
   };
 
   return (

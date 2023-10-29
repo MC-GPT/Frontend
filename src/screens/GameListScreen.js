@@ -12,27 +12,11 @@ const GameListScreen = ({ navigation }) => {
   const { jwt } = useUserContext();
   const { home_id, games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
-  const { setGamePlayId, setGameName } = useGameContext();
+  const { setGamePlayId } = useGameContext();
 
-  const postCreateGame = async (game_id, game_name) => {
-    try {
-      const data = await axios.post(
-        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/new-game',
-        {
-          home_id: home_id,
-          game_id: game_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      setGameName(game_name);
-      navigation.navigate('GameManage');
-    } catch (e) {
-      Alert.alert('게임방 생성 실패');
-    }
+  const postCreateGame = (game_id, game_name) => {
+    console.log(game_id, game_name);
+    navigation.navigate('GameManage');
   };
 
   const EnterGame = async () => {
@@ -57,10 +41,6 @@ const GameListScreen = ({ navigation }) => {
     }
   };
 
-  // const EnterGame = () => {
-  //   navigation.navigate('GamePlay');
-  // };
-
   useEffect(() => {
     setJsonData(games);
   }, []);
@@ -72,10 +52,6 @@ const GameListScreen = ({ navigation }) => {
           <Text style={styles.title}>게임을 선택하세요</Text>
         </View>
         <View style={styles.main}>
-          <Button
-            title="임시버튼"
-            onPress={() => navigation.navigate('GameManage')}
-          ></Button>
           <View style={styles.gameButton}>
             {jsonData.map((v) => {
               return (
