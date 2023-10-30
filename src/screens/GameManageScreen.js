@@ -1,60 +1,30 @@
-import { Image, Pressable, StyleSheet, Text, View, Alert } from 'react-native';
+import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
 import { useGameContext } from '../contexts/GameContext';
 import { useEffect, useRef, useState } from 'react';
-import axios from 'axios';
-import { useMainContext } from '../contexts/MainContext';
-import { useUserContext } from '../contexts/UserContext';
 
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState(null);
-  const { home_id } = useMainContext();
-  const { jwt } = useUserContext();
+  const { gamePlayId } = useGameContext();
 
   let ws = useRef(null);
-
-  const postCreateGame = async (game_id) => {
-    console.log(home_id, game_id, 'home_id, game_id 받아오기');
-    try {
-      // eslint-disable-next-line no-unused-vars
-      const data = await axios.post(
-        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/new-game',
-        {
-          home_id: home_id,
-          game_id: game_id,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
-        }
-      );
-      console.log('방 생성 완료');
-    } catch (e) {
-      Alert.alert('게임 생성 실패');
-    }
-  };
-
   useEffect(() => {
-    postCreateGame(1);
-
     // eslint-disable-next-line no-undef
     ws.current = new WebSocket(
       'ws://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/ws/game'
     );
 
     ws.current.onopen = () => {
-      console.log('웹소켓 연결 성공');
+      console.log('웹소켓 연결 성공!');
       const enterMessage = {
         messageType: 'ENTER',
-        roomId: 53,
+        roomId: gamePlayId,
         sender: 'host',
         message: '',
-        imageUrls: 'https://www.naver.com/',
       };
       ws.current.send(JSON.stringify(enterMessage));
       console.log(JSON.stringify(enterMessage));
-      console.log('enter 완료');
+      console.log('enter 메시지 전송 완료');
     };
 
     ws.current.onmessage = (event) => {
@@ -76,15 +46,7 @@ const GameManageScreen = () => {
       console.log('close');
     };
 
-    // const keepAliveInterval = setInterval(() => {
-    //   if (ws.current.readyState === WebSocket.OPEN) {
-    //     ws.current.send('ping');
-    //     console.log('ping 보내기');
-    //   }
-    // });
-
     return () => {
-      // clearInterval(keepAliveInterval); // 컴포넌트 언마운트 시 간격 해제
       ws.current.close();
       console.log('clear');
     };
@@ -118,24 +80,26 @@ const GameManageScreen = () => {
     {
       const nextMessage = {
         messageType: 'NEXT',
-        roomId: 952,
+        roomId: 53,
         sender: 'host',
         message: '',
         imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
       };
       ws.current.send(JSON.stringify(nextMessage));
+      console.log('next 메시지 전송 완료');
     }
   };
 
   const sendExitRequest = () => {
     const exitMessage = {
       messageType: 'EXIT',
-      roomId: 952,
+      roomId: 53,
       sender: 'host',
       message: '',
       imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
     };
     ws.current.send(JSON.stringify(exitMessage));
+    console.log('Exit 메시지 전송 완료');
   };
 
   return (

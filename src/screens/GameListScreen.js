@@ -12,11 +12,36 @@ const GameListScreen = ({ navigation }) => {
   const { jwt } = useUserContext();
   const { home_id, games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
-  const { setGamePlayId } = useGameContext();
+  const { gamePlayId, setGamePlayId } = useGameContext();
 
-  const postCreateGame = (game_id, game_name) => {
-    console.log(game_id, game_name);
-    navigation.navigate('GameManage');
+  const postCreateGame = async (game_id) => {
+    console.log(home_id, game_id, 'home_id, game_id 받아오기5');
+    try {
+      // eslint-disable-next-line no-unused-vars
+      const data = await axios.post(
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/new-game',
+        {
+          home_id: home_id,
+          game_id: game_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      if (data.data != null) {
+        // 개별 게임방 id context에 저장
+        setGamePlayId(data.data);
+        console.log(gamePlayId);
+        navigation.navigate('GameManage');
+      } else {
+        Alert.alert('게임방 생성 실패');
+      }
+    } catch (e) {
+      console.log(e);
+      Alert.alert('게임 생성 실패');
+    }
   };
 
   const EnterGame = async () => {
