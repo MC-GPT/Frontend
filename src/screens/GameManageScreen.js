@@ -11,7 +11,7 @@ const GameManageScreen = () => {
   const { home_id } = useMainContext();
   const { jwt } = useUserContext();
 
-  const ws = useRef(null);
+  let ws = useRef(null);
 
   const postCreateGame = async (game_id) => {
     console.log(home_id, game_id, 'home_id, game_id 받아오기');
@@ -39,11 +39,11 @@ const GameManageScreen = () => {
     postCreateGame(1);
 
     // eslint-disable-next-line no-undef
-    const socket = new WebSocket(
+    ws.current = new WebSocket(
       'ws://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/ws/game'
     );
 
-    socket.onopen = () => {
+    ws.current.onopen = () => {
       console.log('웹소켓 연결 성공');
       const enterMessage = {
         messageType: 'ENTER',
@@ -52,12 +52,12 @@ const GameManageScreen = () => {
         message: '',
         imageUrls: 'https://www.naver.com/',
       };
-      socket.send(JSON.stringify(enterMessage));
+      ws.current.send(JSON.stringify(enterMessage));
       console.log(JSON.stringify(enterMessage));
       console.log('enter 완료');
     };
 
-    socket.onmessage = (event) => {
+    ws.current.onmessage = (event) => {
       console.log('Received message:', event.data);
       try {
         const message = JSON.parse(event.data);
@@ -68,15 +68,13 @@ const GameManageScreen = () => {
       }
     };
 
-    socket.onerror = (e) => {
+    ws.current.onerror = (e) => {
       console.log(e.message);
     };
 
-    socket.onclose = () => {
+    ws.current.onclose = () => {
       console.log('close');
     };
-
-    ws.current = socket;
 
     // const keepAliveInterval = setInterval(() => {
     //   if (ws.current.readyState === WebSocket.OPEN) {
@@ -87,7 +85,7 @@ const GameManageScreen = () => {
 
     return () => {
       // clearInterval(keepAliveInterval); // 컴포넌트 언마운트 시 간격 해제
-      socket.close();
+      ws.current.close();
       console.log('clear');
     };
   }, []);
