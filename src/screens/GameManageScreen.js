@@ -32,6 +32,9 @@ const GameManageScreen = () => {
       try {
         const message = JSON.parse(event.data);
         console.log('Parsed message:', message);
+        setImageSource(
+          'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=45&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0'
+        );
         handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
@@ -56,8 +59,9 @@ const GameManageScreen = () => {
     switch (message.type) {
       case 'ENTER': {
         // 서버로부터 초기 게임 데이터 수신 및 화면에 렌더링
-        const initialImageData = message.data.image; // 서버에서 이미지 데이터를 받아옴
-        setImageSource(initialImageData);
+        //  const initialImageData = message.data.image; // 서버에서 이미지 데이터를 받아옴
+        //  setImageSource(initialImageData);
+
         break;
       }
       case 'NEXT': {
@@ -136,11 +140,16 @@ const GameManageScreen = () => {
         </View>
       </View>
       <View style={styles.main}>
-        <View style={styles.image}>
-          <Image source={{ url: imageSource }} style={styles.image} />
-        </View>
+        <Image
+          style={styles.image}
+          source={{
+            uri: imageSource,
+          }}
+        ></Image>
       </View>
-      <View style={styles.bottom}></View>
+      <View style={styles.bottom}>
+        <Text>hi</Text>
+      </View>
     </View>
   );
 };
@@ -156,11 +165,11 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     flexDirection: 'row',
-    // backgroundColor: 'aqua',
+    //backgroundColor: 'aqua',
   },
   topLeft: {
     width: '50%',
-    //backgroundColor: 'red',
+    // backgroundColor: 'red',
   },
   gameTitle: {
     //  backgroundColor: 'yellow',
@@ -173,19 +182,26 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
   },
   exit: {
-    //   backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     paddingTop: 15,
     margin: 10,
   },
   next: {
-    //  backgroundColor: 'skyblue',
+    //backgroundColor: 'skyblue',
     marginRight: 10,
   },
   main: {
     flex: 5,
+    // backgroundColor: 'pink',
+    width: '100%',
+  },
+  image: {
+    flex: 1,
   },
   bottom: {
-    flex: 1,
+    flex: 3,
+    width: '100%',
+    // backgroundColor: 'yellow',
   },
 });
 

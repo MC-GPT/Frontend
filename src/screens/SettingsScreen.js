@@ -21,7 +21,12 @@ export default function SettingScreen() {
           <Text style={styles.myInfoContent}>ID: {account} </Text>
         </View>
         <View style={styles.profile}>
-          <Image source={favicon} style={styles.profileImg}></Image>
+          <Image
+            style={styles.profileImg}
+            source={{
+              uri: 'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=45&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+            }}
+          />
         </View>
       </View>
       <TouchableOpacity style={styles.listContainer}>
