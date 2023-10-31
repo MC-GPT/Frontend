@@ -30,6 +30,7 @@ const RoomScreen = ({ navigation }) => {
         }
       );
       setJsonData(value.data);
+      console.log(value.data);
     } catch (error) {
       console.error(error);
     }
@@ -99,7 +100,6 @@ const RoomScreen = ({ navigation }) => {
       setHomeCode(data.data.home_code);
       setApps(data.data.apps);
       setGames(data.data.games);
-      console.log(data.data.games);
       setOwner(data.data.owner);
       navigation.navigate('ContentTab');
     } catch (e) {
@@ -118,7 +118,6 @@ const RoomScreen = ({ navigation }) => {
           },
         }
       );
-      console.log(response);
       if (response.status === 200) {
         Alert.alert('방 삭제 완료');
         getRoom();
@@ -126,7 +125,6 @@ const RoomScreen = ({ navigation }) => {
         Alert.alert('실패');
       }
     } catch (error) {
-      console.error(error);
       Alert.alert('방 삭제 실패');
     }
   };
@@ -162,6 +160,9 @@ const RoomScreen = ({ navigation }) => {
         </View>
       </View>
       <View style={styles.main}>
+        <View style={styles.myHomeBox}>
+          <Text style={styles.myHome}>마이홈</Text>
+        </View>
         <View style={styles.roomButton}>
           {jsonData.length > 0 ? (
             jsonData.map((v) => {
@@ -180,9 +181,35 @@ const RoomScreen = ({ navigation }) => {
               return null;
             })
           ) : (
-            <Text>No rooms available</Text>
+            <Text>방을 생성해주세요</Text>
           )}
         </View>
+      </View>
+      <View style={styles.mainGuest}>
+        <View style={styles.myHomeBox}>
+          <Text style={styles.myHome}>게스트</Text>
+        </View>
+        {/* <View style={styles.roomButton}>
+          {jsonData.length > 0 ? (
+            jsonData.map((v) => {
+              if (v && v.name) {
+                return (
+                  <Button
+                    key={v.id}
+                    title={v.name}
+                    onPress={() => getMain(v.id)}
+                    onLongPress={() => handleLongPress(v.id, v.name)}
+                    buttonType={ButtonTypes.ROOM}
+                    styles={buttonStyles}
+                  />
+                );
+              }
+              return null;
+            })
+          ) : (
+            <Text>방을 생성해주세요</Text>
+          )}
+        </View> */}
       </View>
       <View style={styles.bottom}>
         <View style={styles.createButton}>
@@ -231,7 +258,7 @@ const buttonStyles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    height: 140,
+    height: 100,
     borderRadius: 20,
   },
 });
@@ -258,25 +285,27 @@ const styles = StyleSheet.create({
   logoutButton: {
     marginLeft: 60,
   },
-  editModeButton: {
-    backgroundColor: 'blue', // 토글 버튼의 배경색
-    padding: 10,
-    borderRadius: 5,
-    margin: 10,
-    alignItems: 'center',
-  },
-
-  editModeButtonText: {
-    color: 'white', // 버튼 텍스트 색상
-    fontWeight: 'bold',
-  },
   main: {
-    flex: 5,
+    flex: 3,
     width: '100%',
     // backgroundColor: 'yellow',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  mainGuest: {
+    width: '100%',
+    //backgroundcolor: 'brown',
+    flex: 3,
+  },
+  myHomeBox: {
+    width: '100%',
+    //  backgroundColor: 'aqua',
+    justifyContent: 'flex-start',
+  },
+  myHome: {
+    marginLeft: 40,
+    fontSize: 24,
   },
   roomButton: {
     // backgroundColor: 'aqua',

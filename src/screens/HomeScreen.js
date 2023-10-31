@@ -42,15 +42,18 @@ const HomeScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('Room')}
                 buttonType={ButtonTypes.DANGER}
               >
-                <Text>방 선택화면으로 돌아가기</Text>
+                <Text>방 나가기</Text>
                 {/* <MaterialIcons name="logout" size={24} color="black" /> */}
               </Pressable>
             </View>
-            <Text style={styles.codestyle}>{home_code} </Text>
+            <Text style={styles.codestyle}>초대코드 : {home_code} </Text>
           </View>
         </View>
         <View style={styles.notice}>
           <TextAnimation />
+        </View>
+        <View style={styles.dashboard}>
+          <Text> dashboard </Text>
         </View>
         <View style={styles.musicbox}>
           <View style={styles.image}>
@@ -59,7 +62,7 @@ const HomeScreen = ({ navigation }) => {
               style={styles.image}
             />
           </View>
-          <Text style={styles.title}>Super Shy</Text>
+          <Text style={styles.title}>Hype Boy</Text>
           <Text style={styles.artist}>NewJeans</Text>
           <View style={styles.music_icon}>
             {[
@@ -98,11 +101,7 @@ const HomeScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.bottom}>
-          {[1, 2, 3, 4, 5].map((item, index) => (
-            <Text style={styles.musiclist} key={index}>
-              Music list{item}
-            </Text>
-          ))}
+          <Text style={styles.musiclist}>Music list</Text>
         </View>
       </View>
     </SafeInputView>
@@ -122,7 +121,7 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
   },
   top: {
-    flex: 1,
+    flex: 2,
     width: '100%',
     // backgroundColor: 'green',
     alignItems: 'center',
@@ -150,13 +149,16 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 10,
   },
+  dashboard: {
+    flex: 1,
+  },
   musicbox: {
-    flex: 7,
+    flex: 8,
     width: '100%',
     height: 500,
     justifyContent: 'center',
     alignItems: 'center',
-    //  backgroundColor: '#9e42f5',
+    // backgroundColor: '#9e42f5',
   },
   title: {
     fontSize: 28,
@@ -181,7 +183,7 @@ const styles = StyleSheet.create({
     margin: 8,
   },
   bottom: {
-    flex: 3,
+    flex: 1,
     // backgroundColor: 'blue',
   },
   musiclist: { fontSize: 20 },

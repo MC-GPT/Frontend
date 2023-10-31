@@ -1,17 +1,38 @@
 import { View, TouchableOpacity, Image, Text } from 'react-native';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Alert } from 'react-native';
 import favicon from '../../assets/favicon.png';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
+import { useMainContext } from '../contexts/MainContext';
 
 export default function SettingScreen() {
-  const { nickname, account } = useUserContext();
+  const { nickname, account, jwt } = useUserContext();
   const navigation = useNavigation();
+  const { home_id, setHomeCode } = useMainContext();
 
-  const handleCodeRefresh = () => {
-    navigation.navigate('Room');
+  const handleCodeRefresh = async () => {
+    console.log(home_id);
+    try {
+      const data = await axios.post(
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/refresh-home?home=' +
+          home_id,
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setHomeCode(data.data.home_code);
+      console.log(data.data);
+      navigation.navigate('Room');
+    } catch (e) {
+      console.log(e);
+      Alert.alert('코드 리프레쉬 실패');
+    }
   };
+
   return (
     <SafeAreaView>
       <View style={styles.myInfo}>
@@ -21,12 +42,8 @@ export default function SettingScreen() {
           <Text style={styles.myInfoContent}>ID: {account} </Text>
         </View>
         <View style={styles.profile}>
-          <Image
-            style={styles.profileImg}
-            source={{
-              uri: 'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=45&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
-            }}
-          />
+          <Image style={styles.profileImg} source={favicon} />
+          <Text>프로필 편집</Text>
         </View>
       </View>
       <TouchableOpacity style={styles.listContainer}>
@@ -78,6 +95,8 @@ const styles = StyleSheet.create({
     width: 100,
     backgroundColor: '#ebebeb',
     borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   profileImg: {
     height: 100,

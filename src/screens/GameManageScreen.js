@@ -106,6 +106,18 @@ const GameManageScreen = () => {
     console.log('Exit 메시지 전송 완료');
   };
 
+  const sendConfirmRequest = () => {
+    const confirmMessage = {
+      messageType: 'CONFIRM',
+      roomId: 53,
+      sender: 'host',
+      message: '',
+      imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
+    };
+    ws.current.send(JSON.stringify(confirmMessage));
+    console.log('Confirm 메시지 전송 완료');
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -148,7 +160,17 @@ const GameManageScreen = () => {
         ></Image>
       </View>
       <View style={styles.bottom}>
-        <Text>hi</Text>
+        <View style={styles.confirm}>
+          <Pressable
+            onPress={sendConfirmRequest}
+            style={({ pressed }) => [
+              styles.icon_each,
+              pressed && { backgroundColor: 'lightgrey' },
+            ]}
+          >
+            <Text style={{ fontSize: 20 }}> 정답 확인 </Text>
+          </Pressable>
+        </View>
       </View>
     </View>
   );
@@ -202,6 +224,8 @@ const styles = StyleSheet.create({
     flex: 3,
     width: '100%',
     // backgroundColor: 'yellow',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
 });
 

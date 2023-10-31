@@ -15,7 +15,7 @@ const GameListScreen = ({ navigation }) => {
   const { gamePlayId, setGamePlayId } = useGameContext();
 
   const postCreateGame = async (game_id) => {
-    console.log(home_id, game_id, 'home_id, game_id 받아오기5');
+    console.log(home_id, game_id, 'home_id, game_id 받아오기');
     try {
       // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
@@ -59,7 +59,7 @@ const GameListScreen = ({ navigation }) => {
         setGamePlayId(data.data);
         navigation.navigate('GamePlay');
       } else {
-        Alert.alert('게임방 입장 실패');
+        Alert.alert('게임방 입장 실패!');
       }
     } catch (e) {
       Alert.alert('게임방 입장 실패');
