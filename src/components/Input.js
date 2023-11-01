@@ -65,7 +65,7 @@ const Input = forwardRef(
               color={(() => {
                 switch (true) {
                   case isFocused:
-                    return PRIMARY.DEFAULT;
+                    return '#AF6BE4';
                   case !!value:
                     return BLACK;
                   default:
@@ -105,12 +105,13 @@ const styles = StyleSheet.create({
   },
   focusedTitle: {
     fontWeight: '600',
-    color: PRIMARY.DEFAULT,
+    color: '#AF6BE4',
   },
   hasValueTitle: {
     color: BLACK,
   },
   input: {
+    backgroundColor: 'white',
     borderWidth: 1,
     borderRadius: 8,
     borderColor: GRAY.DEFAULT,
@@ -120,8 +121,8 @@ const styles = StyleSheet.create({
   },
   focusedInput: {
     borderWidth: 2,
-    borderColor: PRIMARY.DEFAULT,
-    color: PRIMARY.DEFAULT,
+    borderColor: '#AF6BE4',
+    color: '#AF6BE4',
   },
   hasValueInput: {
     borderColor: BLACK,

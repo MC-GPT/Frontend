@@ -2,9 +2,9 @@ export const WHITE = '#ffffff';
 export const BLACK = '#000000';
 
 export const PRIMARY = {
-  LIGHT: '#93c5fd',
-  DEFAULT: '#2563eb',
-  DARK: '#1e3a8a',
+  LIGHT: '#AF6BE4',
+  DEFAULT: '#AF6BE4',
+  DARK: '#AF6BE4',
 };
 
 export const DANGER = {

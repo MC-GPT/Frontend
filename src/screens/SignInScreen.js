@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Image, Keyboard, StyleSheet, View } from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  StyleSheet,
+  View,
+  ImageBackground,
+} from 'react-native'; // ImageBackground 추가
 import Button from '../components/Button';
 import Input, {
   IconNames,
@@ -21,7 +27,7 @@ const SignInScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const insets = useSafeAreaInsets();
-  //  로컬에 저장될 변수들
+  // 로컬에 저장될 변수들
   const { setUser, setAccount, setNickname, setJwt } = useUserContext();
 
   useEffect(() => {
@@ -56,54 +62,50 @@ const SignInScreen = ({ navigation }) => {
 
   return (
     <SafeInputView>
-      <View
+      <ImageBackground // ImageBackground 컴포넌트로 감싸기
+        source={require('../../assets/nugu_neon.gif')} // GIF 파일의 경로로 수정
         style={[
           styles.container,
           { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
-        {/* <View style={StyleSheet.absoluteFillObject}> */}
-        <Image
-          source={require('../../assets/LOGO.png')}
-          style={styles.image}
-          resizeMode={'cover'}
-        />
-        {/* </View> */}
-        <Input
-          value={id}
-          onChangeText={(text) => setId(text.trim())}
-          title={'ID'}
-          placeholder={''}
-          keyboardType={KeyboardTypes.EMAIL}
-          returnKeyType={ReturnKeyTypes.NEXT}
-          iconName={IconNames.ID}
-          onSubmitEditing={() => passwordRef.current.focus()}
-        />
-        <Input
-          ref={passwordRef}
-          value={password}
-          onChangeText={(text) => setPassword(text.trim())}
-          title={'password'}
-          secureTextEntry
-          iconName={IconNames.PASSWORD}
-          onSubmitEditing={login}
-        />
-        <View style={styles.buttonContainer}>
-          <Button
-            title={'로그인'}
-            onPress={login}
-            disabled={disabled}
-            isLoading={isLoading}
+        <View style={styles.content}>
+          <Input
+            value={id}
+            onChangeText={(text) => setId(text.trim())}
+            title={'ID'}
+            placeholder={''}
+            keyboardType={KeyboardTypes.EMAIL}
+            returnKeyType={ReturnKeyTypes.NEXT}
+            iconName={IconNames.ID}
+            onSubmitEditing={() => passwordRef.current.focus()}
           />
-        </View>
+          <Input
+            ref={passwordRef}
+            value={password}
+            onChangeText={(text) => setPassword(text.trim())}
+            title={'password'}
+            secureTextEntry
+            iconName={IconNames.PASSWORD}
+            onSubmitEditing={login}
+          />
+          <View style={styles.buttonContainer}>
+            <Button
+              title={'로그인'}
+              onPress={login}
+              disabled={disabled}
+              isLoading={isLoading}
+            />
+          </View>
 
-        <View style={styles.buttonContainer}>
-          <TextButton
-            title="회원가입"
-            onPress={() => navigation.navigate('SignUp')}
-          />
+          <View style={styles.buttonContainer}>
+            <TextButton
+              title="회원가입"
+              onPress={() => navigation.navigate('SignUp')}
+            />
+          </View>
         </View>
-      </View>
+      </ImageBackground>
     </SafeInputView>
   );
 };
@@ -118,9 +120,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: {
-    width: '90%',
-    height: 250,
+  content: {
+    width: '100%',
+    paddingTop: 200,
   },
   buttonContainer: {
     width: '100%',

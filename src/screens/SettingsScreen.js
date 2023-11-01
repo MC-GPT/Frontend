@@ -13,7 +13,7 @@ export default function SettingScreen() {
   const { home_id, setHomeCode } = useMainContext();
 
   const handleCodeRefresh = async () => {
-    console.log(home_id);
+    console.log(home_id, jwt);
     try {
       const data = await axios.post(
         'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/refresh-home?home=' +
@@ -28,7 +28,7 @@ export default function SettingScreen() {
       console.log(data.data);
       navigation.navigate('Room');
     } catch (e) {
-      console.log(e);
+      console.log(e.message);
       Alert.alert('코드 리프레쉬 실패');
     }
   };
