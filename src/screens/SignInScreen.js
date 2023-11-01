@@ -5,6 +5,7 @@ import {
   StyleSheet,
   View,
   ImageBackground,
+  StatusBar,
 } from 'react-native'; // ImageBackground 추가
 import Button from '../components/Button';
 import Input, {
@@ -69,6 +70,7 @@ const SignInScreen = ({ navigation }) => {
           { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
+        <StatusBar barStyle="light-content" />
         <View style={styles.content}>
           <Input
             value={id}
