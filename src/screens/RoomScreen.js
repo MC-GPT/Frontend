@@ -95,7 +95,6 @@ const RoomScreen = ({ navigation }) => {
         },
       });
       setHomeId(data.data.home_id);
-      console.log(data.data.home_id);
       setHomeName(data.data.home_name);
       setHomeCode(data.data.home_code);
       setApps(data.data.apps);

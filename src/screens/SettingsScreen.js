@@ -7,17 +7,16 @@ import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useMainContext } from '../contexts/MainContext';
 
-export default function SettingScreen() {
+const SettingScreen = () => {
   const { nickname, account, jwt } = useUserContext();
   const navigation = useNavigation();
   const { home_id, setHomeCode } = useMainContext();
 
   const handleCodeRefresh = async () => {
-    console.log(home_id, jwt);
     try {
       const data = await axios.post(
-        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/refresh-home?home=' +
-          home_id,
+        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/refresh-home?home=${home_id}`,
+        {},
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -25,10 +24,8 @@ export default function SettingScreen() {
         }
       );
       setHomeCode(data.data.home_code);
-      console.log(data.data);
       navigation.navigate('Room');
     } catch (e) {
-      console.log(e.message);
       Alert.alert('코드 리프레쉬 실패');
     }
   };
@@ -51,13 +48,13 @@ export default function SettingScreen() {
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.listContainer}
-        onPress={handleCodeRefresh}
+        onPress={() => handleCodeRefresh()}
       >
         <Text style={styles.listText}>코드 리프레쉬</Text>
       </TouchableOpacity>
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
   listContainer: {
@@ -105,3 +102,5 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
 });
+
+export default SettingScreen;
