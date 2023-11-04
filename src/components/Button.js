@@ -12,9 +12,12 @@ import {
   PRIMARY,
   WHITE,
   ROOM,
+  GUEST,
   GAME,
   APPLIANCES,
 } from '../colors';
+import { Octicons } from '@expo/vector-icons';
+import { Zocial } from '@expo/vector-icons';
 
 export const ButtonTypes = {
   PRIMARY: 'PRIMARY',
@@ -22,6 +25,7 @@ export const ButtonTypes = {
   CANCEL: 'CANCEL',
   ROOM: 'ROOM',
   GAME: 'GAME',
+  GUEST: 'GUEST',
   APPLIANCES: 'APPLIANCES',
 };
 
@@ -30,7 +34,9 @@ const ButtonTypeColors = {
   DANGER,
   CANCEL: GRAY,
   ROOM,
+  GUEST,
   GAME,
+
   APPLIANCES,
 };
 
@@ -75,11 +81,32 @@ const Button = ({
           styles?.button,
         ]}
       >
-        {isLoading ? (
-          <ActivityIndicator size={'small'} color={GRAY.DARK} />
-        ) : (
-          <Text style={defaultStyles.title}>{title}</Text>
-        )}
+        <View style={defaultStyles.contentContainer}>
+          {isLoading ? (
+            <ActivityIndicator size={'small'} color={GRAY.DARK} />
+          ) : (
+            <>
+              {buttonType === ButtonTypes.ROOM ? (
+                // ROOM 버튼 유형인 경우 홈 아이콘을 렌더링
+                <Octicons
+                  name="home"
+                  size={24}
+                  color={WHITE}
+                  style={defaultStyles.icon}
+                />
+              ) : null}
+              {buttonType === ButtonTypes.GUEST ? (
+                <Zocial
+                  name="guest"
+                  size={24}
+                  color="white"
+                  style={defaultStyles.icon}
+                />
+              ) : null}
+              <Text style={defaultStyles.title}>{title}</Text>
+            </>
+          )}
+        </View>
       </Pressable>
     </View>
   );
@@ -114,6 +141,13 @@ const defaultStyles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
     lineHeight: 20,
+  },
+  contentContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    marginRight: 5,
   },
 });
 

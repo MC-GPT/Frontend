@@ -4,7 +4,7 @@ import {
   Text,
   View,
   Pressable,
-  // PropTypes,
+  ImageBackground,
 } from 'react-native';
 import { WHITE } from '../colors';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -27,10 +27,11 @@ const HomeScreen = ({ navigation }) => {
 
   return (
     <SafeInputView>
-      <View
+      <ImageBackground
+        source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top, paddingBottom: insets.bottom - 100 },
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
         <View style={styles.top}>
@@ -42,7 +43,7 @@ const HomeScreen = ({ navigation }) => {
                 onPress={() => navigation.navigate('Room')}
                 buttonType={ButtonTypes.DANGER}
               >
-                <Text>방 나가기</Text>
+                <Text style={{ color: 'white' }}>방 나가기</Text>
                 {/* <MaterialIcons name="logout" size={24} color="black" /> */}
               </Pressable>
             </View>
@@ -103,7 +104,7 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.bottom}>
           <Text style={styles.musiclist}>Music list</Text>
         </View>
-      </View>
+      </ImageBackground>
     </SafeInputView>
   );
 };
@@ -131,6 +132,7 @@ const styles = StyleSheet.create({
   homename: {
     fontSize: 22,
     marginLeft: 20,
+    color: 'white',
   },
   topright: {
     flexDirection: '',
@@ -140,6 +142,7 @@ const styles = StyleSheet.create({
   codestyle: {
     paddingTop: 20,
     fontSize: 18,
+    color: 'white',
   },
   logoutButton: {
     // backgroundColor: 'white',

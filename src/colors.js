@@ -20,9 +20,15 @@ export const GRAY = {
 };
 
 export const ROOM = {
-  LIGHT: '#bef264',
-  DEFAULT: '#65a30d',
-  DARK: '#365314',
+  LIGHT: '#CFA3F1',
+  DEFAULT: '#AF6BE4',
+  DARK: '#9E3CEB',
+};
+
+export const GUEST = {
+  LIGHT: '#2EBCFF',
+  DEFAULT: '#2EBCFF',
+  DARK: '#168DC7',
 };
 
 export const GAME = {

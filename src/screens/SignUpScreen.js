@@ -5,6 +5,8 @@ import {
   StyleSheet,
   View,
   ImageBackground,
+  Pressable,
+  Text,
 } from 'react-native';
 import Button from '../components/Button';
 import Input, {
@@ -15,8 +17,8 @@ import Input, {
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { PropTypes } from 'prop-types';
-import TextButton from '../components/TextButton';
 import axios from 'axios';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const SignUpScreen = ({ navigation }) => {
   const [name, setName] = useState('');
@@ -76,72 +78,77 @@ const SignUpScreen = ({ navigation }) => {
           { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
-        <Input
-          value={name}
-          onChangeText={(text) => setName(text.trim())}
-          title={'name'}
-          placeholder={'name'}
-          returnKeyType={ReturnKeyTypes.NEXT}
-          iconName={IconNames.USERNAME}
-          onSubmitEditing={() => nicknameRef.current.focus()}
-        />
-        <Input
-          ref={nicknameRef}
-          value={nickname}
-          onChangeText={(text) => setNickname(text.trim())}
-          title={'nickname'}
-          placeholder={'nickname'}
-          returnKeyType={ReturnKeyTypes.NEXT}
-          iconName={IconNames.HAPPY}
-          onSubmitEditing={() => idRef.current.focus()}
-        />
-        <Input
-          ref={idRef}
-          value={id}
-          onChangeText={(text) => setId(text.trim())}
-          title={'ID'}
-          placeholder={'your ID'}
-          keyboardType={KeyboardTypes.EMAIL}
-          returnKeyType={ReturnKeyTypes.NEXT}
-          iconName={IconNames.ID}
-          onSubmitEditing={() => passwordRef.current.focus()}
-        />
-        <Input
-          ref={passwordRef}
-          value={password}
-          onChangeText={(text) => setPassword(text.trim())}
-          title={'password'}
-          secureTextEntry
-          returnKeyType={ReturnKeyTypes.NEXT}
-          iconName={IconNames.PASSWORD}
-          onSubmitEditing={() => passwordconfirmRef.current.focus()}
-        />
-
-        <Input
-          ref={passwordconfirmRef}
-          value={passwordConfirm}
-          onChangeText={(text) => setPasswordConfirm(text.trim())}
-          title={'passwordconfirm'}
-          secureTextEntry
-          returnKeyType={ReturnKeyTypes.DONE}
-          iconName={IconNames.PASSWORD}
-          onSubmitEditing={() => Keyboard.dismiss()}
-        />
-
-        <View style={styles.buttonContainer}>
-          <Button
-            title={'회원가입'}
-            onPress={onSubmit}
-            disabled={disabled}
-            isLoading={isLoading}
-          />
+        <View style={styles.top}>
+          <View style={styles.backButton}>
+            <Pressable onPress={() => navigation.navigate('SignIn')}>
+              <MaterialIcons name="arrow-back-ios" size={30} color="white" />
+            </Pressable>
+          </View>
+          <Text style={styles.signupText}>회원가입</Text>
+          <Text style={styles.subText}>MC NUGU에 회원가입하세요</Text>
         </View>
 
-        <View style={styles.buttonContainer}>
-          <TextButton
-            title="로그인화면으로 이동"
-            onPress={() => navigation.navigate('SignIn')}
+        <View style={styles.content}>
+          <Input
+            value={name}
+            onChangeText={(text) => setName(text.trim())}
+            title={'name'}
+            placeholder={'name'}
+            returnKeyType={ReturnKeyTypes.NEXT}
+            iconName={IconNames.USERNAME}
+            onSubmitEditing={() => nicknameRef.current.focus()}
           />
+          <Input
+            ref={nicknameRef}
+            value={nickname}
+            onChangeText={(text) => setNickname(text.trim())}
+            title={'nickname'}
+            placeholder={'nickname'}
+            returnKeyType={ReturnKeyTypes.NEXT}
+            iconName={IconNames.HAPPY}
+            onSubmitEditing={() => idRef.current.focus()}
+          />
+          <Input
+            ref={idRef}
+            value={id}
+            onChangeText={(text) => setId(text.trim())}
+            title={'ID'}
+            placeholder={'your ID'}
+            keyboardType={KeyboardTypes.EMAIL}
+            returnKeyType={ReturnKeyTypes.NEXT}
+            iconName={IconNames.ID}
+            onSubmitEditing={() => passwordRef.current.focus()}
+          />
+          <Input
+            ref={passwordRef}
+            value={password}
+            onChangeText={(text) => setPassword(text.trim())}
+            title={'password'}
+            secureTextEntry
+            returnKeyType={ReturnKeyTypes.NEXT}
+            iconName={IconNames.PASSWORD}
+            onSubmitEditing={() => passwordconfirmRef.current.focus()}
+          />
+
+          <Input
+            ref={passwordconfirmRef}
+            value={passwordConfirm}
+            onChangeText={(text) => setPasswordConfirm(text.trim())}
+            title={'passwordconfirm'}
+            secureTextEntry
+            returnKeyType={ReturnKeyTypes.DONE}
+            iconName={IconNames.PASSWORD}
+            onSubmitEditing={() => Keyboard.dismiss()}
+          />
+
+          <View style={styles.buttonContainer}>
+            <Button
+              title={'회원가입'}
+              onPress={onSubmit}
+              disabled={disabled}
+              isLoading={isLoading}
+            />
+          </View>
         </View>
       </ImageBackground>
     </SafeInputView>
@@ -158,9 +165,37 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  image: {
-    width: '90%',
-    height: 250,
+  top: {
+    flex: 1,
+    // backgroundColor: 'lightblue',
+    width: '100%',
+    marginLeft: 40,
+    marginTop: 60,
+    justifyContent: 'center',
+  },
+  backButton: {
+    paddingBottom: 22,
+    marginLeft: 10,
+  },
+  signupText: {
+    fontSize: 40,
+    color: 'white',
+    textShadowColor: '#7f1d1d',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 20, // 그림자의 블러 정도
+  },
+  subText: {
+    paddingTop: 20,
+    fontSize: 16,
+    color: 'lightgrey',
+    textShadowColor: '#7f1d1d',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 20, // 그림자의 블러 정도
+  },
+
+  content: {
+    flex: 4,
+    width: '100%',
   },
   buttonContainer: {
     width: '100%',

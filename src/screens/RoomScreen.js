@@ -1,4 +1,12 @@
-import { StyleSheet, View, Text, Pressable, Alert } from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  Pressable,
+  Alert,
+  ImageBackground,
+  Image,
+} from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -6,8 +14,9 @@ import { useUserContext } from '../contexts/UserContext';
 import { useMainContext } from '../contexts/MainContext';
 import PropTypes from 'prop-types';
 import Popup, { PopupTypes } from '../components/Popup';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { MaterialIcons } from '@expo/vector-icons';
+import SafeInputView from '../components/SafeInputView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 const RoomScreen = ({ navigation }) => {
   const { setUser } = useUserContext();
@@ -17,6 +26,7 @@ const RoomScreen = ({ navigation }) => {
   const [visibleBottom, setVisibleBottom] = useState(false);
   const [roomName, setRoomName] = useState('');
   const [roomCode, setRoomCode] = useState('');
+  const insets = useSafeAreaInsets();
 
   // 방 정보 get
   const getRoom = async () => {
@@ -146,99 +156,126 @@ const RoomScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.top}>
-        <Text style={styles.title}>방을 선택하세요</Text>
-        <View style={styles.logoutButton}>
+    <SafeInputView>
+      <ImageBackground
+        source={require('../../assets/background.png')}
+        style={[
+          styles.container,
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
+        ]}
+      >
+        <View style={styles.top}>
+          <Image
+            style={styles.title}
+            source={require('../../assets/mcnugulogo.png')}
+          />
+
+          <View style={styles.logoutButton}>
+            <Pressable
+              onPress={() => setUser(null)}
+              buttonType={ButtonTypes.DANGER}
+            >
+              <View style={styles.logoutRow}>
+                <Text style={{ color: 'white', fontSize: 15 }}> 로그아웃 </Text>
+                <MaterialIcons name="logout" size={24} color="white" />
+              </View>
+            </Pressable>
+          </View>
+        </View>
+        <View style={styles.main}>
+          <View style={styles.myHomeBox}>
+            <Text style={styles.myHome}>마이홈</Text>
+          </View>
+          <View style={styles.roomButton}>
+            {jsonData.length > 0 ? (
+              jsonData.map((v) => {
+                if (v && v.name) {
+                  return (
+                    <Button
+                      key={v.id}
+                      title={v.name}
+                      onPress={() => getMain(v.id)}
+                      onLongPress={() => handleLongPress(v.id, v.name)}
+                      buttonType={ButtonTypes.ROOM}
+                      styles={buttonStyles}
+                    />
+                  );
+                }
+                return null;
+              })
+            ) : (
+              <Text style={{ color: 'white', paddingTop: 30, fontSize: 20 }}>
+                방을 생성해주세요
+              </Text>
+            )}
+          </View>
+        </View>
+        <View style={styles.createButton}>
           <Pressable
-            onPress={() => setUser(null)}
-            buttonType={ButtonTypes.DANGER}
+            onPress={() => setVisibleTop(true)}
+            style={({ pressed }) => [
+              {
+                transform: [{ scale: pressed ? 0.9 : 1 }],
+              },
+            ]}
           >
-            <MaterialIcons name="logout" size={24} color="black" />
+            <FontAwesome name="plus-circle" size={40} color="white" />
           </Pressable>
         </View>
-      </View>
-      <View style={styles.main}>
-        <View style={styles.myHomeBox}>
-          <Text style={styles.myHome}>마이홈</Text>
+        <View style={styles.mainGuest}>
+          <View style={styles.myHomeBox}>
+            <Text style={styles.myHome}>게스트</Text>
+          </View>
+          <View style={styles.roomButton}>
+            {jsonData.length > 0 ? (
+              jsonData.map((v) => {
+                if (v && v.name) {
+                  return (
+                    <Button
+                      key={v.id}
+                      title={v.name}
+                      onPress={() => getMain(v.id)}
+                      onLongPress={() => handleLongPress(v.id, v.name)}
+                      buttonType={ButtonTypes.GUEST}
+                      styles={buttonStyles}
+                    />
+                  );
+                }
+                return null;
+              })
+            ) : (
+              <Text>방을 생성해주세요</Text>
+            )}
+          </View>
         </View>
-        <View style={styles.roomButton}>
-          {jsonData.length > 0 ? (
-            jsonData.map((v) => {
-              if (v && v.name) {
-                return (
-                  <Button
-                    key={v.id}
-                    title={v.name}
-                    onPress={() => getMain(v.id)}
-                    onLongPress={() => handleLongPress(v.id, v.name)}
-                    buttonType={ButtonTypes.ROOM}
-                    styles={buttonStyles}
-                  />
-                );
-              }
-              return null;
-            })
-          ) : (
-            <Text>방을 생성해주세요</Text>
-          )}
-        </View>
-      </View>
-      <View style={styles.mainGuest}>
-        <View style={styles.myHomeBox}>
-          <Text style={styles.myHome}>게스트</Text>
-        </View>
-        {/* <View style={styles.roomButton}>
-          {jsonData.length > 0 ? (
-            jsonData.map((v) => {
-              if (v && v.name) {
-                return (
-                  <Button
-                    key={v.id}
-                    title={v.name}
-                    onPress={() => getMain(v.id)}
-                    onLongPress={() => handleLongPress(v.id, v.name)}
-                    buttonType={ButtonTypes.ROOM}
-                    styles={buttonStyles}
-                  />
-                );
-              }
-              return null;
-            })
-          ) : (
-            <Text>방을 생성해주세요</Text>
-          )}
-        </View> */}
-      </View>
-      <View style={styles.bottom}>
-        <View style={styles.createButton}>
-          <Button
-            title={'방 생성'}
-            onPress={() => setVisibleTop(true)}
-          ></Button>
-        </View>
-        <View style={styles.createButton}>
-          <Button
-            title={'코드 입력'}
+        <View style={styles.enterButton}>
+          <Pressable
             onPress={() => setVisibleBottom(true)}
-          ></Button>
+            style={({ pressed }) => [
+              {
+                transform: [{ scale: pressed ? 0.9 : 1 }],
+              },
+            ]}
+          >
+            <FontAwesome name="plus-circle" size={40} color="white" />
+          </Pressable>
         </View>
-      </View>
-      <Popup
-        visible={visibleTop}
-        onClose={() => setVisibleTop(false)}
-        onChangeText={(text) => setRoomName(text.trim())}
-        onSubmit={() => postRoom(roomName)}
-        popupType={PopupTypes.ROOMCREATE}
-      ></Popup>
-      <Popup
-        visible={visibleBottom}
-        onClose={() => setVisibleBottom(false)}
-        onChangeText={(text) => setRoomCode(text.trim())}
-        onSubmit={() => postCode(roomCode)}
-        popupType={PopupTypes.ROOMENTER}
-      ></Popup>
-    </SafeAreaView>
+        <Popup
+          visible={visibleTop}
+          onClose={() => setVisibleTop(false)}
+          onChangeText={(text) => setRoomName(text.trim())}
+          onSubmit={() => postRoom(roomName)}
+          popupType={PopupTypes.ROOMCREATE}
+        ></Popup>
+        <Popup
+          visible={visibleBottom}
+          onClose={() => setVisibleBottom(false)}
+          onChangeText={(text) => setRoomCode(text.trim())}
+          onSubmit={() => postCode(roomCode)}
+          popupType={PopupTypes.ROOMENTER}
+        ></Popup>
+      </ImageBackground>
+    </SafeInputView>
   );
 };
 
@@ -249,15 +286,17 @@ RoomScreen.propTypes = {
 const buttonStyles = StyleSheet.create({
   container: {
     width: 140,
-    // backgroundColor: 'black',
+    // backgroundColor: 'pink',
     marginHorizontal: 10,
+    paddingTop: 20,
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    height: 60,
   },
   button: {
     width: '100%',
-    height: 100,
+    height: 60,
     borderRadius: 20,
   },
 });
@@ -274,28 +313,43 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     // backgroundColor: 'skyblue',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   title: {
-    fontSize: 24,
-    marginLeft: 105,
+    //backgroundColor: 'pink',
+    marginLeft: 10,
   },
   logoutButton: {
-    marginLeft: 60,
+    marginLeft: 140,
+  },
+  logoutRow: {
+    marginLeft: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   main: {
-    flex: 3,
+    flex: 4,
     width: '100%',
-    // backgroundColor: 'yellow',
+    //backgroundColor: 'yellow',
     flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  createButton: {
+    //backgroundColor: 'white',
+    flex: 1,
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
   mainGuest: {
     width: '100%',
-    //backgroundcolor: 'brown',
-    flex: 3,
+    // backgroundColor: 'skyblue',
+    flex: 4,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   myHomeBox: {
     width: '100%',
@@ -305,6 +359,7 @@ const styles = StyleSheet.create({
   myHome: {
     marginLeft: 40,
     fontSize: 24,
+    color: 'white',
   },
   roomButton: {
     // backgroundColor: 'aqua',
@@ -314,18 +369,12 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     marginHorizontal: 35,
   },
-  bottom: {
-    flex: 2,
+  enterButton: {
+    //backgroundColor: 'brown',
+    flex: 1,
     width: '100%',
-    // backgroundColor: 'brown',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  createButton: {
-    // backgroundColor: 'black',
-    flex: 1,
-    width: 320,
-    justifyContent: 'top',
   },
 });
 
