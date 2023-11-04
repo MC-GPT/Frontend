@@ -6,7 +6,7 @@ import {
   View,
   ImageBackground,
   StatusBar,
-} from 'react-native'; // ImageBackground 추가
+} from 'react-native';
 import Button from '../components/Button';
 import Input, {
   IconNames,
@@ -62,8 +62,8 @@ const SignInScreen = ({ navigation }) => {
 
   return (
     <SafeInputView>
-      <ImageBackground // ImageBackground 컴포넌트로 감싸기
-        source={require('../../assets/nugu_neon.gif')} // GIF 파일의 경로로 수정
+      <ImageBackground
+        source={require('../../assets/nugu_neon.gif')}
         style={[
           styles.container,
           { paddingTop: insets.top, paddingBottom: insets.bottom },
@@ -91,19 +91,20 @@ const SignInScreen = ({ navigation }) => {
             onSubmitEditing={login}
           />
           <View style={styles.buttonContainer}>
-            <Button
-              title={'로그인'}
-              onPress={login}
-              disabled={disabled}
-              isLoading={isLoading}
-            />
-          </View>
-
-          <View style={styles.buttonContainer}>
-            <TextButton
-              title="회원가입"
-              onPress={() => navigation.navigate('SignUp')}
-            />
+            <View style={styles.button}>
+              <Button
+                title={'로그인'}
+                onPress={login}
+                disabled={disabled}
+                isLoading={isLoading}
+              />
+            </View>
+            <View style={styles.textbutton}>
+              <TextButton
+                title="회원가입"
+                onPress={() => navigation.navigate('SignUp')}
+              />
+            </View>
           </View>
         </View>
       </ImageBackground>
@@ -127,7 +128,15 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     width: '100%',
-    paddingHorizontal: 20,
+    //  backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+  button: {
+    width: '90%',
+  },
+  textbutton: {
     marginTop: 20,
   },
 });

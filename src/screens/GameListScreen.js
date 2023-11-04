@@ -40,7 +40,7 @@ const GameListScreen = ({ navigation }) => {
       }
     } catch (e) {
       console.log(e);
-      Alert.alert('게임 생성 실패');
+      Alert.alert('게임이 이미 진행중입니다');
     }
   };
 

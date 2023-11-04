@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
-import { Alert, Keyboard, StyleSheet, View } from 'react-native';
+import {
+  Alert,
+  Keyboard,
+  StyleSheet,
+  View,
+  ImageBackground,
+} from 'react-native';
 import Button from '../components/Button';
 import Input, {
   IconNames,
@@ -63,14 +69,13 @@ const SignUpScreen = ({ navigation }) => {
 
   return (
     <SafeInputView>
-      <View
+      <ImageBackground
+        source={require('../../assets/background.png')}
         style={[
           styles.container,
           { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
-        {/* <View style={StyleSheet.absoluteFillObject}> */}
-        {/* </View> */}
         <Input
           value={name}
           onChangeText={(text) => setName(text.trim())}
@@ -138,7 +143,7 @@ const SignUpScreen = ({ navigation }) => {
             onPress={() => navigation.navigate('SignIn')}
           />
         </View>
-      </View>
+      </ImageBackground>
     </SafeInputView>
   );
 };

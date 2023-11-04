@@ -64,6 +64,13 @@ const Button = ({
                   return Colors.DEFAULT;
               }
             })(),
+            shadowColor: Colors.DEFAULT, // 네온사인 색상
+            shadowOffset: {
+              width: 0,
+              height: 0,
+            },
+            shadowOpacity: pressed ? 1 : 0.9, // 눌렀을 때 더 강한 효과
+            shadowRadius: 10,
           },
           styles?.button,
         ]}
@@ -97,14 +104,14 @@ const defaultStyles = StyleSheet.create({
     width: '100%',
   },
   button: {
-    paddingVertical: 20,
+    paddingVertical: 15,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
   },
   title: {
     color: WHITE,
-    fontSize: 16,
+    fontSize: 17,
     fontWeight: '700',
     lineHeight: 20,
   },

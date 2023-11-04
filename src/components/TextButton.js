@@ -9,7 +9,7 @@ const TextButton = ({ title, onPress, hitSlop }) => {
       hitSlop={hitSlop ? hitSlop : 10}
       onPress={onPress}
     >
-      <Text style={[styles.title]}>{title}</Text>
+      <Text style={styles.title}>{title}</Text>
     </Pressable>
   );
 };
@@ -26,9 +26,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    color: PRIMARY.DEFAULT,
+    color: PRIMARY.LIGHT,
     fontWeight: '700',
     fontSize: 16,
+    // 네온사인 효과 스타일
+    textShadowColor: PRIMARY, // 네온사인 효과 색상
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 8, // 네온사인 효과 강도
   },
 });
 

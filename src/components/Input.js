@@ -1,6 +1,6 @@
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import PropTypes from 'prop-types';
-import { BLACK, GRAY, PRIMARY } from '../colors';
+import { GRAY, PRIMARY } from '../colors';
 import { forwardRef, useState } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
@@ -67,7 +67,7 @@ const Input = forwardRef(
                   case isFocused:
                     return '#AF6BE4';
                   case !!value:
-                    return BLACK;
+                    return PRIMARY.DARK;
                   default:
                     return GRAY.DEFAULT;
                 }
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
     color: '#AF6BE4',
   },
   hasValueTitle: {
-    color: BLACK,
+    color: PRIMARY.DARK,
   },
   input: {
     backgroundColor: 'white',
@@ -118,6 +118,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     height: 42,
     paddingLeft: 30,
+    shadowColor: PRIMARY.LIGHT,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowOpacity: 0.9, // 네온사인 효과 정도
+    shadowRadius: 10,
   },
   focusedInput: {
     borderWidth: 2,
@@ -125,8 +132,8 @@ const styles = StyleSheet.create({
     color: '#AF6BE4',
   },
   hasValueInput: {
-    borderColor: BLACK,
-    color: BLACK,
+    borderColor: PRIMARY.DARK,
+    color: PRIMARY.DARK,
   },
   icon: {
     position: 'absolute',
