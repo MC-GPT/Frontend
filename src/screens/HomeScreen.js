@@ -14,6 +14,11 @@ import { ButtonTypes } from '../components/Button';
 import { useState } from 'react';
 import { useMainContext } from '../contexts/MainContext';
 import TextAnimation from '../components/TextAnimation';
+//import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
+import { FontAwesome } from '@expo/vector-icons';
+import { Entypo } from '@expo/vector-icons';
+import { Octicons } from '@expo/vector-icons';
 
 // eslint-disable-next-line react/prop-types
 const HomeScreen = ({ navigation }) => {
@@ -31,11 +36,18 @@ const HomeScreen = ({ navigation }) => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top, paddingBottom: insets.bottom },
+          { paddingTop: insets.top, paddingBottom: insets.bottom - 15 },
         ]}
       >
         <View style={styles.top}>
-          <Text style={styles.homename}>{home_name}</Text>
+          <View style={styles.topleft}>
+            <View style={styles.topIcon}>
+              <Octicons name="home" size={24} color="#AF6BE4" />
+              <Text style={styles.homename}>{home_name}</Text>
+            </View>
+
+            <Text style={styles.codestyle}>초대코드 : {home_code} </Text>
+          </View>
           <View style={styles.topright}>
             <View style={styles.logoutButton}>
               <Pressable
@@ -44,25 +56,65 @@ const HomeScreen = ({ navigation }) => {
                 buttonType={ButtonTypes.DANGER}
               >
                 <Text style={{ color: 'white' }}>방 나가기</Text>
-                {/* <MaterialIcons name="logout" size={24} color="black" /> */}
               </Pressable>
             </View>
-            <Text style={styles.codestyle}>초대코드 : {home_code} </Text>
           </View>
         </View>
         <View style={styles.notice}>
+          <BlurView style={styles.blur} intensity={10} tint="light" />
           <TextAnimation />
         </View>
         <View style={styles.dashboard}>
-          <Text> dashboard </Text>
+          <View style={styles.temperature}>
+            <BlurView style={styles.blur} intensity={10} tint="light" />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 18,
+                marginLeft: 55,
+                marginTop: 3,
+              }}
+            >
+              실내 온도
+            </Text>
+            <View style={styles.tempIcon}>
+              <FontAwesome name="thermometer-quarter" size={35} color="white" />
+              <Text style={{ color: 'white', fontSize: 20, marginLeft: 10 }}>
+                8℃
+              </Text>
+            </View>
+          </View>
+          <View style={styles.air}>
+            <BlurView style={styles.blur} intensity={10} tint="light" />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 18,
+                marginLeft: 55,
+                marginTop: 3,
+              }}
+            >
+              실내 공기질
+            </Text>
+            <View style={styles.tempIcon}>
+              <Entypo name="air" size={35} color="skyblue" />
+              <Text style={{ color: 'white', fontSize: 20, marginLeft: 5 }}>
+                청정
+              </Text>
+            </View>
+          </View>
         </View>
         <View style={styles.musicbox}>
-          <View style={styles.image}>
-            <Image
-              source={require('../../assets/NewJeans.png')}
-              style={styles.image}
-            />
+          {/* <BlurView style={styles.blur} intensity={4} tint="light" /> */}
+          <View style={styles.imageWrapper}>
+            <View style={styles.image}>
+              <Image
+                source={require('../../assets/NewJeans.png')}
+                style={styles.image}
+              />
+            </View>
           </View>
+
           <Text style={styles.title}>Hype Boy</Text>
           <Text style={styles.artist}>NewJeans</Text>
           <View style={styles.music_icon}>
@@ -92,17 +144,22 @@ const HomeScreen = ({ navigation }) => {
                 key={index}
                 style={({ pressed }) => [
                   styles.icon_each,
-                  pressed && { backgroundColor: 'lightgrey' },
+                  pressed && { backgroundColor: '#3B306F' },
                 ]}
                 onPress={icon.action}
               >
-                <MaterialIcons name={icon.name} size={30} color="black" />
+                <MaterialIcons name={icon.name} size={35} color="white" />
               </Pressable>
             ))}
           </View>
         </View>
         <View style={styles.bottom}>
-          <Text style={styles.musiclist}>Music list</Text>
+          <BlurView style={styles.blur} intensity={6} tint="light" />
+          <Text style={styles.musiclist}>다음 곡 : </Text>
+          <Text style={styles.listTitle}> FIESTA - 아이즈원</Text>
+          <View style={styles.upIcon}>
+            <Entypo name="chevron-up" size={24} color="white" />
+          </View>
         </View>
       </ImageBackground>
     </SafeInputView>
@@ -124,15 +181,32 @@ const styles = StyleSheet.create({
   top: {
     flex: 2,
     width: '100%',
-    // backgroundColor: 'green',
+    //backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    //backgroundColor: '#2D1F6C',
+    borderRadius: 30,
     alignItems: 'center',
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
+  topleft: {
+    width: 250,
+    //backgroundColor: 'aqua',
+    marginLeft: 18,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingTop: 18,
+  },
+  topIcon: {
+    flexDirection: 'row',
+    marginLeft: 10,
+  },
   homename: {
-    fontSize: 22,
-    marginLeft: 20,
-    color: 'white',
+    fontSize: 23,
+    marginLeft: 10,
+    color: '#CFA3F1',
+    textShadowColor: '#AF6BE4',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 8, // 그림자의 블러 정도
   },
   topright: {
     flexDirection: '',
@@ -141,40 +215,72 @@ const styles = StyleSheet.create({
   },
   codestyle: {
     paddingTop: 20,
-    fontSize: 18,
-    color: 'white',
+    fontSize: 14,
+    color: 'lightgrey',
+    marginLeft: 12,
   },
   logoutButton: {
     // backgroundColor: 'white',
+    marginRight: 25,
   },
   notice: {
     flex: 1,
     fontSize: 20,
     marginTop: 10,
+    width: '100%',
+    justifyContent: 'center',
   },
   dashboard: {
-    flex: 1,
+    flex: 1.5,
+    width: '100%',
+    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  temperature: {
+    width: '49%',
+  },
+  tempIcon: {
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+  },
+  air: {
+    width: '49%',
   },
   musicbox: {
     flex: 8,
-    width: '100%',
+    width: '70%',
     height: 500,
     justifyContent: 'center',
     alignItems: 'center',
-    // backgroundColor: '#9e42f5',
+    // backgroundColor: '#342483',
+    borderRadius: 30,
+    marginTop: 10,
   },
   title: {
-    fontSize: 28,
+    fontSize: 25,
     padding: 10,
     height: 50,
+    color: 'white',
   },
   artist: {
-    fontSize: 18,
+    fontSize: 16,
     height: 20,
+    color: 'white',
   },
-  image: {
+  imageWrapper: {
     width: 250,
     height: 250,
+    borderRadius: 10,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  image: {
+    width: 230,
+    height: 230,
   },
   music_icon: {
     flexDirection: 'row',
@@ -187,9 +293,31 @@ const styles = StyleSheet.create({
   },
   bottom: {
     flex: 1,
-    // backgroundColor: 'blue',
+    flexDirection: 'row',
+    marginTop: 10,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    width: '100%',
+    borderRadius: 10,
   },
-  musiclist: { fontSize: 20 },
+  musiclist: {
+    marginLeft: 34,
+    fontSize: 18,
+    color: 'white',
+  },
+  listTitle: {
+    fontSize: 15,
+    color: 'lightgrey',
+  },
+  upIcon: {
+    marginLeft: 165,
+  },
+  gradient: {
+    ...StyleSheet.absoluteFillObject,
+  },
+  blur: {
+    ...StyleSheet.absoluteFillObject,
+  },
 });
 
 export default HomeScreen;

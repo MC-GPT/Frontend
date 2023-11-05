@@ -1,7 +1,8 @@
-import { Component } from 'react';
-import { Text, Animated, Easing, Dimensions } from 'react-native';
+import React from 'react';
+import { Text, Animated, Easing, Dimensions, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-class TextAnimation extends Component {
+class TextAnimation extends React.Component {
   constructor() {
     super();
     this.screenWidth = Dimensions.get('window').width;
@@ -16,7 +17,7 @@ class TextAnimation extends Component {
     Animated.loop(
       Animated.timing(this.animatedValue, {
         toValue: this.screenWidth,
-        duration: 13000, // 13초 동안 애니메이션 진행
+        duration: 60000, // 1분 동안 애니메이션 진행
         easing: Easing.linear,
         useNativeDriver: false,
       })
@@ -30,7 +31,12 @@ class TextAnimation extends Component {
           transform: [{ translateX: this.animatedValue }],
         }}
       >
-        <Text style={{ fontSize: 20 }}>공지 : 변기에 물티슈 넣지 마세요</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          <Ionicons name="ios-megaphone-sharp" size={24} color="#CC2A2A" />
+          <Text style={{ fontSize: 17, color: 'white', marginLeft: 8 }}>
+            공지 : Happy BirthDay Jason !!!
+          </Text>
+        </View>
       </Animated.View>
     );
   }

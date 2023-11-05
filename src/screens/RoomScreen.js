@@ -286,7 +286,7 @@ RoomScreen.propTypes = {
 const buttonStyles = StyleSheet.create({
   container: {
     width: 140,
-    // backgroundColor: 'pink',
+    //backgroundColor: 'pink',
     marginHorizontal: 10,
     paddingTop: 20,
     marginTop: 10,
@@ -364,6 +364,7 @@ const styles = StyleSheet.create({
   roomButton: {
     // backgroundColor: 'aqua',
     flex: 1,
+    width: '75%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',

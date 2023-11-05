@@ -170,15 +170,15 @@ const styles = StyleSheet.create({
     // backgroundColor: 'lightblue',
     width: '100%',
     marginLeft: 40,
-    marginTop: 60,
+    marginTop: 35,
     justifyContent: 'center',
   },
   backButton: {
     paddingBottom: 22,
-    marginLeft: 10,
+    marginLeft: 8,
   },
   signupText: {
-    fontSize: 40,
+    fontSize: 38,
     color: 'white',
     textShadowColor: '#7f1d1d',
     textShadowOffset: { width: 2, height: 2 },
@@ -192,7 +192,6 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 2, height: 2 },
     textShadowRadius: 20, // 그림자의 블러 정도
   },
-
   content: {
     flex: 4,
     width: '100%',
@@ -200,7 +199,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     width: '100%',
     paddingHorizontal: 20,
-    marginTop: 20,
+    marginTop: 30,
   },
 });
 

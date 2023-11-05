@@ -2,7 +2,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from '../screens/HomeScreen';
 import GameListScreen from '../screens/GameListScreen';
 import { Ionicons } from '@expo/vector-icons';
-import { PRIMARY } from '../colors';
 import SettingsScreen from '../screens/SettingsScreen';
 import Appliances from './Appliances';
 
@@ -20,6 +19,12 @@ const ContentTab = () => {
       screenOptions={{
         headerShown: false,
         tabBarShowLabel: true,
+        tabBarActiveTintColor: '#32276B',
+        tabBarInactiveTintColor: '#5C46B2',
+        tabBarStyle: { backgroundColor: 'white', height: 88 },
+        tabBarLabelStyle: {
+          fontSize: 12,
+        },
       }}
     >
       <Tab.Screen
@@ -27,17 +32,13 @@ const ContentTab = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'home' }),
-          tabBarActiveTintColor: PRIMARY.DARK,
-          tabBarInactiveTintColor: PRIMARY.LIGHT,
         }}
       />
       <Tab.Screen
         name="Appliances"
         component={Appliances}
         options={{
-          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'bulb' }),
-          tabBarActiveTintColor: PRIMARY.DARK,
-          tabBarInactiveTintColor: PRIMARY.LIGHT,
+          tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'ios-apps' }),
         }}
       />
       <Tab.Screen
@@ -46,8 +47,6 @@ const ContentTab = () => {
         options={{
           tabBarIcon: (props) =>
             getTabBarIcon({ ...props, name: 'game-controller' }),
-          tabBarActiveTintColor: PRIMARY.DARK,
-          tabBarInactiveTintColor: PRIMARY.LIGHT,
         }}
       />
       <Tab.Screen
@@ -55,8 +54,6 @@ const ContentTab = () => {
         component={SettingsScreen}
         options={{
           tabBarIcon: (props) => getTabBarIcon({ ...props, name: 'settings' }),
-          tabBarActiveTintColor: PRIMARY.DARK,
-          tabBarInactiveTintColor: PRIMARY.LIGHT,
         }}
       />
     </Tab.Navigator>
