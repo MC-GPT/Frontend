@@ -10,8 +10,12 @@ const HeaderLeftButton = ({ canGoBack, tintColor }) => {
     return null;
   }
 
+  const pressableStyle = {
+    backgroundColor: 'transparent', // 배경을 투명하게 설정
+  };
+
   return (
-    <Pressable onPress={navigation.goBack} hitSlop={10}>
+    <Pressable style={pressableStyle} onPress={navigation.goBack} hitSlop={10}>
       <MaterialCommunityIcons name="chevron-left" size={30} color={tintColor} />
     </Pressable>
   );

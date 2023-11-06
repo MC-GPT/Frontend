@@ -223,7 +223,14 @@ const RoomScreen = ({ navigation }) => {
                 return null;
               })
             ) : (
-              <Text style={{ color: 'white', paddingTop: 30, fontSize: 20 }}>
+              <Text
+                style={{
+                  color: 'white',
+                  paddingTop: 30,
+                  fontSize: 18,
+                  marginLeft: 5,
+                }}
+              >
                 + 버튼을 눌러 방을 생성해주세요
               </Text>
             )}
@@ -263,7 +270,14 @@ const RoomScreen = ({ navigation }) => {
                 return null;
               })
             ) : (
-              <Text style={{ color: 'white', paddingTop: 30, fontSize: 20 }}>
+              <Text
+                style={{
+                  color: 'white',
+                  paddingTop: 30,
+                  fontSize: 18,
+                  marginLeft: 5,
+                }}
+              >
                 + 버튼을 눌러 코드를 입력해주세요
               </Text>
             )}
@@ -383,9 +397,9 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   roomButton: {
-    // backgroundColor: 'aqua',
+    //backgroundColor: 'aqua',
     flex: 1,
-    width: '75%',
+    width: '82%',
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'flex-start',

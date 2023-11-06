@@ -1,8 +1,9 @@
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View, ImageBackground } from 'react-native';
 import { useEffect, useState } from 'react';
 import Button, { ButtonTypes } from '../components/Button';
 import PropTypes from 'prop-types';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeInputView from '../components/SafeInputView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useMainContext } from '../contexts/MainContext';
 import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
@@ -13,6 +14,7 @@ const GameListScreen = ({ navigation }) => {
   const { home_id, games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
   const { gamePlayId, setGamePlayId } = useGameContext();
+  const insets = useSafeAreaInsets();
 
   const postCreateGame = async (game_id) => {
     console.log(home_id, game_id, 'home_id, game_id 받아오기');
@@ -71,37 +73,45 @@ const GameListScreen = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.wrapper}>
-        <View style={styles.top}>
-          <Text style={styles.title}>게임을 선택하세요</Text>
-        </View>
-        <View style={styles.main}>
-          <View style={styles.gameButton}>
-            {jsonData.map((v) => {
-              return (
-                <Button
-                  key={v.id}
-                  title={v.name}
-                  onPress={() => postCreateGame(v.id, v.name)}
-                  buttonType={ButtonTypes.GAME}
-                  styles={buttonStyles}
-                />
-              );
-            })}
+    <SafeInputView>
+      <ImageBackground
+        source={require('../../assets/background.png')}
+        style={[
+          styles.container,
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
+        ]}
+      >
+        <View style={styles.wrapper}>
+          <View style={styles.top}>
+            <Text style={styles.title}>게임을 선택하세요</Text>
+          </View>
+          <View style={styles.main}>
+            <View style={styles.gameButton}>
+              {jsonData.map((v) => {
+                return (
+                  <Button
+                    key={v.id}
+                    title={v.name}
+                    onPress={() => postCreateGame(v.id, v.name)}
+                    buttonType={ButtonTypes.GAME}
+                    styles={buttonStyles}
+                  />
+                );
+              })}
+            </View>
+          </View>
+          <View style={styles.bottom}>
+            <View style={styles.createButton}>
+              <Button
+                title={'입장'}
+                onPress={() => EnterGame()}
+                buttonType={ButtonTypes.PRIMARY}
+              ></Button>
+            </View>
           </View>
         </View>
-        <View style={styles.bottom}>
-          <View style={styles.createButton}>
-            <Button
-              title={'입장'}
-              onPress={() => EnterGame()}
-              buttonType={ButtonTypes.GAME}
-            ></Button>
-          </View>
-        </View>
-      </View>
-    </SafeAreaView>
+      </ImageBackground>
+    </SafeInputView>
   );
 };
 
@@ -120,7 +130,7 @@ const buttonStyles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    height: 120,
+    height: 100,
     borderRadius: 20,
   },
 });
@@ -141,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     fontSize: 30,
     marginTop: 25,
-    color: 'black',
+    color: 'white',
   },
   main: {
     flex: 5,

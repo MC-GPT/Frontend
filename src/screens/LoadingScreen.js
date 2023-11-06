@@ -1,11 +1,20 @@
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  ActivityIndicator,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native';
 
 const LoadingScreen = () => {
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      source={require('../../assets/nugu_neon.png')}
+      style={[styles.container]}
+    >
       <ActivityIndicator size="large" color="#0000ff" />
       <Text>Loading...</Text>
-    </View>
+    </ImageBackground>
   );
 };
 

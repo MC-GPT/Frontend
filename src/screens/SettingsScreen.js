@@ -1,7 +1,14 @@
-import { View, TouchableOpacity, Image, Text } from 'react-native';
+import {
+  View,
+  TouchableOpacity,
+  Image,
+  Text,
+  ImageBackground,
+} from 'react-native';
 import { StyleSheet, Alert } from 'react-native';
 import favicon from '../../assets/favicon.png';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeInputView from '../components/SafeInputView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
@@ -11,6 +18,7 @@ const SettingScreen = () => {
   const { nickname, account, jwt } = useUserContext();
   const navigation = useNavigation();
   const { home_id, setHomeCode } = useMainContext();
+  const insets = useSafeAreaInsets();
 
   const handleCodeRefresh = async () => {
     try {
@@ -31,61 +39,71 @@ const SettingScreen = () => {
   };
 
   return (
-    <SafeAreaView>
-      <View style={styles.myInfo}>
-        <View>
-          <Text style={styles.myInfoText}>내 정보</Text>
-          <Text style={styles.myInfoContent}>닉네임: {nickname}</Text>
-          <Text style={styles.myInfoContent}>ID: {account} </Text>
-        </View>
-        <View style={styles.profile}>
-          <Image style={styles.profileImg} source={favicon} />
-          <Text>프로필 편집</Text>
-        </View>
-      </View>
-      <TouchableOpacity style={styles.listContainer}>
-        <Text style={styles.listText}>계정 설정</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={styles.listContainer}
-        onPress={() => handleCodeRefresh()}
+    <SafeInputView>
+      <ImageBackground
+        source={require('../../assets/background.png')}
+        style={[
+          styles.container,
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
+        ]}
       >
-        <Text style={styles.listText}>코드 리프레쉬</Text>
-      </TouchableOpacity>
-    </SafeAreaView>
+        <View style={styles.wrapper}>
+          <View style={styles.myInfo}>
+            <View>
+              <Text style={styles.myInfoText}>내 정보</Text>
+              <Text style={styles.myInfoContent}>닉네임: {nickname}</Text>
+              <Text style={styles.myInfoContent}>ID: {account} </Text>
+            </View>
+            <View style={styles.profile}>
+              <Image style={styles.profileImg} source={favicon} />
+              <Text style={{ color: 'white' }}>프로필 편집</Text>
+            </View>
+          </View>
+          <TouchableOpacity style={styles.listContainer}>
+            <Text style={styles.listText}>계정 설정</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.listContainer}
+            onPress={() => handleCodeRefresh()}
+          >
+            <Text style={styles.listText}>코드 리프레쉬</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+    </SafeInputView>
   );
 };
 
 const styles = StyleSheet.create({
-  listContainer: {
-    backgroundColor: '#ffffff',
-    alignItems: 'flex-start',
-    justifyContent: 'center',
-    paddingLeft: 20,
-    width: '100%',
-    height: 70,
-    borderBottomWidth: 1,
-    borderBottomColor: '#ebebeb',
+  container: {
+    flex: 1,
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
-  listText: {
-    color: '#555555',
+  wrapper: {
+    width: '100%',
+    paddingTop: 10,
   },
   myInfo: {
+    width: '100%',
     height: 200,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    backgroundColor: 'white',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ebebeb',
+    // backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: '#ebebeb',
+    borderRadius: 10,
   },
   myInfoText: {
     fontSize: 20,
     marginBottom: 10,
+    color: 'white',
   },
   myInfoContent: {
     fontSize: 17,
     marginBottom: 10,
+    color: 'white',
   },
   profile: {
     height: 100,
@@ -100,6 +118,21 @@ const styles = StyleSheet.create({
     width: 100,
     opacity: 0.3,
     borderRadius: 10,
+  },
+  listContainer: {
+    // backgroundColor: 'yellow',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    paddingLeft: 20,
+    width: '99.9%',
+    height: 70,
+    marginVertical: 10,
+    borderWidth: 1,
+    borderColor: '#ebebeb',
+    borderRadius: 10,
+  },
+  listText: {
+    color: 'white',
   },
 });
 

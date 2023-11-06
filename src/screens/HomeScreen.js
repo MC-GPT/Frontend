@@ -36,7 +36,7 @@ const HomeScreen = ({ navigation }) => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top, paddingBottom: insets.bottom - 15 },
+          { paddingTop: insets.top, paddingBottom: insets.bottom - 26 },
         ]}
       >
         <View style={styles.top}>
@@ -231,7 +231,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   dashboard: {
-    flex: 1.5,
+    flex: 1.6,
     width: '100%',
     marginTop: 10,
     flexDirection: 'row',
@@ -257,7 +257,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor: '#342483',
     borderRadius: 30,
-    marginTop: 10,
+    paddingTop: 15,
   },
   title: {
     fontSize: 25,
@@ -294,7 +294,7 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: 5,
     justifyContent: 'flex-start',
     alignItems: 'center',
     width: '100%',
@@ -302,15 +302,15 @@ const styles = StyleSheet.create({
   },
   musiclist: {
     marginLeft: 34,
-    fontSize: 18,
+    fontSize: 16,
     color: 'white',
   },
   listTitle: {
-    fontSize: 15,
+    fontSize: 14,
     color: 'lightgrey',
   },
   upIcon: {
-    marginLeft: 165,
+    marginLeft: 138,
   },
   gradient: {
     ...StyleSheet.absoluteFillObject,

@@ -1,11 +1,22 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import SafeInputView from '../components/SafeInputView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 // import PropTypes from 'prop-types';
 
 const ElectroInfoScreen = () => {
+  const insets = useSafeAreaInsets();
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>개별 가전 제어</Text>
-    </View>
+    <SafeInputView>
+      <ImageBackground
+        source={require('../../assets/background.png')}
+        style={[
+          styles.container,
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
+        ]}
+      >
+        <Text style={styles.title}>개별 가전 제어</Text>
+      </ImageBackground>
+    </SafeInputView>
   );
 };
 

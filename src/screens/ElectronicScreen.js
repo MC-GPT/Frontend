@@ -1,10 +1,17 @@
-import { Alert, StyleSheet, View, Pressable } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  View,
+  Pressable,
+  ImageBackground,
+} from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import SafeInputView from '../components/SafeInputView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
 import { useMainContext } from '../contexts/MainContext';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -16,6 +23,7 @@ const ElectronicScreen = ({ navigation }) => {
   const { jwt } = useUserContext();
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
+  const insets = useSafeAreaInsets();
 
   const postApp = async (number, name) => {
     try {
@@ -99,49 +107,57 @@ const ElectronicScreen = ({ navigation }) => {
   }, [apps]);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <View style={styles.top}></View>
-      <View style={styles.main}>
-        <View style={styles.roomButton}>
-          {jsonData
-            .filter((v) => !v.light)
-            .map((v) => {
-              return (
-                <View key={v.id} style={styles.AppContainer}>
-                  <Button
-                    title={v.name}
-                    onPress={() => navigation.navigate('Mood')}
-                    buttonType={ButtonTypes.ROOM}
-                    styles={buttonStyles}
-                  />
-                  <Pressable
-                    style={styles.deleteButton}
-                    onPress={() => handleDeleteApp(v.id, v.name)}
-                  >
-                    <MaterialIcons name="delete" size={24} color="red" />
-                  </Pressable>
-                </View>
-              );
-            })}
+    <SafeInputView>
+      <ImageBackground
+        source={require('../../assets/background.png')}
+        style={[
+          styles.container,
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
+        ]}
+      >
+        <View style={styles.top}></View>
+        <View style={styles.main}>
+          <View style={styles.roomButton}>
+            {jsonData
+              .filter((v) => !v.light)
+              .map((v) => {
+                return (
+                  <View key={v.id} style={styles.AppContainer}>
+                    <Button
+                      title={v.name}
+                      onPress={() => navigation.navigate('Mood')}
+                      buttonType={ButtonTypes.ROOM}
+                      styles={buttonStyles}
+                    />
+                    <Pressable
+                      style={styles.deleteButton}
+                      onPress={() => handleDeleteApp(v.id, v.name)}
+                    >
+                      <MaterialIcons name="delete" size={24} color="red" />
+                    </Pressable>
+                  </View>
+                );
+              })}
+          </View>
         </View>
-      </View>
-      <View style={styles.bottom}>
-        <View style={styles.createButton}>
-          <Button
-            title={'가전 추가'}
-            onPress={() => setVisibleLight(true)}
-          ></Button>
+        <View style={styles.bottom}>
+          <View style={styles.createButton}>
+            <Button
+              title={'가전 추가'}
+              onPress={() => setVisibleLight(true)}
+            ></Button>
+          </View>
         </View>
-      </View>
-      <PopupB
-        visible={visibleLight}
-        onClose={() => setVisibleLight(false)}
-        onChangeTextNumber={(text) => setNumber(text.trim())}
-        onChangeTextName={(text) => setName(text.trim())}
-        onSubmit={() => postApp(number, name)}
-        popupType={PopupTypesB.ELECTRO}
-      ></PopupB>
-    </SafeAreaView>
+        <PopupB
+          visible={visibleLight}
+          onClose={() => setVisibleLight(false)}
+          onChangeTextNumber={(text) => setNumber(text.trim())}
+          onChangeTextName={(text) => setName(text.trim())}
+          onSubmit={() => postApp(number, name)}
+          popupType={PopupTypesB.ELECTRO}
+        ></PopupB>
+      </ImageBackground>
+    </SafeInputView>
   );
 };
 

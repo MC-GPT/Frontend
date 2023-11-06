@@ -1,11 +1,21 @@
-import { Image, Pressable, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+} from 'react-native';
 import { useGameContext } from '../contexts/GameContext';
 import { useEffect, useRef, useState } from 'react';
+import SafeInputView from '../components/SafeInputView';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const GamePlayScreen = () => {
   const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState(null);
   const { gamePlayId } = useGameContext();
+  const insets = useSafeAreaInsets();
 
   let ws = useRef(null);
   useEffect(() => {
@@ -119,60 +129,68 @@ const GamePlayScreen = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.top}>
-        <View style={styles.topLeft}>
-          <View style={styles.gameTitle}>
-            <Text style={{ fontSize: 25 }}>게임이름{gameName}</Text>
+    <SafeInputView>
+      <ImageBackground
+        source={require('../../assets/background.png')}
+        style={[
+          styles.container,
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
+        ]}
+      >
+        <View style={styles.top}>
+          <View style={styles.topLeft}>
+            <View style={styles.gameTitle}>
+              <Text style={{ fontSize: 25 }}>게임이름{gameName}</Text>
+            </View>
+          </View>
+          <View style={styles.topRight}>
+            <View style={styles.exit}>
+              <Pressable
+                onPress={sendExitRequest}
+                style={({ pressed }) => [
+                  styles.icon_each,
+                  pressed && { backgroundColor: 'lightgrey' },
+                ]}
+              >
+                <Text style={{ fontSize: 23 }}> 종료 </Text>
+              </Pressable>
+            </View>
+            <View style={styles.next}>
+              <Pressable
+                onPress={sendNextRequest}
+                style={({ pressed }) => [
+                  styles.icon_each,
+                  pressed && { backgroundColor: 'lightgrey' },
+                ]}
+              >
+                <Text style={{ fontSize: 20 }}> 다음 문제 </Text>
+              </Pressable>
+            </View>
           </View>
         </View>
-        <View style={styles.topRight}>
-          <View style={styles.exit}>
+        <View style={styles.main}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: imageSource,
+            }}
+          ></Image>
+        </View>
+        <View style={styles.bottom}>
+          <View style={styles.confirm}>
             <Pressable
-              onPress={sendExitRequest}
+              onPress={sendConfirmRequest}
               style={({ pressed }) => [
                 styles.icon_each,
                 pressed && { backgroundColor: 'lightgrey' },
               ]}
             >
-              <Text style={{ fontSize: 23 }}> 종료 </Text>
-            </Pressable>
-          </View>
-          <View style={styles.next}>
-            <Pressable
-              onPress={sendNextRequest}
-              style={({ pressed }) => [
-                styles.icon_each,
-                pressed && { backgroundColor: 'lightgrey' },
-              ]}
-            >
-              <Text style={{ fontSize: 20 }}> 다음 문제 </Text>
+              <Text style={{ fontSize: 20 }}> 정답 확인 </Text>
             </Pressable>
           </View>
         </View>
-      </View>
-      <View style={styles.main}>
-        <Image
-          style={styles.image}
-          source={{
-            uri: imageSource,
-          }}
-        ></Image>
-      </View>
-      <View style={styles.bottom}>
-        <View style={styles.confirm}>
-          <Pressable
-            onPress={sendConfirmRequest}
-            style={({ pressed }) => [
-              styles.icon_each,
-              pressed && { backgroundColor: 'lightgrey' },
-            ]}
-          >
-            <Text style={{ fontSize: 20 }}> 정답 확인 </Text>
-          </Pressable>
-        </View>
-      </View>
-    </View>
+      </ImageBackground>
+    </SafeInputView>
   );
 };
 
