@@ -13,7 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const GamePlayScreen = () => {
   const { gameName } = useGameContext();
-  const [imageSource, setImageSource] = useState(null);
+  const [imageSource, setImageSource] = useState('');
+
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
 
@@ -25,11 +26,11 @@ const GamePlayScreen = () => {
     );
 
     ws.current.onopen = () => {
-      console.log('웹소켓 연결 성공!');
+      console.log('player 웹소켓 연결 성공!');
       const enterMessage = {
         messageType: 'ENTER',
         roomId: gamePlayId,
-        sender: 'host',
+        sender: 'player',
         message: '',
       };
       ws.current.send(JSON.stringify(enterMessage));
@@ -38,13 +39,10 @@ const GamePlayScreen = () => {
     };
 
     ws.current.onmessage = (event) => {
-      console.log('Received message:', event.data);
       try {
         const message = JSON.parse(event.data);
-        console.log('Parsed message:', message);
-        setImageSource(
-          'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=45&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0'
-        );
+        console.log('player message:', message);
+        setImageSource(message[0]);
         handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
@@ -68,14 +66,9 @@ const GamePlayScreen = () => {
   const handleWebSocketMessage = (message) => {
     switch (message.type) {
       case 'ENTER': {
-        // 서버로부터 초기 게임 데이터 수신 및 화면에 렌더링
-        //  const initialImageData = message.data.image; // 서버에서 이미지 데이터를 받아옴
-        //  setImageSource(initialImageData);
-
         break;
       }
       case 'NEXT': {
-        // '다음 문제' 버튼을 눌렀을 때 처리
         const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
         setImageSource(nextImageData);
         break;
@@ -87,20 +80,6 @@ const GamePlayScreen = () => {
       default:
         // 다른 메시지 유형에 대한 처리
         break;
-    }
-  };
-
-  const sendNextRequest = () => {
-    {
-      const nextMessage = {
-        messageType: 'NEXT',
-        roomId: 53,
-        sender: 'host',
-        message: '',
-        imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
-      };
-      ws.current.send(JSON.stringify(nextMessage));
-      console.log('next 메시지 전송 완료');
     }
   };
 
@@ -134,13 +113,15 @@ const GamePlayScreen = () => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top, paddingBottom: insets.bottom },
+          { paddingTop: insets.top - 60, paddingBottom: insets.bottom },
         ]}
       >
         <View style={styles.top}>
           <View style={styles.topLeft}>
             <View style={styles.gameTitle}>
-              <Text style={{ fontSize: 25 }}>게임이름{gameName}</Text>
+              <Text style={{ fontSize: 25, color: 'white' }}>
+                게임이름{gameName}
+              </Text>
             </View>
           </View>
           <View style={styles.topRight}>
@@ -153,17 +134,6 @@ const GamePlayScreen = () => {
                 ]}
               >
                 <Text style={{ fontSize: 23 }}> 종료 </Text>
-              </Pressable>
-            </View>
-            <View style={styles.next}>
-              <Pressable
-                onPress={sendNextRequest}
-                style={({ pressed }) => [
-                  styles.icon_each,
-                  pressed && { backgroundColor: 'lightgrey' },
-                ]}
-              >
-                <Text style={{ fontSize: 20 }}> 다음 문제 </Text>
               </Pressable>
             </View>
           </View>
@@ -205,7 +175,6 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     flexDirection: 'row',
-    //backgroundColor: 'aqua',
   },
   topLeft: {
     width: '50%',
@@ -226,13 +195,10 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     margin: 10,
   },
-  next: {
-    //backgroundColor: 'skyblue',
-    marginRight: 10,
-  },
+
   main: {
     flex: 5,
-    // backgroundColor: 'pink',
+    //backgroundColor: 'pink',
     width: '100%',
   },
   image: {

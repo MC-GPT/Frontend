@@ -13,7 +13,8 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
-  const [imageSource, setImageSource] = useState(null);
+  const [imageSource, setImageSource] = useState('');
+
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
 
@@ -45,6 +46,11 @@ const GameManageScreen = () => {
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=30&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
+    {
+      area: '타지마할',
+      image:
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=27.175142,78.042442&heading=10&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+    },
   ];
   const [imageIndex, setImageIndex] = useState(0);
   let nextImageData = geo[imageIndex].image;
@@ -68,12 +74,11 @@ const GameManageScreen = () => {
     };
 
     ws.current.onmessage = (event) => {
-      console.log('Received message:', event.data);
       try {
         const message = JSON.parse(event.data);
-        console.log('Parsed message:', message);
-        setImageSource(nextImageData);
-        handleWebSocketMessage(message);
+        console.log('host message : ', message);
+        setImageSource(message[0]);
+        // handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
       }
@@ -93,43 +98,45 @@ const GameManageScreen = () => {
     };
   }, []);
 
-  const handleWebSocketMessage = (message) => {
-    switch (message.type) {
-      case 'ENTER': {
-        // 서버로부터 초기 게임 데이터 수신 및 화면에 렌더링
-        //  const initialImageData = message.data.image; // 서버에서 이미지 데이터를 받아옴
-        //  setImageSource(initialImageData);
+  // const handleWebSocketMessage = (message) => {
+  //   switch (message.type) {
+  //     case 'ENTER': {
+  //       // 서버로부터 초기 게임 데이터 수신 및 화면에 렌더링
+  //       //  const initialImageData = message.data.image; // 서버에서 이미지 데이터를 받아옴
+  //       //  setImageSource(initialImageData);
 
-        break;
-      }
-      case 'NEXT': {
-        // '다음 문제' 버튼을 눌렀을 때 처리
-        const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
-        setImageSource(nextImageData);
-        break;
-      }
-      case 'END':
-        // '종료' 버튼을 눌렀을 때 게임 종료 처리
+  //       break;
+  //     }
+  //     case 'NEXT': {
+  //       // '다음 문제' 버튼을 눌렀을 때 처리
+  //       const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
+  //       setImageSource(nextImageData);
+  //       break;
+  //     }
+  //     case 'END':
+  //       // '종료' 버튼을 눌렀을 때 게임 종료 처리
 
-        break;
-      default:
-        // 다른 메시지 유형에 대한 처리
-        break;
-    }
-  };
+  //       break;
+  //     default:
+  //       // 다른 메시지 유형에 대한 처리
+  //       break;
+  //   }
+  // };
 
   const sendNextRequest = () => {
     {
       setImageIndex((prevIndex) => prevIndex + 1);
       setImageSource(nextImageData);
-      // const nextMessage = {
-      //   messageType: 'NEXT',
-      //   roomId: 53,
-      //   sender: 'host',
-      //   message: '',
-      //   imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
-      // };
-      // ws.current.send(JSON.stringify(nextMessage));
+      console.log('nextImageData의 내용은 아래와 같다');
+      console.log(nextImageData);
+      const nextMessage = {
+        messageType: 'NEXT',
+        roomId: gamePlayId,
+        sender: 'host',
+        message: '',
+        imageUrls: [nextImageData],
+      };
+      ws.current.send(JSON.stringify(nextMessage));
       console.log('next 메시지 전송 완료');
     }
   };
@@ -137,10 +144,9 @@ const GameManageScreen = () => {
   const sendExitRequest = () => {
     const exitMessage = {
       messageType: 'EXIT',
-      roomId: 53,
+      roomId: gamePlayId,
       sender: 'host',
       message: '',
-      imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
     };
     ws.current.send(JSON.stringify(exitMessage));
     console.log('Exit 메시지 전송 완료');
@@ -164,7 +170,7 @@ const GameManageScreen = () => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top, paddingBottom: insets.bottom },
+          { paddingTop: insets.top - 60, paddingBottom: insets.bottom },
         ]}
       >
         <View style={styles.top}>
@@ -237,7 +243,10 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     flexDirection: 'row',
-    //backgroundColor: 'aqua',
+    // backgroundColor: 'aqua',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    paddingBottom: 10,
   },
   topLeft: {
     width: '50%',
