@@ -22,17 +22,18 @@ const RoomScreen = ({ navigation }) => {
   const { setUser } = useUserContext();
   const { jwt } = useUserContext();
   const [jsonData, setJsonData] = useState([]);
+  const [guestData, setGuestData] = useState([]);
   const [visibleTop, setVisibleTop] = useState(false);
   const [visibleBottom, setVisibleBottom] = useState(false);
   const [roomName, setRoomName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const insets = useSafeAreaInsets();
 
-  // 방 정보 get
+  // 마이홈 정보 get
   const getRoom = async () => {
     try {
       const value = await axios.get(
-        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/homes',
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/owner-homes',
         {
           headers: {
             Authorization: `Bearer ${jwt}`,
@@ -40,7 +41,23 @@ const RoomScreen = ({ navigation }) => {
         }
       );
       setJsonData(value.data);
-      console.log(value.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  // 게스트룸 정보 get
+  const getGuest = async () => {
+    try {
+      const value = await axios.get(
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/guest-homes',
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      setGuestData(value.data);
     } catch (error) {
       console.error(error);
     }
@@ -85,7 +102,7 @@ const RoomScreen = ({ navigation }) => {
       );
       Alert.alert('방 추가 완료');
       setVisibleBottom(false);
-      getRoom();
+      getGuest();
     } catch (e) {
       Alert.alert('방 추가 실패');
     }
@@ -130,6 +147,7 @@ const RoomScreen = ({ navigation }) => {
       if (response.status === 200) {
         Alert.alert('방 삭제 완료');
         getRoom();
+        getGuest();
       } else {
         Alert.alert('실패');
       }
@@ -153,6 +171,7 @@ const RoomScreen = ({ navigation }) => {
 
   useEffect(() => {
     getRoom();
+    getGuest();
   }, []);
 
   return (
@@ -205,7 +224,7 @@ const RoomScreen = ({ navigation }) => {
               })
             ) : (
               <Text style={{ color: 'white', paddingTop: 30, fontSize: 20 }}>
-                방을 생성해주세요
+                + 버튼을 눌러 방을 생성해주세요
               </Text>
             )}
           </View>
@@ -227,8 +246,8 @@ const RoomScreen = ({ navigation }) => {
             <Text style={styles.myHome}>게스트</Text>
           </View>
           <View style={styles.roomButton}>
-            {jsonData.length > 0 ? (
-              jsonData.map((v) => {
+            {guestData.length > 0 ? (
+              guestData.map((v) => {
                 if (v && v.name) {
                   return (
                     <Button
@@ -244,7 +263,9 @@ const RoomScreen = ({ navigation }) => {
                 return null;
               })
             ) : (
-              <Text>방을 생성해주세요</Text>
+              <Text style={{ color: 'white', paddingTop: 30, fontSize: 20 }}>
+                + 버튼을 눌러 코드를 입력해주세요
+              </Text>
             )}
           </View>
         </View>
