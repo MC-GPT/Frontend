@@ -15,7 +15,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useMainContext } from '../contexts/MainContext';
 import { useUserContext } from '../contexts/UserContext';
-import { MaterialIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 const LightningScreen = ({ navigation }) => {
   const { home_id, apps, setApps } = useMainContext();
@@ -117,18 +117,20 @@ const LightningScreen = ({ navigation }) => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top, paddingBottom: insets.bottom },
+          { paddingTop: insets.top - 45, paddingBottom: insets.bottom - 45 },
         ]}
       >
-        <Input
-          value={input}
-          onChangeText={(text) => setInput(text.trim())}
-          title={'원하는 조명을 입력하세요'}
-          placeholder={''}
-          keyboardType={KeyboardTypes.EMAIL}
-          returnKeyType={ReturnKeyTypes.DONE}
-          onSubmitEditing={onSubmit}
-        />
+        <View style={styles.top}>
+          <Input
+            value={input}
+            onChangeText={(text) => setInput(text.trim())}
+            title={'원하는 조명을 입력하세요'}
+            placeholder={''}
+            keyboardType={KeyboardTypes.EMAIL}
+            returnKeyType={ReturnKeyTypes.DONE}
+            onSubmitEditing={onSubmit}
+          />
+        </View>
 
         <View style={styles.main}>
           <View style={styles.roomButton}>
@@ -140,27 +142,19 @@ const LightningScreen = ({ navigation }) => {
                     <Button
                       title={v.name}
                       onPress={() => navigation.navigate('Mood')}
+                      onLongPress={() => handleDeleteLight(v.id, v.name)}
                       buttonType={ButtonTypes.ROOM}
                       styles={buttonStyles}
                     />
-                    <Pressable
-                      style={styles.deleteButton}
-                      onPress={() => handleDeleteLight(v.id, v.name)}
-                    >
-                      <MaterialIcons name="delete" size={24} color="red" />
-                    </Pressable>
                   </View>
                 );
               })}
           </View>
         </View>
         <View style={styles.bottom}>
-          <View style={styles.createButton}>
-            <Button
-              title={'조명 추가'}
-              onPress={() => setVisibleLight(true)}
-            ></Button>
-          </View>
+          <Pressable onPress={() => setVisibleLight(true)}>
+            <FontAwesome name="plus-circle" size={40} color="white" />
+          </Pressable>
         </View>
         <PopupB
           visible={visibleLight}
@@ -181,66 +175,61 @@ LightningScreen.propTypes = {
 
 const buttonStyles = StyleSheet.create({
   container: {
-    width: 140,
-    // backgroundColor: 'black',
+    width: 120,
+    //backgroundColor: 'black',
     marginHorizontal: 10,
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
   },
   button: {
-    width: '100%',
-    height: 140,
+    width: 120,
+    height: 120,
     borderRadius: 20,
   },
 });
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'black',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: 30,
   },
   top: {
-    flex: 1,
+    flex: 3,
     width: '100%',
     flexDirection: 'row',
-    // backgroundColor: 'skyblue',
+    //backgroundColor: 'skyblue',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 24,
-    marginLeft: 105,
-  },
-  logoutButton: {
-    marginLeft: 60,
-  },
   main: {
-    flex: 5,
+    flex: 10,
     width: '100%',
-    // backgroundColor: 'yellow',
+    //backgroundColor: 'yellow',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   roomButton: {
-    // backgroundColor: 'aqua',
+    width: '100%',
+    //backgroundColor: 'aqua',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginHorizontal: 54,
   },
   lightContainer: {
     //backgroundColor: 'black',
   },
-  deleteButton: {},
   bottom: {
     flex: 2,
     width: '100%',
-    // backgroundColor: 'brown',
+    //backgroundColor: 'brown',
     justifyContent: 'center',
     alignItems: 'center',
   },

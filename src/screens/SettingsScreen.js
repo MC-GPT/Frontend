@@ -56,18 +56,20 @@ const SettingScreen = () => {
             </View>
             <View style={styles.profile}>
               <Image style={styles.profileImg} source={favicon} />
-              <Text style={{ color: 'white' }}>프로필 편집</Text>
+              <Text style={{ color: 'white', paddingTop: 5 }}>프로필 편집</Text>
             </View>
           </View>
-          <TouchableOpacity style={styles.listContainer}>
-            <Text style={styles.listText}>계정 설정</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.listContainer}
-            onPress={() => handleCodeRefresh()}
-          >
-            <Text style={styles.listText}>코드 리프레쉬</Text>
-          </TouchableOpacity>
+          <View style={styles.listWrapper}>
+            <TouchableOpacity style={styles.listContainer}>
+              <Text style={styles.listText}>계정 설정</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.listContainer}
+              onPress={() => handleCodeRefresh()}
+            >
+              <Text style={styles.listText}>코드 리프레쉬</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ImageBackground>
     </SafeInputView>
@@ -90,8 +92,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    // backgroundColor: 'white',
-    borderWidth: 1,
+    //backgroundColor: 'white',
+    // borderWidth: 1,
     borderColor: '#ebebeb',
     borderRadius: 10,
   },
@@ -106,9 +108,10 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   profile: {
-    height: 100,
+    marginTop: 15,
+    height: 150,
     width: 100,
-    backgroundColor: '#ebebeb',
+    //backgroundColor: '#ebebeb',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
@@ -119,12 +122,16 @@ const styles = StyleSheet.create({
     opacity: 0.3,
     borderRadius: 10,
   },
+  listWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   listContainer: {
-    // backgroundColor: 'yellow',
+    //backgroundColor: 'yellow',
     alignItems: 'flex-start',
     justifyContent: 'center',
     paddingLeft: 20,
-    width: '99.9%',
+    width: '90%',
     height: 70,
     marginVertical: 10,
     borderWidth: 1,

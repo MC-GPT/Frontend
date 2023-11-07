@@ -10,13 +10,16 @@ import { useGameContext } from '../contexts/GameContext';
 import { useEffect, useRef, useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState('');
+  const [gameStart, setGameStart] = useState(false);
 
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   let ws = useRef(null);
 
@@ -77,6 +80,7 @@ const GameManageScreen = () => {
       try {
         const message = JSON.parse(event.data);
         console.log('host message : ', message);
+        console.log('message[0]:', message[0]);
         setImageSource(message[0]);
         // handleWebSocketMessage(message);
       } catch (error) {
@@ -123,6 +127,23 @@ const GameManageScreen = () => {
   //   }
   // };
 
+  const sendGameStartRequest = () => {
+    setGameStart(true); // 게임 시작 상태를 true로 설정
+    setImageIndex((prevIndex) => prevIndex + 1);
+    setImageSource(nextImageData);
+    console.log('nextImageData의 내용은 아래와 같다');
+    console.log(nextImageData);
+    const nextMessage = {
+      messageType: 'NEXT',
+      roomId: gamePlayId,
+      sender: 'host',
+      message: '',
+      imageUrls: [nextImageData],
+    };
+    ws.current.send(JSON.stringify(nextMessage));
+    console.log('게임 시작 완료');
+  };
+
   const sendNextRequest = () => {
     {
       setImageIndex((prevIndex) => prevIndex + 1);
@@ -149,6 +170,7 @@ const GameManageScreen = () => {
       message: '',
     };
     ws.current.send(JSON.stringify(exitMessage));
+    navigation.goBack();
     console.log('Exit 메시지 전송 완료');
   };
 
@@ -170,7 +192,7 @@ const GameManageScreen = () => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top - 60, paddingBottom: insets.bottom },
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
         <View style={styles.top}>
@@ -195,25 +217,29 @@ const GameManageScreen = () => {
             </View>
             <View style={styles.next}>
               <Pressable
-                onPress={sendNextRequest}
+                onPress={gameStart ? sendNextRequest : sendGameStartRequest}
                 style={({ pressed }) => [
                   styles.icon_each,
                   pressed && { backgroundColor: 'lightgrey' },
                 ]}
               >
-                <Text style={{ color: 'white', fontSize: 20 }}>다음 문제</Text>
+                <Text style={{ color: 'white', fontSize: 20 }}>
+                  {gameStart ? '다음 문제' : '게임 시작'}
+                </Text>
               </Pressable>
             </View>
           </View>
         </View>
         <View style={styles.main}>
-          <Image
-            style={styles.image}
-            source={{
-              uri: imageSource,
-            }}
-          ></Image>
+          {gameStart ? (
+            <Image style={styles.image} source={{ uri: imageSource }} />
+          ) : (
+            <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>
+              게임 시작 버튼을 눌러 게임을 시작하세요!
+            </Text>
+          )}
         </View>
+
         <View style={styles.bottom}>
           <View style={styles.confirm}>
             <Pressable

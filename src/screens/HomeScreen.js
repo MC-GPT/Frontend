@@ -271,16 +271,16 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   imageWrapper: {
-    width: 250,
-    height: 250,
+    width: 230,
+    height: 230,
     borderRadius: 10,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
   },
   image: {
-    width: 230,
-    height: 230,
+    width: 215,
+    height: 215,
   },
   music_icon: {
     flexDirection: 'row',

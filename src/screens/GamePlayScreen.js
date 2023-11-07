@@ -10,6 +10,7 @@ import { useGameContext } from '../contexts/GameContext';
 import { useEffect, useRef, useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const GamePlayScreen = () => {
   const { gameName } = useGameContext();
@@ -17,6 +18,7 @@ const GamePlayScreen = () => {
 
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
+  const navigation = useNavigation();
 
   let ws = useRef(null);
   useEffect(() => {
@@ -92,6 +94,7 @@ const GamePlayScreen = () => {
       imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
     };
     ws.current.send(JSON.stringify(exitMessage));
+    navigation.goBack();
     console.log('Exit 메시지 전송 완료');
   };
 
@@ -141,10 +144,12 @@ const GamePlayScreen = () => {
         <View style={styles.main}>
           <Image
             style={styles.image}
-            source={{
-              uri: imageSource,
-            }}
-          ></Image>
+            source={
+              imageSource
+                ? { uri: imageSource }
+                : require('../../assets/background.png')
+            }
+          />
         </View>
         <View style={styles.bottom}>
           <View style={styles.confirm}>
