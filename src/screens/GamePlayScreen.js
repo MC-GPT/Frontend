@@ -15,7 +15,6 @@ import { useNavigation } from '@react-navigation/native';
 const GamePlayScreen = () => {
   const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState('');
-
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
@@ -45,7 +44,8 @@ const GamePlayScreen = () => {
         const message = JSON.parse(event.data);
         console.log('player message:', message);
         setImageSource(message[0]);
-        handleWebSocketMessage(message);
+
+        //handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
       }
@@ -65,25 +65,25 @@ const GamePlayScreen = () => {
     };
   }, []);
 
-  const handleWebSocketMessage = (message) => {
-    switch (message.type) {
-      case 'ENTER': {
-        break;
-      }
-      case 'NEXT': {
-        const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
-        setImageSource(nextImageData);
-        break;
-      }
-      case 'END':
-        // '종료' 버튼을 눌렀을 때 게임 종료 처리
+  // const handleWebSocketMessage = (message) => {
+  //   switch (message.type) {
+  //     case 'ENTER': {
+  //       break;
+  //     }
+  //     case 'NEXT': {
+  //       const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
+  //       setImageSource(nextImageData);
+  //       break;
+  //     }
+  //     case 'END':
+  //       // '종료' 버튼을 눌렀을 때 게임 종료 처리
 
-        break;
-      default:
-        // 다른 메시지 유형에 대한 처리
-        break;
-    }
-  };
+  //       break;
+  //     default:
+  //       // 다른 메시지 유형에 대한 처리
+  //       break;
+  //   }
+  // };
 
   const sendExitRequest = () => {
     const exitMessage = {
@@ -116,7 +116,7 @@ const GamePlayScreen = () => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top - 60, paddingBottom: insets.bottom },
+          { paddingTop: insets.top, paddingBottom: insets.bottom },
         ]}
       >
         <View style={styles.top}>
@@ -136,20 +136,13 @@ const GamePlayScreen = () => {
                   pressed && { backgroundColor: 'lightgrey' },
                 ]}
               >
-                <Text style={{ fontSize: 23 }}> 종료 </Text>
+                <Text style={{ fontSize: 23, color: 'white' }}> 종료 </Text>
               </Pressable>
             </View>
           </View>
         </View>
         <View style={styles.main}>
-          <Image
-            style={styles.image}
-            source={
-              imageSource
-                ? { uri: imageSource }
-                : require('../../assets/background.png')
-            }
-          />
+          <Image style={styles.image} source={{ uri: imageSource }} />
         </View>
         <View style={styles.bottom}>
           <View style={styles.confirm}>
@@ -160,7 +153,7 @@ const GamePlayScreen = () => {
                 pressed && { backgroundColor: 'lightgrey' },
               ]}
             >
-              <Text style={{ fontSize: 20 }}> 정답 확인 </Text>
+              <Text style={{ fontSize: 20, color: 'white' }}> A / B </Text>
             </Pressable>
           </View>
         </View>
@@ -200,7 +193,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     margin: 10,
   },
-
   main: {
     flex: 5,
     //backgroundColor: 'pink',

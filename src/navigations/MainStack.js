@@ -38,14 +38,7 @@ const MainStack = () => {
           headerShown: true,
         }}
       />
-      <Stack.Screen
-        name={'GamePlay'}
-        component={GamePlayScreen}
-        options={{
-          title: '',
-          headerShown: true,
-        }}
-      />
+      <Stack.Screen name={'GamePlay'} component={GamePlayScreen} />
       <Stack.Screen name={'GameManage'} component={GameManageScreen} />
     </Stack.Navigator>
   );

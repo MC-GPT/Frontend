@@ -36,6 +36,7 @@ const GameListScreen = ({ navigation }) => {
         // 개별 게임방 id context에 저장
         setGamePlayId(data.data);
         console.log(gamePlayId);
+        console.log('게임방생성완료');
         navigation.navigate('GameManage');
       } else {
         Alert.alert('게임방 생성 실패');

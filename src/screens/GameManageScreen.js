@@ -156,8 +156,12 @@ const GameManageScreen = () => {
         message: '',
         imageUrls: [nextImageData],
       };
-      ws.current.send(JSON.stringify(nextMessage));
-      console.log('next 메시지 전송 완료');
+      try {
+        ws.current.send(JSON.stringify(nextMessage));
+      } catch (e) {
+        console.log(e.message);
+      }
+      console.log('next message 전송완료');
     }
   };
 
