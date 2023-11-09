@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
   backButton: {
     flex: 1,
     justifyContent: 'flex-end',
-    paddingLeft: 18,
+    paddingLeft: 25,
     //backgroundColor: 'white',
   },
   image: {

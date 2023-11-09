@@ -16,7 +16,6 @@ const GameManageScreen = () => {
   const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState('');
   const [gameStart, setGameStart] = useState(false);
-
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
@@ -163,6 +162,7 @@ const GameManageScreen = () => {
   };
 
   const sendExitRequest = () => {
+    setGameStart(false);
     const exitMessage = {
       messageType: 'EXIT',
       roomId: gamePlayId,

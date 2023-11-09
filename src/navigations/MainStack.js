@@ -29,14 +29,7 @@ const MainStack = () => {
       <Stack.Screen name={'Home'} component={HomeScreen} />
       <Stack.Screen name={'ContentTab'} component={ContentTab} />
       <Stack.Screen name={'Mood'} component={MoodLightScreen} />
-      <Stack.Screen
-        name={'ElectroInfo'}
-        component={ElectroInfoScreen}
-        options={{
-          title: '',
-          headerShown: true,
-        }}
-      />
+      <Stack.Screen name={'ElectroInfo'} component={ElectroInfoScreen} />
       <Stack.Screen
         name={'Settings'}
         component={SettingsScreen}

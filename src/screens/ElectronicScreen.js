@@ -125,16 +125,11 @@ const ElectronicScreen = ({ navigation }) => {
                   <View key={v.id} style={styles.AppContainer}>
                     <Button
                       title={v.name}
-                      onPress={() => navigation.navigate('Mood')}
+                      onPress={() => navigation.navigate('ElectroInfo')}
+                      onLongPress={() => handleDeleteApp(v.id, v.name)}
                       buttonType={ButtonTypes.ROOM}
                       styles={buttonStyles}
                     />
-                    <Pressable
-                      style={styles.deleteButton}
-                      onPress={() => handleDeleteApp(v.id, v.name)}
-                    >
-                      <MaterialIcons name="delete" size={24} color="red" />
-                    </Pressable>
                   </View>
                 );
               })}
