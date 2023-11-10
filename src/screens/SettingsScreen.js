@@ -6,7 +6,6 @@ import {
   ImageBackground,
 } from 'react-native';
 import { StyleSheet, Alert } from 'react-native';
-import favicon from '../../assets/favicon.png';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
@@ -19,6 +18,7 @@ const SettingScreen = () => {
   const navigation = useNavigation();
   const { home_id, setHomeCode } = useMainContext();
   const insets = useSafeAreaInsets();
+  const imageUrl = 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/0.png';
 
   const handleCodeRefresh = async () => {
     try {
@@ -55,7 +55,12 @@ const SettingScreen = () => {
               <Text style={styles.myInfoContent}>ID: {account} </Text>
             </View>
             <View style={styles.profile}>
-              <Image style={styles.profileImg} source={favicon} />
+              <Image
+                style={styles.profileImg}
+                source={{
+                  uri: imageUrl,
+                }}
+              />
               <Text style={{ color: 'white', paddingTop: 5 }}>프로필 편집</Text>
             </View>
           </View>
@@ -119,7 +124,7 @@ const styles = StyleSheet.create({
   profileImg: {
     height: 100,
     width: 100,
-    opacity: 0.3,
+    //opacity: 0.3,
     borderRadius: 10,
   },
   listWrapper: {

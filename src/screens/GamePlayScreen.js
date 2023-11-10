@@ -18,6 +18,7 @@ const GamePlayScreen = () => {
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const [gameStart, setGameStart] = useState(false);
 
   let ws = useRef(null);
   useEffect(() => {
@@ -43,8 +44,10 @@ const GamePlayScreen = () => {
       try {
         const message = JSON.parse(event.data);
         console.log('player message:', message);
+        if (message[0].startsWith('https')) {
+          setGameStart(true);
+        }
         setImageSource(message[0]);
-
         //handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
@@ -94,6 +97,7 @@ const GamePlayScreen = () => {
       imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
     };
     ws.current.send(JSON.stringify(exitMessage));
+    setGameStart(false);
     navigation.goBack();
     console.log('Exit 메시지 전송 완료');
   };
@@ -142,7 +146,13 @@ const GamePlayScreen = () => {
           </View>
         </View>
         <View style={styles.main}>
-          <Image style={styles.image} source={{ uri: imageSource }} />
+          {gameStart ? (
+            <Image style={styles.image} source={{ uri: imageSource }} />
+          ) : (
+            <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>
+              게임 시작 대기중 . . .
+            </Text>
+          )}
         </View>
         <View style={styles.bottom}>
           <View style={styles.confirm}>
