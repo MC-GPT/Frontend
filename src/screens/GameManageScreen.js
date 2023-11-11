@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState('');
+
   const [gameStart, setGameStart] = useState(false);
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
@@ -55,7 +56,7 @@ const GameManageScreen = () => {
     },
   ];
   const [imageIndex, setImageIndex] = useState(0);
-  let nextImageData = geo[imageIndex].image;
+  let nextImageData = geo[imageIndex];
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
@@ -77,11 +78,12 @@ const GameManageScreen = () => {
 
     ws.current.onmessage = (event) => {
       try {
+        console.log('event : ', event);
         const message = JSON.parse(event.data);
         console.log('host message : ', message);
         console.log('message[0]:', message[0]);
         setImageSource(message[0]);
-        // handleWebSocketMessage(message);
+        //handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
       }
@@ -101,7 +103,7 @@ const GameManageScreen = () => {
     };
   }, []);
 
-  // const handleWebSocketMessage = (message) => {
+  //const handleWebSocketMessage = (message) => {
   //   switch (message.type) {
   //     case 'ENTER': {
   //       // 서버로부터 초기 게임 데이터 수신 및 화면에 렌더링
@@ -129,7 +131,7 @@ const GameManageScreen = () => {
   const sendGameStartRequest = () => {
     setGameStart(true); // 게임 시작 상태를 true로 설정
     setImageIndex((prevIndex) => prevIndex + 1);
-    setImageSource(nextImageData);
+    setImageSource(nextImageData.image);
     console.log('nextImageData의 내용은 아래와 같다');
     console.log(nextImageData);
     const nextMessage = {
@@ -137,16 +139,27 @@ const GameManageScreen = () => {
       roomId: gamePlayId,
       sender: 'host',
       message: '',
-      imageUrls: [nextImageData],
+      imageUrls: [nextImageData.image],
     };
-    ws.current.send(JSON.stringify(nextMessage));
+    console.log('보내는 next 메세지 내용 : ', nextMessage);
+    const answerMessage = {
+      messageType: 'ANSWER',
+      roomId: gamePlayId,
+      sender: 'host',
+      message: '',
+      imageUrls: [nextImageData.area],
+    };
+    console.log('보내는 answer 메세지 내용 : ', answerMessage);
+    ws.current.send(JSON.stringify(nextMessage, answerMessage));
+    console.log(imageIndex);
     console.log('게임 시작 완료');
   };
 
   const sendNextRequest = () => {
     {
+      setPressed(false);
       setImageIndex((prevIndex) => prevIndex + 1);
-      setImageSource(nextImageData);
+      setImageSource(nextImageData.image);
       console.log('nextImageData의 내용은 아래와 같다');
       console.log(nextImageData);
       const nextMessage = {
@@ -154,13 +167,21 @@ const GameManageScreen = () => {
         roomId: gamePlayId,
         sender: 'host',
         message: '',
-        imageUrls: [nextImageData],
+        imageUrls: [nextImageData.image],
+      };
+      const answerMessage = {
+        messageType: 'ANSWER',
+        roomId: gamePlayId,
+        sender: 'host',
+        message: '',
+        imageUrls: [nextImageData.area],
       };
       try {
-        ws.current.send(JSON.stringify(nextMessage));
+        ws.current.send(JSON.stringify(nextMessage, answerMessage));
       } catch (e) {
         console.log(e.message);
       }
+      console.log(imageIndex);
       console.log('next message 전송완료');
     }
   };
@@ -178,17 +199,11 @@ const GameManageScreen = () => {
     console.log('Exit 메시지 전송 완료');
   };
 
+  const [pressed, setPressed] = useState(false);
   const sendConfirmRequest = () => {
-    const confirmMessage = {
-      messageType: 'CONFIRM',
-      roomId: 53,
-      sender: 'host',
-      message: '',
-      imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
-    };
-    ws.current.send(JSON.stringify(confirmMessage));
-    console.log('Confirm 메시지 전송 완료');
+    setPressed(true);
   };
+  const answerText = pressed ? geo[imageIndex - 1].area : '정답 확인';
 
   return (
     <SafeInputView>
@@ -236,7 +251,9 @@ const GameManageScreen = () => {
         </View>
         <View style={styles.main}>
           {gameStart ? (
-            <Image style={styles.image} source={{ uri: imageSource }} />
+            <View style={styles.imageWrapper}>
+              <Image style={styles.image} source={{ uri: imageSource }} />
+            </View>
           ) : (
             <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>
               게임 시작 버튼을 눌러 게임을 시작하세요!
@@ -253,7 +270,7 @@ const GameManageScreen = () => {
                 pressed && { backgroundColor: 'lightgrey' },
               ]}
             >
-              <Text style={{ color: 'white', fontSize: 20 }}> 정답 확인 </Text>
+              <Text style={{ color: 'white', fontSize: 20 }}>{answerText}</Text>
             </Pressable>
           </View>
         </View>
@@ -305,9 +322,21 @@ const styles = StyleSheet.create({
     flex: 5,
     // backgroundColor: 'pink',
     width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageWrapper: {
+    width: 340,
+    height: 340,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   image: {
-    flex: 1,
+    width: 320,
+    height: 320,
+    borderRadius: 10,
   },
   bottom: {
     flex: 3,

@@ -147,7 +147,9 @@ const GamePlayScreen = () => {
         </View>
         <View style={styles.main}>
           {gameStart ? (
-            <Image style={styles.image} source={{ uri: imageSource }} />
+            <View style={styles.imageWrapper}>
+              <Image style={styles.image} source={{ uri: imageSource }} />
+            </View>
           ) : (
             <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>
               게임 시작 대기중 . . .
@@ -205,11 +207,23 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 5,
-    //backgroundColor: 'pink',
+    // backgroundColor: 'pink',
     width: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  imageWrapper: {
+    width: 340,
+    height: 340,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderRadius: 10,
   },
   image: {
-    flex: 1,
+    width: 320,
+    height: 320,
+    borderRadius: 10,
   },
   bottom: {
     flex: 3,
