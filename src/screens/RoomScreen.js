@@ -320,7 +320,7 @@ RoomScreen.propTypes = {
 
 const buttonStyles = StyleSheet.create({
   container: {
-    width: 140,
+    width: 135,
     //backgroundColor: 'pink',
     marginHorizontal: 10,
     paddingTop: 20,

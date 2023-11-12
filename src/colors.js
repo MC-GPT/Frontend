@@ -33,8 +33,8 @@ export const GUEST = {
 
 export const GAME = {
   LIGHT: '#7BC7E7',
-  DEFAULT: '#6AB9C3',
-  DARK: '#4C7F94',
+  DEFAULT: '#24AEEB',
+  DARK: '#1B6A8C',
 };
 
 export const APPLIANCES = {

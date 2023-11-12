@@ -68,7 +68,7 @@ const GameManageScreen = () => {
       const enterMessage = {
         messageType: 'ENTER',
         roomId: gamePlayId,
-        sender: 'host',
+        sender: gameName,
         message: '',
       };
       ws.current.send(JSON.stringify(enterMessage));
@@ -129,6 +129,7 @@ const GameManageScreen = () => {
   // };
 
   const sendGameStartRequest = () => {
+    handleShuffle();
     setGameStart(true); // 게임 시작 상태를 true로 설정
     setImageIndex((prevIndex) => prevIndex + 1);
     setImageSource(nextImageData.image);
@@ -157,6 +158,7 @@ const GameManageScreen = () => {
 
   const sendNextRequest = () => {
     {
+      handleShuffle();
       setPressed(false);
       setImageIndex((prevIndex) => prevIndex + 1);
       setImageSource(nextImageData.image);
@@ -205,6 +207,41 @@ const GameManageScreen = () => {
   };
   const answerText = pressed ? geo[imageIndex - 1].area : '정답 확인';
 
+  const shuffleArray = (array) => {
+    const shuffledArray = array.slice();
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [
+        shuffledArray[j],
+        shuffledArray[i],
+      ];
+    }
+    return shuffledArray;
+  };
+  const initialTexts = ['호랭이', '다람쥐', '너구리'];
+  const [shuffledTexts, setShuffledTexts] = useState(
+    shuffleArray(initialTexts)
+  );
+  const [visibleTexts, setVisibleTexts] = useState([]);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      if (shuffledTexts.length > visibleTexts.length) {
+        setVisibleTexts((prevVisibleTexts) => [
+          ...prevVisibleTexts,
+          shuffledTexts[prevVisibleTexts.length],
+        ]);
+      } else {
+        clearInterval(timer);
+      }
+    }, Math.random() * 500 + 200);
+    return () => clearInterval(timer);
+  }, [shuffledTexts, visibleTexts]);
+
+  const handleShuffle = () => {
+    setShuffledTexts(shuffleArray(initialTexts));
+    setVisibleTexts([]);
+  };
+
   return (
     <SafeInputView>
       <ImageBackground
@@ -217,9 +254,7 @@ const GameManageScreen = () => {
         <View style={styles.top}>
           <View style={styles.topLeft}>
             <View style={styles.gameTitle}>
-              <Text style={{ fontSize: 25, color: 'white' }}>
-                게임이름{gameName}
-              </Text>
+              <Text style={{ fontSize: 25, color: 'white' }}>{gameName}</Text>
             </View>
           </View>
           <View style={styles.topRight}>
@@ -263,16 +298,43 @@ const GameManageScreen = () => {
 
         <View style={styles.bottom}>
           <View style={styles.confirm}>
-            <Pressable
-              onPress={sendConfirmRequest}
-              style={({ pressed }) => [
-                styles.icon_each,
-                pressed && { backgroundColor: 'lightgrey' },
-              ]}
-            >
-              <Text style={{ color: 'white', fontSize: 20 }}>{answerText}</Text>
-            </Pressable>
+            {gameStart && (
+              <Pressable
+                onPress={sendConfirmRequest}
+                style={({ pressed }) => [
+                  styles.icon_each,
+                  pressed && { backgroundColor: 'lightgrey' },
+                ]}
+              >
+                <Text style={{ color: 'white', fontSize: 20 }}>
+                  {answerText}
+                </Text>
+              </Pressable>
+            )}
           </View>
+        </View>
+        <View style={styles.last}>
+          {gameStart && (
+            <View style={styles.list}>
+              <Text style={{ color: 'white', fontSize: 20, paddingBottom: 10 }}>
+                선착순 LIST
+              </Text>
+              <View style={styles.listContainer}>
+                {visibleTexts.map((text, index) => (
+                  <Text
+                    key={index}
+                    style={{
+                      color: 'white',
+                      fontSize: 18,
+                      marginLeft: index > 0 ? 30 : 0,
+                    }}
+                  >
+                    {text}
+                  </Text>
+                ))}
+              </View>
+            </View>
+          )}
         </View>
       </ImageBackground>
     </SafeInputView>
@@ -288,7 +350,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   top: {
-    flex: 1,
+    flex: 1.5,
     flexDirection: 'row',
     // backgroundColor: 'aqua',
     justifyContent: 'center',
@@ -319,7 +381,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   main: {
-    flex: 5,
+    flex: 6,
     // backgroundColor: 'pink',
     width: '100%',
     justifyContent: 'center',
@@ -339,11 +401,28 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   bottom: {
-    flex: 3,
+    flex: 1,
     width: '100%',
     // backgroundColor: 'yellow',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  last: {
+    flex: 2,
+    width: '100%',
+    paddingLeft: 30,
+  },
+  list: {},
+  listContainer: {
+    //backgroundColor: 'yellow',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '90%',
+    height: 70,
+    borderWidth: 1,
+    borderColor: '#ebebeb',
+    borderRadius: 10,
+    flexDirection: 'row',
   },
 });
 

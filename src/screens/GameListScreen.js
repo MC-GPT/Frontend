@@ -13,11 +13,11 @@ const GameListScreen = ({ navigation }) => {
   const { jwt } = useUserContext();
   const { home_id, games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
-  const { gamePlayId, setGamePlayId } = useGameContext();
+  const { gamePlayId, setGamePlayId, setGameName } = useGameContext();
   const insets = useSafeAreaInsets();
 
-  const postCreateGame = async (game_id) => {
-    console.log(home_id, game_id, 'home_id, game_id 받아오기');
+  const postCreateGame = async (game_id, game_name) => {
+    console.log(home_id, game_id, game_name, 'home_id, game_id, game_name');
     try {
       // eslint-disable-next-line no-unused-vars
       const data = await axios.post(
@@ -43,7 +43,6 @@ const GameListScreen = ({ navigation }) => {
       }
     } catch (e) {
       console.log(e);
-      Alert.alert('게임이 이미 진행중입니다');
     }
   };
 
@@ -93,7 +92,9 @@ const GameListScreen = ({ navigation }) => {
                   <Button
                     key={v.id}
                     title={v.name}
-                    onPress={() => postCreateGame(v.id, v.name)}
+                    onPress={() =>
+                      postCreateGame(v.id, v.name) && setGameName(v.name)
+                    }
                     buttonType={ButtonTypes.GAME}
                     styles={buttonStyles}
                   />

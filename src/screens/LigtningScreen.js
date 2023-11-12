@@ -117,14 +117,14 @@ const LightningScreen = ({ navigation }) => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top - 45, paddingBottom: insets.bottom - 45 },
+          { paddingTop: insets.top - 45, paddingBottom: insets.bottom },
         ]}
       >
         <View style={styles.top}>
           <Input
             value={input}
             onChangeText={(text) => setInput(text.trim())}
-            title={'원하는 조명을 입력하세요'}
+            title={'원하시는 조명을 입력하세요'}
             placeholder={''}
             keyboardType={KeyboardTypes.EMAIL}
             returnKeyType={ReturnKeyTypes.DONE}

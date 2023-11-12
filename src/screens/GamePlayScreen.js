@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { useUserContext } from '../contexts/UserContext';
 
 const GamePlayScreen = () => {
   const { gameName } = useGameContext();
@@ -19,6 +20,7 @@ const GamePlayScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [gameStart, setGameStart] = useState(false);
+  const { nickname } = useUserContext();
 
   let ws = useRef(null);
   useEffect(() => {
@@ -91,8 +93,8 @@ const GamePlayScreen = () => {
   const sendExitRequest = () => {
     const exitMessage = {
       messageType: 'EXIT',
-      roomId: 53,
-      sender: 'host',
+      roomId: gamePlayId,
+      sender: 'player',
       message: '',
       imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
     };
@@ -102,16 +104,15 @@ const GamePlayScreen = () => {
     console.log('Exit 메시지 전송 완료');
   };
 
-  const sendConfirmRequest = () => {
-    const confirmMessage = {
-      messageType: 'CONFIRM',
-      roomId: 53,
-      sender: 'host',
-      message: '',
-      imageUrls: ['https://www.naver.com/', 'https://www.naver.com/'],
+  const sendAnswerRequest = () => {
+    const AnswerMessage = {
+      messageType: 'ANSWER',
+      roomId: gamePlayId,
+      sender: 'player',
+      message: nickname,
     };
-    ws.current.send(JSON.stringify(confirmMessage));
-    console.log('Confirm 메시지 전송 완료');
+    ws.current.send(JSON.stringify(AnswerMessage));
+    console.log('Answer 메시지 전송 완료');
   };
 
   return (
@@ -157,16 +158,27 @@ const GamePlayScreen = () => {
           )}
         </View>
         <View style={styles.bottom}>
-          <View style={styles.confirm}>
-            <Pressable
-              onPress={sendConfirmRequest}
+          <View style={styles.answer}>
+            {gameStart && (
+              <Pressable
+                //onPress={sendAnswerRequest}
+                style={({ pressed }) => [
+                  styles.icon_each,
+                  pressed && { backgroundColor: 'lightgrey' },
+                ]}
+              >
+                <Text style={{ fontSize: 20, color: 'white' }}> 정답 ! </Text>
+              </Pressable>
+            )}
+            {/* <Pressable
+              onPress={sendAnswerRequest}
               style={({ pressed }) => [
                 styles.icon_each,
                 pressed && { backgroundColor: 'lightgrey' },
               ]}
             >
-              <Text style={{ fontSize: 20, color: 'white' }}> A / B </Text>
-            </Pressable>
+              <Text style={{ fontSize: 20, color: 'white' }}> B </Text>
+            </Pressable> */}
           </View>
         </View>
       </ImageBackground>
@@ -183,7 +195,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   top: {
-    flex: 1,
+    flex: 1.5,
     flexDirection: 'row',
   },
   topLeft: {
@@ -231,6 +243,9 @@ const styles = StyleSheet.create({
     // backgroundColor: 'yellow',
     justifyContent: 'flex-start',
     alignItems: 'center',
+  },
+  answer: {
+    flexDirection: 'row',
   },
 });
 

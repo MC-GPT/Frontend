@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 const GameContext = createContext();
 
 export const GameProvider = ({ children }) => {
-  const [gamePlayId, setGamePlayId, gameName, setGameName] = useState('');
+  const [gamePlayId, setGamePlayId] = useState('');
+  const [gameName, setGameName] = useState('');
   return (
     <GameContext.Provider
       value={{

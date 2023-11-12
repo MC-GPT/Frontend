@@ -14,7 +14,8 @@ import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
 import { useMainContext } from '../contexts/MainContext';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 
 const ElectronicScreen = ({ navigation }) => {
   const { home_id, apps, setApps } = useMainContext();
@@ -101,6 +102,10 @@ const ElectronicScreen = ({ navigation }) => {
       },
     ]);
   };
+  const [input, setInput] = useState('');
+  const onSubmit = () => {
+    Alert.alert('입력완료');
+  };
 
   useEffect(() => {
     setJsonData(apps);
@@ -112,10 +117,20 @@ const ElectronicScreen = ({ navigation }) => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top, paddingBottom: insets.bottom },
+          { paddingTop: insets.top - 45, paddingBottom: insets.bottom },
         ]}
       >
-        <View style={styles.top}></View>
+        <View style={styles.top}>
+          <Input
+            value={input}
+            onChangeText={(text) => setInput(text.trim())}
+            title={'GPT에게 무엇이든 물어보세요'}
+            placeholder={''}
+            keyboardType={KeyboardTypes.EMAIL}
+            returnKeyType={ReturnKeyTypes.DONE}
+            onSubmitEditing={onSubmit}
+          />
+        </View>
         <View style={styles.main}>
           <View style={styles.roomButton}>
             {jsonData
@@ -136,13 +151,11 @@ const ElectronicScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.bottom}>
-          <View style={styles.createButton}>
-            <Button
-              title={'가전 추가'}
-              onPress={() => setVisibleLight(true)}
-            ></Button>
-          </View>
+          <Pressable onPress={() => setVisibleLight(true)}>
+            <FontAwesome name="plus-circle" size={40} color="white" />
+          </Pressable>
         </View>
+
         <PopupB
           visible={visibleLight}
           onClose={() => setVisibleLight(false)}
@@ -184,42 +197,36 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   top: {
-    flex: 1,
+    flex: 3,
     width: '100%',
     flexDirection: 'row',
-    // backgroundColor: 'skyblue',
+    //backgroundColor: 'skyblue',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    fontSize: 24,
-    marginLeft: 105,
-  },
-  logoutButton: {
-    marginLeft: 60,
-  },
   main: {
-    flex: 5,
+    flex: 10,
     width: '100%',
-    // backgroundColor: 'yellow',
+    //backgroundColor: 'yellow',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   roomButton: {
-    // backgroundColor: 'aqua',
+    width: '100%',
+    //backgroundColor: 'aqua',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'flex-start',
+    justifyContent: 'center',
+    alignItems: 'center',
     marginHorizontal: 54,
   },
   AppContainer: {},
-  deleteButton: {},
   bottom: {
     flex: 2,
     width: '100%',
-    // backgroundColor: 'brown',
+    //backgroundColor: 'brown',
     justifyContent: 'center',
     alignItems: 'center',
   },

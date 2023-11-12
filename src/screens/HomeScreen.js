@@ -264,11 +264,13 @@ const styles = StyleSheet.create({
     padding: 10,
     height: 50,
     color: 'white',
+    fontStyle: 'italic',
   },
   artist: {
     fontSize: 16,
     height: 20,
     color: 'white',
+    fontStyle: 'italic',
   },
   imageWrapper: {
     width: 230,
