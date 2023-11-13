@@ -127,6 +127,7 @@ const RoomScreen = ({ navigation }) => {
       setApps(data.data.apps);
       setGames(data.data.games);
       setOwner(data.data.owner);
+      console.log('Is owner?', data.data.owner);
       navigation.navigate('ContentTab');
     } catch (e) {
       console.error(e);

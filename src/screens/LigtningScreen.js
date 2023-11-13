@@ -18,7 +18,7 @@ import { useUserContext } from '../contexts/UserContext';
 import { FontAwesome } from '@expo/vector-icons';
 
 const LightningScreen = ({ navigation }) => {
-  const { home_id, apps, setApps } = useMainContext();
+  const { home_id, apps, setApps, owner } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleLight, setVisibleLight] = useState(false);
   const [input, setInput] = useState('');
@@ -152,9 +152,11 @@ const LightningScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.bottom}>
-          <Pressable onPress={() => setVisibleLight(true)}>
-            <FontAwesome name="plus-circle" size={40} color="white" />
-          </Pressable>
+          {owner && (
+            <Pressable onPress={() => setVisibleLight(true)}>
+              <FontAwesome name="plus-circle" size={40} color="white" />
+            </Pressable>
+          )}
         </View>
         <PopupB
           visible={visibleLight}

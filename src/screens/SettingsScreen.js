@@ -16,7 +16,7 @@ import { useMainContext } from '../contexts/MainContext';
 const SettingScreen = () => {
   const { nickname, account, jwt } = useUserContext();
   const navigation = useNavigation();
-  const { home_id, setHomeCode } = useMainContext();
+  const { home_id, setHomeCode, owner } = useMainContext();
   const insets = useSafeAreaInsets();
   const imageUrl = 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/0.png';
 
@@ -68,12 +68,14 @@ const SettingScreen = () => {
             <TouchableOpacity style={styles.listContainer}>
               <Text style={styles.listText}>계정 설정</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.listContainer}
-              onPress={() => handleCodeRefresh()}
-            >
-              <Text style={styles.listText}>코드 리프레쉬</Text>
-            </TouchableOpacity>
+            {owner && (
+              <TouchableOpacity
+                style={styles.listContainer}
+                onPress={() => handleCodeRefresh()}
+              >
+                <Text style={styles.listText}>코드 리프레쉬</Text>
+              </TouchableOpacity>
+            )}
           </View>
         </View>
       </ImageBackground>
