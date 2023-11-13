@@ -19,11 +19,12 @@ import { BlurView } from 'expo-blur';
 import { FontAwesome } from '@expo/vector-icons';
 import { Entypo } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
+import { Zocial } from '@expo/vector-icons';
 
 // eslint-disable-next-line react/prop-types
 const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
-  const { home_name, home_code } = useMainContext();
+  const { home_name, home_code, owner } = useMainContext();
   const [isPlaying, setIsPlaying] = useState(false);
 
   const togglePlayback = () => {
@@ -42,10 +43,18 @@ const HomeScreen = ({ navigation }) => {
         <View style={styles.top}>
           <View style={styles.topleft}>
             <View style={styles.topIcon}>
-              <Octicons name="home" size={24} color="#AF6BE4" />
-              <Text style={styles.homename}>{home_name}</Text>
-            </View>
+              {owner ? (
+                <Octicons name="home" size={24} color="#AF6BE4" />
+              ) : (
+                <Zocial name="guest" size={24} color="#09B4FF" />
+              )}
 
+              {owner ? (
+                <Text style={styles.homename}>{home_name}</Text>
+              ) : (
+                <Text style={styles.guestname}>{home_name}</Text>
+              )}
+            </View>
             <Text style={styles.codestyle}>초대코드 : {home_code} </Text>
           </View>
           <View style={styles.topright}>
@@ -207,6 +216,14 @@ const styles = StyleSheet.create({
     textShadowColor: '#AF6BE4',
     textShadowOffset: { width: 1, height: 1 },
     textShadowRadius: 8, // 그림자의 블러 정도
+  },
+  guestname: {
+    fontSize: 23,
+    marginLeft: 10,
+    color: '#09B4FF',
+    textShadowColor: '#09B4FF',
+    textShadowOffset: { width: 1, height: 1 },
+    textShadowRadius: 3, // 그림자의 블러 정도
   },
   topright: {
     flexDirection: '',

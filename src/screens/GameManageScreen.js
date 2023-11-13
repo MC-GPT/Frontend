@@ -25,38 +25,125 @@ const GameManageScreen = () => {
 
   let geo = [
     {
-      area: '에펠탑',
+      answer: '에펠탑',
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=48.858844,2.294351&heading=140&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
-      area: '자유의 여신상',
+      answer: '자유의 여신상',
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=40.689247,-74.044502&heading=10&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
-      area: '콜로세움',
+      answer: '콜로세움',
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=41.89021,12.492231&heading=20&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
-      area: '만리장성',
+      answer: '만리장성',
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=40.431908,116.570374&heading=300&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
-      area: '피라미드',
+      answer: '베네치아 캐널',
+      image:
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=45.440847,12.315515&heading=170&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+    },
+    {
+      answer: '피사의 사탑',
+      image:
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=43.722952,10.396597&heading=230&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+    },
+    {
+      answer: '시드니 오페라 하우스',
+      image:
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=-33.856159,151.214234&heading=70&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+    },
+    {
+      answer: '피라미드',
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=30&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
-      area: '타지마할',
+      answer: '타지마할',
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=27.175142,78.042442&heading=10&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
+    {
+      answer: '기차이쿠',
+      image:
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=35.710063,139.8107&heading=360&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+    },
   ];
+
+  let disney = [
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/0.jpg',
+      answer: '수지',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/0.png',
+    },
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/1.jpg',
+      answer: '아이유',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/1.png',
+    },
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/2.jpg',
+      answer: '윈터',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/2.png',
+    },
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/3.jpg',
+      answer: '장원영',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/3.png',
+    },
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/4.jpg',
+      answer: '제니',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/4.png',
+    },
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/5.jpg',
+      answer: '해린',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/5.png',
+    },
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/6.jpg',
+      answer: '윈터',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/6.png',
+    },
+    {
+      real: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/answer/7.jpg',
+      answer: '카리나',
+      image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/quiz/7.png',
+    },
+  ];
+
+  let gather = [
+    { image: 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/headphone.jpg' },
+  ];
+
   const [imageIndex, setImageIndex] = useState(0);
-  let nextImageData = geo[imageIndex];
+  let nextImageData;
+  let answerData;
+
+  if (gameName.startsWith('g')) {
+    nextImageData = geo[imageIndex];
+    answerData = geo[imageIndex - 1];
+  } else if (gameName.startsWith('디')) {
+    nextImageData = disney[imageIndex];
+    answerData = disney[imageIndex - 1];
+  } else if (gameName.startsWith('모')) {
+    nextImageData = gather[imageIndex];
+  } else {
+    // dummy
+  }
+
+  const [pressed, setPressed] = useState(false);
+  const sendConfirmRequest = () => {
+    setPressed(true);
+  };
+  const answerText = pressed ? answerData.answer : '정답 확인';
 
   useEffect(() => {
     // eslint-disable-next-line no-undef
@@ -103,33 +190,7 @@ const GameManageScreen = () => {
     };
   }, []);
 
-  //const handleWebSocketMessage = (message) => {
-  //   switch (message.type) {
-  //     case 'ENTER': {
-  //       // 서버로부터 초기 게임 데이터 수신 및 화면에 렌더링
-  //       //  const initialImageData = message.data.image; // 서버에서 이미지 데이터를 받아옴
-  //       //  setImageSource(initialImageData);
-
-  //       break;
-  //     }
-  //     case 'NEXT': {
-  //       // '다음 문제' 버튼을 눌렀을 때 처리
-  //       const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
-  //       setImageSource(nextImageData);
-  //       break;
-  //     }
-  //     case 'END':
-  //       // '종료' 버튼을 눌렀을 때 게임 종료 처리
-
-  //       break;
-  //     default:
-  //       // 다른 메시지 유형에 대한 처리
-  //       break;
-  //   }
-  // };
-
   const sendGameStartRequest = () => {
-    handleShuffle();
     setGameStart(true); // 게임 시작 상태를 true로 설정
     setImageIndex((prevIndex) => prevIndex + 1);
     setImageSource(nextImageData.image);
@@ -158,7 +219,6 @@ const GameManageScreen = () => {
 
   const sendNextRequest = () => {
     {
-      handleShuffle();
       setPressed(false);
       setImageIndex((prevIndex) => prevIndex + 1);
       setImageSource(nextImageData.image);
@@ -171,20 +231,30 @@ const GameManageScreen = () => {
         message: '',
         imageUrls: [nextImageData.image],
       };
-      const answerMessage = {
-        messageType: 'ANSWER',
-        roomId: gamePlayId,
-        sender: 'host',
-        message: '',
-        imageUrls: [nextImageData.area],
-      };
+
       try {
-        ws.current.send(JSON.stringify(nextMessage, answerMessage));
+        ws.current.send(JSON.stringify(nextMessage));
       } catch (e) {
         console.log(e.message);
       }
       console.log(imageIndex);
       console.log('next message 전송완료');
+    }
+  };
+
+  const sendAnswerRequest = () => {
+    setImageSource(answerData.real);
+    const answerMessage = {
+      messageType: 'ANSWER',
+      roomId: gamePlayId,
+      sender: 'host',
+      message: '',
+      imageUrls: [answerData.real],
+    };
+    try {
+      ws.current.send(JSON.stringify(answerMessage));
+    } catch (e) {
+      console.log(e.message);
     }
   };
 
@@ -199,47 +269,6 @@ const GameManageScreen = () => {
     ws.current.send(JSON.stringify(exitMessage));
     navigation.goBack();
     console.log('Exit 메시지 전송 완료');
-  };
-
-  const [pressed, setPressed] = useState(false);
-  const sendConfirmRequest = () => {
-    setPressed(true);
-  };
-  const answerText = pressed ? geo[imageIndex - 1].area : '정답 확인';
-
-  const shuffleArray = (array) => {
-    const shuffledArray = array.slice();
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffledArray[i], shuffledArray[j]] = [
-        shuffledArray[j],
-        shuffledArray[i],
-      ];
-    }
-    return shuffledArray;
-  };
-  const initialTexts = ['호랭이', '다람쥐', '너구리'];
-  const [shuffledTexts, setShuffledTexts] = useState(
-    shuffleArray(initialTexts)
-  );
-  const [visibleTexts, setVisibleTexts] = useState([]);
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (shuffledTexts.length > visibleTexts.length) {
-        setVisibleTexts((prevVisibleTexts) => [
-          ...prevVisibleTexts,
-          shuffledTexts[prevVisibleTexts.length],
-        ]);
-      } else {
-        clearInterval(timer);
-      }
-    }, Math.random() * 500 + 200);
-    return () => clearInterval(timer);
-  }, [shuffledTexts, visibleTexts]);
-
-  const handleShuffle = () => {
-    setShuffledTexts(shuffleArray(initialTexts));
-    setVisibleTexts([]);
   };
 
   return (
@@ -300,7 +329,10 @@ const GameManageScreen = () => {
           <View style={styles.confirm}>
             {gameStart && (
               <Pressable
-                onPress={sendConfirmRequest}
+                onPress={() => {
+                  sendConfirmRequest();
+                  sendAnswerRequest();
+                }}
                 style={({ pressed }) => [
                   styles.icon_each,
                   pressed && { backgroundColor: 'lightgrey' },
@@ -319,20 +351,7 @@ const GameManageScreen = () => {
               <Text style={{ color: 'white', fontSize: 20, paddingBottom: 10 }}>
                 선착순 LIST
               </Text>
-              <View style={styles.listContainer}>
-                {visibleTexts.map((text, index) => (
-                  <Text
-                    key={index}
-                    style={{
-                      color: 'white',
-                      fontSize: 18,
-                      marginLeft: index > 0 ? 30 : 0,
-                    }}
-                  >
-                    {text}
-                  </Text>
-                ))}
-              </View>
+              <View style={styles.listContainer}></View>
             </View>
           )}
         </View>

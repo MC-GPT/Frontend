@@ -70,6 +70,7 @@ const GameListScreen = ({ navigation }) => {
 
   useEffect(() => {
     setJsonData(games);
+    console.log(jsonData);
   }, []);
 
   return (

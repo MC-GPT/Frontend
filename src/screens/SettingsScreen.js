@@ -32,6 +32,7 @@ const SettingScreen = () => {
         }
       );
       setHomeCode(data.data.home_code);
+      Alert.alert('코드 리프레쉬 완료');
       navigation.navigate('Room');
     } catch (e) {
       Alert.alert('코드 리프레쉬 실패');
