@@ -127,9 +127,7 @@ const GamePlayScreen = () => {
         <View style={styles.top}>
           <View style={styles.topLeft}>
             <View style={styles.gameTitle}>
-              <Text style={{ fontSize: 25, color: 'white' }}>
-                게임이름{gameName}
-              </Text>
+              <Text style={{ fontSize: 25, color: 'white' }}>{gameName}</Text>
             </View>
           </View>
           <View style={styles.topRight}>
@@ -160,25 +158,20 @@ const GamePlayScreen = () => {
         <View style={styles.bottom}>
           <View style={styles.answer}>
             {gameStart && (
-              <Pressable
-                //onPress={sendAnswerRequest}
-                style={({ pressed }) => [
-                  styles.icon_each,
-                  pressed && { backgroundColor: 'lightgrey' },
-                ]}
-              >
-                <Text style={{ fontSize: 20, color: 'white' }}> 정답 ! </Text>
-              </Pressable>
+              <svg width="100" height="40" xmlns="http://www.w3.org/2000/svg">
+                <rect x="0" y="0" width="100" height="40" fill="#333" rx="10" />
+
+                <text
+                  x="50"
+                  y="23"
+                  fontSize="16"
+                  fill="white"
+                  textAnchor="middle"
+                >
+                  정답 !
+                </text>
+              </svg>
             )}
-            {/* <Pressable
-              onPress={sendAnswerRequest}
-              style={({ pressed }) => [
-                styles.icon_each,
-                pressed && { backgroundColor: 'lightgrey' },
-              ]}
-            >
-              <Text style={{ fontSize: 20, color: 'white' }}> B </Text>
-            </Pressable> */}
           </View>
         </View>
       </ImageBackground>

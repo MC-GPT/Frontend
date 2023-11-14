@@ -33,8 +33,11 @@ class TextAnimation extends React.Component {
       >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
           <Ionicons name="ios-megaphone-sharp" size={24} color="#CC2A2A" />
+          <Text style={{ fontSize: 16, color: 'lightgrey', marginLeft: 8 }}>
+            Notice :
+          </Text>
           <Text style={{ fontSize: 17, color: 'white', marginLeft: 8 }}>
-            공지 : Merry Christmas ~~!
+            🎅🏻 Merry Christmas ~~! 🎄
           </Text>
         </View>
       </Animated.View>

@@ -12,13 +12,13 @@ import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useMainContext } from '../contexts/MainContext';
+import * as Svg from 'react-native-svg';
 
 const SettingScreen = () => {
   const { nickname, account, jwt } = useUserContext();
   const navigation = useNavigation();
   const { home_id, setHomeCode, owner } = useMainContext();
   const insets = useSafeAreaInsets();
-  const imageUrl = 'https://mc-nugu.s3.ap-northeast-2.amazonaws.com/0.png';
 
   const handleCodeRefresh = async () => {
     try {
@@ -58,10 +58,9 @@ const SettingScreen = () => {
             <View style={styles.profile}>
               <Image
                 style={styles.profileImg}
-                source={{
-                  uri: imageUrl,
-                }}
+                source={require('../../assets/profile.png')}
               />
+
               <Text style={{ color: 'white', paddingTop: 5 }}>프로필 편집</Text>
             </View>
           </View>
@@ -127,8 +126,9 @@ const styles = StyleSheet.create({
   profileImg: {
     height: 100,
     width: 100,
-    //opacity: 0.3,
+    opacity: 0.5,
     borderRadius: 10,
+    backgroundColor: 'white',
   },
   listWrapper: {
     justifyContent: 'center',
@@ -148,6 +148,20 @@ const styles = StyleSheet.create({
   },
   listText: {
     color: 'white',
+  },
+  button: {
+    backgroundColor: 'red',
+    padding: 15,
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonPressed: {
+    opacity: 0.7,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
   },
 });
 

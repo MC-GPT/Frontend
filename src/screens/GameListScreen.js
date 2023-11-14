@@ -1,4 +1,12 @@
-import { Alert, StyleSheet, Text, View, ImageBackground } from 'react-native';
+import {
+  Alert,
+  StyleSheet,
+  Text,
+  View,
+  ImageBackground,
+  Pressable,
+  Image,
+} from 'react-native';
 import { useEffect, useState } from 'react';
 import Button, { ButtonTypes } from '../components/Button';
 import PropTypes from 'prop-types';
@@ -68,6 +76,12 @@ const GameListScreen = ({ navigation }) => {
     }
   };
 
+  const imageMapping = {
+    0: require('../../assets/Disney.png'),
+    1: require('../../assets/Geo.png'),
+    2: require('../../assets/Gatherup.png'),
+  };
+
   useEffect(() => {
     setJsonData(games);
     console.log(jsonData);
@@ -90,15 +104,29 @@ const GameListScreen = ({ navigation }) => {
             <View style={styles.gameButton}>
               {jsonData.map((v) => {
                 return (
-                  <Button
+                  <Pressable
                     key={v.id}
                     title={v.name}
                     onPress={() =>
                       postCreateGame(v.id, v.name) && setGameName(v.name)
                     }
-                    buttonType={ButtonTypes.GAME}
-                    styles={buttonStyles}
-                  />
+                    style={({ pressed }) => [
+                      buttonStyles.container,
+                      {
+                        opacity: pressed ? 0.5 : 1, // Pressable이 눌렸을 때 투명도를 조절합니다
+                      },
+                    ]}
+                  >
+                    <View
+                      style={{ flexDirection: 'row', alignItems: 'center' }}
+                    >
+                      <Image
+                        source={imageMapping[v.gameType]}
+                        style={buttonStyles.image}
+                      />
+                      <Text style={buttonStyles.text}>{v.name}</Text>
+                    </View>
+                  </Pressable>
                 );
               })}
             </View>
@@ -106,9 +134,9 @@ const GameListScreen = ({ navigation }) => {
           <View style={styles.bottom}>
             <View style={styles.createButton}>
               <Button
-                title={'입장'}
+                title={'게임 입장'}
                 onPress={() => EnterGame()}
-                buttonType={ButtonTypes.PRIMARY}
+                buttonType={ButtonTypes.GAME}
               ></Button>
             </View>
           </View>
@@ -125,16 +153,22 @@ GameListScreen.propTypes = {
 const buttonStyles = StyleSheet.create({
   container: {
     width: 300,
-    // backgroundColor: 'black',
+    height: 80,
+    backgroundColor: 'white',
     marginHorizontal: 10,
-    marginTop: 10,
+    marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  button: {
-    width: '100%',
-    height: 100,
     borderRadius: 20,
+  },
+  image: {
+    width: 40,
+    height: 40,
+    marginVertical: 10,
+  },
+  text: {
+    fontSize: 24,
+    paddingLeft: 20,
   },
 });
 
@@ -178,7 +212,7 @@ const styles = StyleSheet.create({
   createButton: {
     // backgroundColor: 'black',
     flex: 1,
-    width: 320,
+    width: 300,
     justifyContent: 'top',
   },
 });

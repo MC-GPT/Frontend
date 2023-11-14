@@ -299,17 +299,32 @@ const GameManageScreen = () => {
               </Pressable>
             </View>
             <View style={styles.next}>
-              <Pressable
-                onPress={gameStart ? sendNextRequest : sendGameStartRequest}
-                style={({ pressed }) => [
-                  styles.icon_each,
-                  pressed && { backgroundColor: 'lightgrey' },
-                ]}
-              >
-                <Text style={{ color: 'white', fontSize: 20 }}>
-                  {gameStart ? '다음 문제' : '게임 시작'}
-                </Text>
-              </Pressable>
+              {!gameName.startsWith('모') && (
+                <Pressable
+                  onPress={gameStart ? sendNextRequest : sendGameStartRequest}
+                  style={({ pressed }) => [
+                    styles.icon_each,
+                    pressed && { backgroundColor: 'lightgrey' },
+                  ]}
+                >
+                  <Text style={{ color: 'white', fontSize: 20 }}>
+                    {gameStart ? '다음 문제' : '게임 시작'}
+                  </Text>
+                </Pressable>
+              )}
+              {gameName.startsWith('모') && (
+                <Pressable
+                  onPress={gameStart ? sendNextRequest : sendGameStartRequest}
+                  style={({ pressed }) => [
+                    styles.icon_each,
+                    pressed && { backgroundColor: 'lightgrey' },
+                  ]}
+                >
+                  <Text style={{ color: 'white', fontSize: 20 }}>
+                    {gameStart ? '' : '게임 시작'}
+                  </Text>
+                </Pressable>
+              )}
             </View>
           </View>
         </View>
@@ -324,29 +339,24 @@ const GameManageScreen = () => {
             </Text>
           )}
         </View>
-
         <View style={styles.bottom}>
-          <View style={styles.confirm}>
-            {gameStart && (
-              <Pressable
-                onPress={() => {
-                  sendConfirmRequest();
-                  sendAnswerRequest();
-                }}
-                style={({ pressed }) => [
-                  styles.icon_each,
-                  pressed && { backgroundColor: 'lightgrey' },
-                ]}
-              >
-                <Text style={{ color: 'white', fontSize: 20 }}>
-                  {answerText}
-                </Text>
-              </Pressable>
-            )}
-          </View>
+          {gameStart && !gameName.startsWith('모') && (
+            <Pressable
+              onPress={() => {
+                sendConfirmRequest();
+                sendAnswerRequest();
+              }}
+              style={({ pressed }) => [
+                styles.icon_each,
+                pressed && { backgroundColor: 'lightgrey' },
+              ]}
+            >
+              <Text style={{ color: 'white', fontSize: 20 }}>{answerText}</Text>
+            </Pressable>
+          )}
         </View>
         <View style={styles.last}>
-          {gameStart && (
+          {gameStart && !gameName.startsWith('모') && (
             <View style={styles.list}>
               <Text style={{ color: 'white', fontSize: 20, paddingBottom: 10 }}>
                 선착순 LIST

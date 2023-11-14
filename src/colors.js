@@ -36,9 +36,3 @@ export const GAME = {
   DEFAULT: '#24AEEB',
   DARK: '#1B6A8C',
 };
-
-export const APPLIANCES = {
-  LIGHT: '#bef264',
-  DEFAULT: '#65a30d',
-  DARK: '#365314',
-};

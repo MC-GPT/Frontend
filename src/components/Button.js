@@ -6,16 +6,7 @@ import {
   View,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import {
-  DANGER,
-  GRAY,
-  PRIMARY,
-  WHITE,
-  ROOM,
-  GUEST,
-  GAME,
-  APPLIANCES,
-} from '../colors';
+import { DANGER, GRAY, PRIMARY, WHITE, ROOM, GUEST, GAME } from '../colors';
 import { Octicons } from '@expo/vector-icons';
 import { Zocial } from '@expo/vector-icons';
 
@@ -24,9 +15,8 @@ export const ButtonTypes = {
   DANGER: 'DANGER',
   CANCEL: 'CANCEL',
   ROOM: 'ROOM',
-  GAME: 'GAME',
   GUEST: 'GUEST',
-  APPLIANCES: 'APPLIANCES',
+  GAME: 'GAME',
 };
 
 const ButtonTypeColors = {
@@ -36,8 +26,6 @@ const ButtonTypeColors = {
   ROOM,
   GUEST,
   GAME,
-
-  APPLIANCES,
 };
 
 const Button = ({

@@ -4,6 +4,8 @@ import {
   View,
   Pressable,
   ImageBackground,
+  Image,
+  Text,
 } from 'react-native';
 import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
@@ -105,10 +107,16 @@ const LightningScreen = ({ navigation }) => {
 
   useEffect(() => {
     setJsonData(apps);
+    console.log(jsonData);
   }, [apps]);
 
   const onSubmit = () => {
     Alert.alert('입력완료');
+  };
+
+  const imageMapping = {
+    155: require('../../assets/app/155.png'),
+    159: require('../../assets/app/159.png'),
   };
 
   return (
@@ -138,15 +146,23 @@ const LightningScreen = ({ navigation }) => {
               .filter((v) => v.light)
               .map((v) => {
                 return (
-                  <View key={v.id} style={styles.lightContainer}>
-                    <Button
-                      title={v.name}
-                      onPress={() => navigation.navigate('Mood')}
-                      onLongPress={() => handleDeleteLight(v.id, v.name)}
-                      buttonType={ButtonTypes.ROOM}
-                      styles={buttonStyles}
+                  <Pressable
+                    key={v.id}
+                    onPress={() => navigation.navigate('Mood')}
+                    onLongPress={() => handleDeleteLight(v.id, v.name)}
+                    style={({ pressed }) => [
+                      buttonStyles.container,
+                      {
+                        opacity: pressed ? 0.5 : 1, // Pressable이 눌렸을 때 투명도를 조절합니다
+                      },
+                    ]}
+                  >
+                    <Image
+                      source={imageMapping[v.id]} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
+                      style={buttonStyles.image}
                     />
-                  </View>
+                    <Text>{v.name}</Text>
+                  </Pressable>
                 );
               })}
           </View>
@@ -178,16 +194,18 @@ LightningScreen.propTypes = {
 const buttonStyles = StyleSheet.create({
   container: {
     width: 120,
-    //backgroundColor: 'black',
+    height: 100,
+    backgroundColor: 'white',
     marginHorizontal: 10,
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 10,
   },
-  button: {
-    width: 120,
-    height: 120,
-    borderRadius: 20,
+  image: {
+    width: 50,
+    height: 50,
+    marginBottom: 5,
   },
 });
 
