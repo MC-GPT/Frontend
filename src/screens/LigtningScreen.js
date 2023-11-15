@@ -115,8 +115,18 @@ const LightningScreen = ({ navigation }) => {
   };
 
   const imageMapping = {
-    155: require('../../assets/app/155.png'),
-    159: require('../../assets/app/159.png'),
+    111: require('../../assets/app/WashingMachine.png'),
+    112: require('../../assets/app/AirPurifier.png'),
+    113: require('../../assets/app/GameConsole.png'),
+    114: require('../../assets/app/HomeTheater.png'),
+    115: require('../../assets/app/Speaker.png'),
+    116: require('../../assets/app/Standbyme.png'),
+    211: require('../../assets/app/KitchenLight.png'),
+    212: require('../../assets/app/Lamp.png'),
+    213: require('../../assets/app/LightBulb.png'),
+    214: require('../../assets/app/MoodupFridge.png'),
+    215: require('../../assets/app/LightBulb.png'),
+    216: require('../../assets/app/LightBulb.png'),
   };
 
   return (
@@ -158,7 +168,7 @@ const LightningScreen = ({ navigation }) => {
                     ]}
                   >
                     <Image
-                      source={imageMapping[v.id]} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
+                      source={imageMapping[v.serialNumber]} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
                       style={buttonStyles.image}
                     />
                     <Text>{v.name}</Text>
