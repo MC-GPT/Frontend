@@ -121,6 +121,7 @@ const LightningScreen = ({ navigation }) => {
     114: require('../../assets/app/HomeTheater.png'),
     115: require('../../assets/app/Speaker.png'),
     116: require('../../assets/app/Standbyme.png'),
+    117: require('../../assets/app/AirConditioner.png'),
     211: require('../../assets/app/Beer.png'),
     212: require('../../assets/app/Lamp.png'),
     213: require('../../assets/app/LightBulb.png'),
@@ -172,35 +173,55 @@ const LightningScreen = ({ navigation }) => {
                     >
                       <View style={buttonStyles.wrapper}>
                         <Image
-                          source={imageMapping[v.serialNumber]} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
+                          source={imageMapping[v.serialNumber]}
                           style={buttonStyles.image}
                         />
                         <Text>{v.name}</Text>
                       </View>
+                      <View style={{ alignItems: 'center', marginBottom: 10 }}>
+                        <View style={{ marginLeft: 37, paddingBottom: 10 }}>
+                          <Pressable
+                            onPress={() => {
+                              v.locked = !v.locked;
+                            }}
+                            style={({ pressed }) => [
+                              {
+                                opacity: pressed ? 0.5 : 1,
+                              },
+                            ]}
+                          >
+                            <FontAwesome
+                              name={v.locked ? 'lock' : 'unlock'}
+                              size={20}
+                              color="black"
+                            />
+                          </Pressable>
+                        </View>
 
-                      <Pressable
-                        onPress={() => {}}
-                        style={({ pressed }) => [
-                          {
-                            opacity: pressed ? 0.5 : 1,
-                          },
-                        ]}
-                      >
-                        <Image
-                          source={require('../../assets/onoff.png')} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
-                          style={buttonStyles.power}
-                        />
-                      </Pressable>
+                        <Pressable
+                          onPress={() => {}}
+                          style={({ pressed }) => [
+                            {
+                              opacity: pressed ? 0.5 : 1,
+                            },
+                          ]}
+                        >
+                          <Image
+                            source={require('../../assets/onoff.png')}
+                            style={buttonStyles.power}
+                          />
+                        </Pressable>
+                      </View>
                     </View>
                   </Pressable>
                 );
               })}
-            <Text style={{ color: 'lightgrey', paddingTop: 10 }}>
-              길게 눌러서 삭제
-            </Text>
           </View>
         </View>
         <View style={styles.bottom}>
+          <Text style={{ color: 'lightgrey', paddingBottom: 10 }}>
+            길게 눌러서 삭제
+          </Text>
           {owner && (
             <Pressable onPress={() => setVisibleLight(true)}>
               <FontAwesome name="plus-circle" size={40} color="white" />
@@ -227,7 +248,7 @@ LightningScreen.propTypes = {
 const buttonStyles = StyleSheet.create({
   container: {
     width: 152,
-    height: 101,
+    height: 120,
     backgroundColor: 'white',
     marginHorizontal: 10,
     marginTop: 10,
@@ -237,8 +258,8 @@ const buttonStyles = StyleSheet.create({
   },
   image: {
     //backgroundColor: 'yellow',
-    width: 50,
-    height: 50,
+    width: 65,
+    height: 65,
     marginBottom: 2,
   },
   wrapper: {
@@ -251,8 +272,8 @@ const buttonStyles = StyleSheet.create({
     //backgroundColor: 'black',
     width: 42,
     height: 42,
-    marginLeft: 5,
-    marginBottom: 5,
+    marginLeft: 7,
+    marginBottom: 30,
   },
 });
 

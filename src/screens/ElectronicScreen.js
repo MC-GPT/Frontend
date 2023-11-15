@@ -116,6 +116,7 @@ const ElectronicScreen = ({ navigation }) => {
     114: require('../../assets/app/HomeTheater.png'),
     115: require('../../assets/app/Speaker.png'),
     116: require('../../assets/app/Standbyme.png'),
+    117: require('../../assets/app/AirConditioner.png'),
     211: require('../../assets/app/Beer.png'),
     212: require('../../assets/app/Lamp.png'),
     213: require('../../assets/app/LightBulb.png'),
@@ -166,6 +167,25 @@ const ElectronicScreen = ({ navigation }) => {
                       },
                     ]}
                   >
+                    <View style={{ marginLeft: 100 }}>
+                      <Pressable
+                        onPress={() => {
+                          v.locked = !v.locked;
+                        }}
+                        style={({ pressed }) => [
+                          {
+                            opacity: pressed ? 0.5 : 1,
+                          },
+                        ]}
+                      >
+                        <FontAwesome
+                          name={v.locked ? 'lock' : 'unlock'}
+                          size={20}
+                          color="black"
+                        />
+                      </Pressable>
+                    </View>
+
                     <Image
                       source={imageMapping[v.serialNumber]}
                       style={buttonStyles.image}
@@ -174,12 +194,12 @@ const ElectronicScreen = ({ navigation }) => {
                   </Pressable>
                 );
               })}
-            <Text style={{ color: 'lightgrey', paddingTop: 10 }}>
-              길게 눌러서 삭제
-            </Text>
           </View>
         </View>
         <View style={styles.bottom}>
+          <Text style={{ color: 'lightgrey', paddingBottom: 10 }}>
+            길게 눌러서 삭제
+          </Text>
           {owner && (
             <Pressable onPress={() => setVisibleLight(true)}>
               <FontAwesome name="plus-circle" size={40} color="white" />
@@ -206,8 +226,8 @@ ElectronicScreen.propTypes = {
 
 const buttonStyles = StyleSheet.create({
   container: {
-    width: 135,
-    height: 100,
+    width: 140,
+    height: 120,
     backgroundColor: 'white',
     marginHorizontal: 10,
     marginTop: 10,
@@ -216,8 +236,8 @@ const buttonStyles = StyleSheet.create({
     borderRadius: 10,
   },
   image: {
-    width: 50,
-    height: 50,
+    width: 60,
+    height: 60,
     marginBottom: 5,
   },
 });

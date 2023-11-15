@@ -235,6 +235,7 @@ const RoomScreen = ({ navigation }) => {
                 + 버튼을 눌러 방을 생성해주세요
               </Text>
             )}
+            <View></View>
           </View>
         </View>
         <View style={styles.createButton}>
