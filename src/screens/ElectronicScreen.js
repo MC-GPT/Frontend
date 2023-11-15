@@ -116,12 +116,12 @@ const ElectronicScreen = ({ navigation }) => {
     114: require('../../assets/app/HomeTheater.png'),
     115: require('../../assets/app/Speaker.png'),
     116: require('../../assets/app/Standbyme.png'),
-    211: require('../../assets/app/KitchenLight.png'),
+    211: require('../../assets/app/Beer.png'),
     212: require('../../assets/app/Lamp.png'),
     213: require('../../assets/app/LightBulb.png'),
     214: require('../../assets/app/MoodupFridge.png'),
     215: require('../../assets/app/LightBulb.png'),
-    216: require('../../assets/app/LightBulb.png'),
+    216: require('../../assets/app/Hanger.png'),
   };
 
   useEffect(() => {
@@ -155,15 +155,6 @@ const ElectronicScreen = ({ navigation }) => {
               .filter((v) => !v.light)
               .map((v) => {
                 return (
-                  // <View key={v.id} style={styles.AppContainer}>
-                  //   <Button
-                  //     title={v.name}
-                  //     onPress={() => navigation.navigate('ElectroInfo')}
-                  //     onLongPress={() => handleDeleteApp(v.id, v.name)}
-                  //     buttonType={ButtonTypes.APPLIANCES}
-                  //     styles={buttonStyles}
-                  //   />
-                  // </View>
                   <Pressable
                     key={v.id}
                     onPress={() => navigation.navigate('ElectroInfo')}
@@ -183,6 +174,9 @@ const ElectronicScreen = ({ navigation }) => {
                   </Pressable>
                 );
               })}
+            <Text style={{ color: 'lightgrey', paddingTop: 10 }}>
+              길게 눌러서 삭제
+            </Text>
           </View>
         </View>
         <View style={styles.bottom}>
@@ -212,7 +206,7 @@ ElectronicScreen.propTypes = {
 
 const buttonStyles = StyleSheet.create({
   container: {
-    width: 120,
+    width: 135,
     height: 100,
     backgroundColor: 'white',
     marginHorizontal: 10,

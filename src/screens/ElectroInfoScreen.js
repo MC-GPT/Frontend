@@ -10,7 +10,6 @@ import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
-import favicon from '../../assets/favicon.png';
 import { BlurView } from 'expo-blur';
 
 const ElectroInfoScreen = () => {
@@ -34,11 +33,14 @@ const ElectroInfoScreen = () => {
               </Pressable>
             </View>
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>가전 이름</Text>
+              <Text style={styles.name}>LG PuriCare</Text>
             </View>
           </View>
           <View style={styles.image}>
-            <Image style={styles.lightImg} source={favicon} />
+            <Image
+              style={styles.lightImg}
+              source={require('../../assets/app/AirPurifier.png')}
+            />
           </View>
         </View>
         <View style={styles.main}>
@@ -102,10 +104,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   lightImg: {
-    height: 100,
-    width: 100,
-    opacity: 0.3,
+    height: 125,
+    width: 120,
     borderRadius: 10,
+    backgroundColor: 'white',
   },
   nameContainer: {
     flex: 2,

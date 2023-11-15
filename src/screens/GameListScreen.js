@@ -98,7 +98,7 @@ const GameListScreen = ({ navigation }) => {
       >
         <View style={styles.wrapper}>
           <View style={styles.top}>
-            <Text style={styles.title}>게임을 선택하세요</Text>
+            <Text style={styles.title}>게임 방을 생성하세요</Text>
           </View>
           <View style={styles.main}>
             <View style={styles.gameButton}>

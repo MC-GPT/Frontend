@@ -121,12 +121,12 @@ const LightningScreen = ({ navigation }) => {
     114: require('../../assets/app/HomeTheater.png'),
     115: require('../../assets/app/Speaker.png'),
     116: require('../../assets/app/Standbyme.png'),
-    211: require('../../assets/app/KitchenLight.png'),
+    211: require('../../assets/app/Beer.png'),
     212: require('../../assets/app/Lamp.png'),
     213: require('../../assets/app/LightBulb.png'),
     214: require('../../assets/app/MoodupFridge.png'),
     215: require('../../assets/app/LightBulb.png'),
-    216: require('../../assets/app/LightBulb.png'),
+    216: require('../../assets/app/Hanger.png'),
   };
 
   return (
@@ -163,18 +163,41 @@ const LightningScreen = ({ navigation }) => {
                     style={({ pressed }) => [
                       buttonStyles.container,
                       {
-                        opacity: pressed ? 0.5 : 1, // Pressable이 눌렸을 때 투명도를 조절합니다
+                        opacity: pressed ? 0.5 : 1,
                       },
                     ]}
                   >
-                    <Image
-                      source={imageMapping[v.serialNumber]} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
-                      style={buttonStyles.image}
-                    />
-                    <Text>{v.name}</Text>
+                    <View
+                      style={{ flexDirection: 'row', alignItems: 'center' }}
+                    >
+                      <View style={buttonStyles.wrapper}>
+                        <Image
+                          source={imageMapping[v.serialNumber]} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
+                          style={buttonStyles.image}
+                        />
+                        <Text>{v.name}</Text>
+                      </View>
+
+                      <Pressable
+                        onPress={() => {}}
+                        style={({ pressed }) => [
+                          {
+                            opacity: pressed ? 0.5 : 1,
+                          },
+                        ]}
+                      >
+                        <Image
+                          source={require('../../assets/onoff.png')} // 이미지 매핑 객체에서 해당 id에 맞는 이미지를 가져옵니다
+                          style={buttonStyles.power}
+                        />
+                      </Pressable>
+                    </View>
                   </Pressable>
                 );
               })}
+            <Text style={{ color: 'lightgrey', paddingTop: 10 }}>
+              길게 눌러서 삭제
+            </Text>
           </View>
         </View>
         <View style={styles.bottom}>
@@ -203,8 +226,8 @@ LightningScreen.propTypes = {
 
 const buttonStyles = StyleSheet.create({
   container: {
-    width: 120,
-    height: 100,
+    width: 152,
+    height: 101,
     backgroundColor: 'white',
     marginHorizontal: 10,
     marginTop: 10,
@@ -213,8 +236,22 @@ const buttonStyles = StyleSheet.create({
     borderRadius: 10,
   },
   image: {
+    //backgroundColor: 'yellow',
     width: 50,
     height: 50,
+    marginBottom: 2,
+  },
+  wrapper: {
+    width: 80,
+    //backgroundColor: 'green',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  power: {
+    //backgroundColor: 'black',
+    width: 42,
+    height: 42,
+    marginLeft: 5,
     marginBottom: 5,
   },
 });
