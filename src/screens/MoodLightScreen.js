@@ -50,24 +50,63 @@ const MoodLightScreen = () => {
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
               <Text style={styles.title}>전원</Text>
+              <View style={styles.buttonWrapper}>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.pressable,
+                    { opacity: pressed ? 0.5 : 1 },
+                  ]}
+                >
+                  <Image
+                    style={styles.button}
+                    source={require('../../assets/Button_on.png')}
+                  />
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.pressable,
+                    { opacity: pressed ? 0.5 : 1 },
+                  ]}
+                >
+                  <Image
+                    style={styles.button}
+                    source={require('../../assets/Button_off.png')}
+                  />
+                </Pressable>
+              </View>
             </View>
           </View>
           <View style={styles.brightness}>
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
               <Text style={styles.title}>밝기</Text>
+              <Image
+                style={styles.buttonB}
+                source={require('../../assets/brightness.png')}
+              />
             </View>
           </View>
           <View style={styles.lightColor}>
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
               <Text style={styles.title}>색상</Text>
+              <Image
+                style={styles.buttonC}
+                source={require('../../assets/color.png')}
+              />
             </View>
           </View>
           <View style={styles.lightInfo}>
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
               <Text style={styles.title}>정보</Text>
+              <View style={{ flexDirection: 'column', paddingTop: 30 }}>
+                <Text style={styles.info}>Name : LG MoodUp Refrigerator </Text>
+                <Text style={styles.info}>Manufacturer : LG Electronics </Text>
+                <Text style={styles.info}>Serial Number : 112 </Text>
+                <Text style={styles.info}>Added Date : 2023-10-27 </Text>
+                <Text style={styles.info}>Warranty : 2024-10-27 </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -131,6 +170,19 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     //backgroundColor: 'black',
   },
+  buttonWrapper: {
+    flexDirection: 'row',
+    paddingLeft: 150,
+  },
+  button: {
+    marginHorizontal: 3,
+  },
+  buttonB: {
+    marginLeft: 30,
+  },
+  buttonC: {
+    marginLeft: 44,
+  },
   brightness: {
     height: 100,
     width: '100%',
@@ -149,15 +201,22 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   textWrapper: {
-    width: 100,
+    width: '100%',
     height: 100,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     //backgroundColor: 'black',
+    flexDirection: 'row',
+    marginLeft: 30,
   },
   title: {
     color: 'white',
     fontSize: 20,
+  },
+  info: {
+    fontSize: 15,
+    color: 'lightgrey',
+    marginLeft: 55,
   },
 });
 

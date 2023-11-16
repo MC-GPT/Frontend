@@ -12,7 +12,6 @@ import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useMainContext } from '../contexts/MainContext';
-import * as Svg from 'react-native-svg';
 
 const SettingScreen = () => {
   const { nickname, account, jwt } = useUserContext();

@@ -127,7 +127,6 @@ const ElectronicScreen = ({ navigation }) => {
 
   useEffect(() => {
     setJsonData(apps);
-    console.log(jsonData);
   }, [apps]);
 
   return (
@@ -167,7 +166,7 @@ const ElectronicScreen = ({ navigation }) => {
                       },
                     ]}
                   >
-                    <View style={{ marginLeft: 100 }}>
+                    <View style={{ marginLeft: 110 }}>
                       <Pressable
                         onPress={() => {
                           v.locked = !v.locked;
@@ -180,7 +179,7 @@ const ElectronicScreen = ({ navigation }) => {
                       >
                         <FontAwesome
                           name={v.locked ? 'lock' : 'unlock'}
-                          size={20}
+                          size={18}
                           color="black"
                         />
                       </Pressable>
@@ -227,7 +226,7 @@ ElectronicScreen.propTypes = {
 const buttonStyles = StyleSheet.create({
   container: {
     width: 140,
-    height: 120,
+    height: 113,
     backgroundColor: 'white',
     marginHorizontal: 10,
     marginTop: 10,

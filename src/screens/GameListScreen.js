@@ -107,13 +107,14 @@ const GameListScreen = ({ navigation }) => {
                   <Pressable
                     key={v.id}
                     title={v.name}
-                    onPress={() =>
-                      postCreateGame(v.id, v.name) && setGameName(v.name)
-                    }
+                    onPress={() => {
+                      setGameName(v.name);
+                      postCreateGame(v.id, v.name);
+                    }}
                     style={({ pressed }) => [
                       buttonStyles.container,
                       {
-                        opacity: pressed ? 0.5 : 1, // Pressable이 눌렸을 때 투명도를 조절합니다
+                        opacity: pressed ? 0.5 : 1,
                       },
                     ]}
                   >

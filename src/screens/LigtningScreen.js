@@ -107,7 +107,6 @@ const LightningScreen = ({ navigation }) => {
 
   useEffect(() => {
     setJsonData(apps);
-    console.log(jsonData);
   }, [apps]);
 
   const onSubmit = () => {
@@ -192,7 +191,7 @@ const LightningScreen = ({ navigation }) => {
                           >
                             <FontAwesome
                               name={v.locked ? 'lock' : 'unlock'}
-                              size={20}
+                              size={18}
                               color="black"
                             />
                           </Pressable>

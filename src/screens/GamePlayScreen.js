@@ -158,19 +158,18 @@ const GamePlayScreen = () => {
         <View style={styles.bottom}>
           <View style={styles.answer}>
             {gameStart && (
-              <svg width="100" height="40" xmlns="http://www.w3.org/2000/svg">
-                <rect x="0" y="0" width="100" height="40" fill="#333" rx="10" />
-
-                <text
-                  x="50"
-                  y="23"
-                  fontSize="16"
-                  fill="white"
-                  textAnchor="middle"
-                >
-                  정답 !
-                </text>
-              </svg>
+              <Pressable
+                //onPress={sendAnswerRequest}
+                style={({ pressed }) => [
+                  styles.ans,
+                  { opacity: pressed ? 0.5 : 1 },
+                ]}
+              >
+                <Image
+                  style={styles.gifImage}
+                  source={require('../../assets/vote.gif')}
+                />
+              </Pressable>
             )}
           </View>
         </View>
@@ -229,6 +228,16 @@ const styles = StyleSheet.create({
     width: 320,
     height: 320,
     borderRadius: 10,
+  },
+  gifImage: {
+    borderRadius: 30,
+    width: 200,
+    height: 200,
+  },
+  ans: {
+    width: 200,
+    height: 200,
+    //borderRadius: 30,
   },
   bottom: {
     flex: 3,
