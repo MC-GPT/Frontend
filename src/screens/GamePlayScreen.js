@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { useUserContext } from '../contexts/UserContext';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const GamePlayScreen = () => {
   const { gameName } = useGameContext();
@@ -20,7 +20,6 @@ const GamePlayScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [gameStart, setGameStart] = useState(false);
-  const { nickname } = useUserContext();
 
   let ws = useRef(null);
   useEffect(() => {
@@ -38,14 +37,12 @@ const GamePlayScreen = () => {
         message: '',
       };
       ws.current.send(JSON.stringify(enterMessage));
-      console.log(JSON.stringify(enterMessage));
-      console.log('enter 메시지 전송 완료');
     };
 
     ws.current.onmessage = (event) => {
       try {
         const message = JSON.parse(event.data);
-        console.log('player message:', message);
+
         if (message[0].startsWith('https')) {
           setGameStart(true);
         }
@@ -56,39 +53,14 @@ const GamePlayScreen = () => {
       }
     };
 
-    ws.current.onerror = (e) => {
-      console.log(e.message);
-    };
+    ws.current.onerror = () => {};
 
-    ws.current.onclose = () => {
-      console.log('close');
-    };
+    ws.current.onclose = () => {};
 
     return () => {
       ws.current.close();
-      console.log('clear');
     };
   }, []);
-
-  // const handleWebSocketMessage = (message) => {
-  //   switch (message.type) {
-  //     case 'ENTER': {
-  //       break;
-  //     }
-  //     case 'NEXT': {
-  //       const nextImageData = message.data.image; // 다음 이미지 데이터를 받아옴
-  //       setImageSource(nextImageData);
-  //       break;
-  //     }
-  //     case 'END':
-  //       // '종료' 버튼을 눌렀을 때 게임 종료 처리
-
-  //       break;
-  //     default:
-  //       // 다른 메시지 유형에 대한 처리
-  //       break;
-  //   }
-  // };
 
   const sendExitRequest = () => {
     const exitMessage = {
@@ -101,18 +73,6 @@ const GamePlayScreen = () => {
     ws.current.send(JSON.stringify(exitMessage));
     setGameStart(false);
     navigation.goBack();
-    console.log('Exit 메시지 전송 완료');
-  };
-
-  const sendAnswerRequest = () => {
-    const AnswerMessage = {
-      messageType: 'ANSWER',
-      roomId: gamePlayId,
-      sender: 'player',
-      message: nickname,
-    };
-    ws.current.send(JSON.stringify(AnswerMessage));
-    console.log('Answer 메시지 전송 완료');
   };
 
   return (
@@ -126,23 +86,21 @@ const GamePlayScreen = () => {
       >
         <View style={styles.top}>
           <View style={styles.topLeft}>
+            <View style={styles.exit}>
+              <Pressable
+                onPress={sendExitRequest}
+                style={({ pressed }) => [styles.icon_each, pressed && {}]}
+              >
+                <MaterialIcons name="arrow-back-ios" size={25} color="white" />
+              </Pressable>
+            </View>
+          </View>
+          <View style={styles.topMiddle}>
             <View style={styles.gameTitle}>
               <Text style={{ fontSize: 25, color: 'white' }}>{gameName}</Text>
             </View>
           </View>
-          <View style={styles.topRight}>
-            <View style={styles.exit}>
-              <Pressable
-                onPress={sendExitRequest}
-                style={({ pressed }) => [
-                  styles.icon_each,
-                  pressed && { backgroundColor: 'lightgrey' },
-                ]}
-              >
-                <Text style={{ fontSize: 23, color: 'white' }}> 종료 </Text>
-              </Pressable>
-            </View>
-          </View>
+          <View style={styles.topRight}></View>
         </View>
         <View style={styles.main}>
           {gameStart ? (
@@ -159,7 +117,6 @@ const GamePlayScreen = () => {
           <View style={styles.answer}>
             {gameStart && (
               <Pressable
-                //onPress={sendAnswerRequest}
                 style={({ pressed }) => [
                   styles.ans,
                   { opacity: pressed ? 0.5 : 1 },
@@ -191,23 +148,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   topLeft: {
-    width: '50%',
-    // backgroundColor: 'red',
+    flex: 1,
+    //backgroundColor: 'red',
   },
   gameTitle: {
-    //  backgroundColor: 'yellow',
-    margin: 20,
-    paddingTop: 15,
+    marginTop: 30,
+  },
+  topMiddle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
   },
   topRight: {
-    width: '50%',
-    // backgroundColor: 'green',
+    flex: 1,
+    //backgroundColor: 'green',
     alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   exit: {
     // backgroundColor: 'blue',
-    paddingTop: 15,
-    margin: 10,
+    paddingTop: 20,
+    marginLeft: 20,
   },
   main: {
     flex: 5,

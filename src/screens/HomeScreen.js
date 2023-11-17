@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     color: '#CFA3F1',
     textShadowColor: '#AF6BE4',
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 8, // 그림자의 블러 정도
+    textShadowRadius: 8,
   },
   guestname: {
     fontSize: 23,
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     color: '#09B4FF',
     textShadowColor: '#09B4FF',
     textShadowOffset: { width: 1, height: 1 },
-    textShadowRadius: 3, // 그림자의 블러 정도
+    textShadowRadius: 3,
   },
   topright: {
     flexDirection: '',

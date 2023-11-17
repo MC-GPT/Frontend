@@ -33,13 +33,13 @@ const ElectroInfoScreen = () => {
               </Pressable>
             </View>
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>LG PuriCare</Text>
+              <Text style={styles.name}>LG HomeBrew</Text>
             </View>
           </View>
           <View style={styles.image}>
             <Image
               style={styles.lightImg}
-              source={require('../../assets/app/AirPurifier.png')}
+              source={require('../../assets/app/Beer.png')}
             />
           </View>
         </View>
@@ -48,12 +48,40 @@ const ElectroInfoScreen = () => {
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
               <Text style={styles.title}>전원</Text>
+              <View style={styles.buttonWrapper}>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.pressable,
+                    { opacity: pressed ? 0.5 : 1 },
+                  ]}
+                >
+                  <Image
+                    style={styles.button}
+                    source={require('../../assets/Button_on.png')}
+                  />
+                </Pressable>
+                <Pressable
+                  style={({ pressed }) => [
+                    styles.pressable,
+                    { opacity: pressed ? 0.5 : 1 },
+                  ]}
+                >
+                  <Image
+                    style={styles.button}
+                    source={require('../../assets/Button_off.png')}
+                  />
+                </Pressable>
+              </View>
             </View>
           </View>
           <View style={styles.brightness}>
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
-              <Text style={styles.title}> 바람 세기</Text>
+              <Text style={styles.title}>시간 </Text>
+              <View style={{ flexDirection: 'column', paddingLeft: 5 }}>
+                <Text style={styles.info}>브루잉 시작일 : 2023/11/15 </Text>
+                <Text style={styles.info}>브루잉 완료 예정일 : 2023/11/22</Text>
+              </View>
             </View>
           </View>
           <View style={styles.lightColor}>
@@ -66,6 +94,13 @@ const ElectroInfoScreen = () => {
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
               <Text style={styles.title}>정보</Text>
+              <View style={{ flexDirection: 'column', paddingTop: 30 }}>
+                <Text style={styles.info}>Name : LG HomeBrew </Text>
+                <Text style={styles.info}>Manufacturer : LG Electronics </Text>
+                <Text style={styles.info}>Serial Number : 206 </Text>
+                <Text style={styles.info}>Added Date : 2023/9/13 </Text>
+                <Text style={styles.info}>Warranty : 2024/9/13 </Text>
+              </View>
             </View>
           </View>
         </View>
@@ -117,7 +152,8 @@ const styles = StyleSheet.create({
   },
   name: {
     color: 'white',
-    fontSize: 30,
+    fontSize: 28,
+    marginLeft: 14,
   },
   main: {
     flex: 3,
@@ -127,7 +163,13 @@ const styles = StyleSheet.create({
     height: 100,
     width: '100%',
     marginBottom: 15,
-    //backgroundColor: 'black',
+  },
+  buttonWrapper: {
+    flexDirection: 'row',
+    paddingLeft: 150,
+  },
+  button: {
+    marginHorizontal: 3,
   },
   brightness: {
     height: 100,
@@ -147,15 +189,22 @@ const styles = StyleSheet.create({
     ...StyleSheet.absoluteFillObject,
   },
   textWrapper: {
-    width: 100,
+    width: '100%',
     height: 100,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
     //backgroundColor: 'black',
+    flexDirection: 'row',
+    marginLeft: 30,
   },
   title: {
     color: 'white',
     fontSize: 20,
+  },
+  info: {
+    fontSize: 15,
+    color: 'lightgrey',
+    marginLeft: 55,
   },
 });
 

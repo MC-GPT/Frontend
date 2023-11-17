@@ -104,8 +104,8 @@ const MoodLightScreen = () => {
                 <Text style={styles.info}>Name : LG MoodUp Refrigerator </Text>
                 <Text style={styles.info}>Manufacturer : LG Electronics </Text>
                 <Text style={styles.info}>Serial Number : 112 </Text>
-                <Text style={styles.info}>Added Date : 2023-10-27 </Text>
-                <Text style={styles.info}>Warranty : 2024-10-27 </Text>
+                <Text style={styles.info}>Added Date : 2023/10/27 </Text>
+                <Text style={styles.info}>Warranty : 2024/10/27 </Text>
               </View>
             </View>
           </View>

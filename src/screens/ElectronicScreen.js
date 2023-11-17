@@ -7,7 +7,6 @@ import {
   Image,
   Text,
 } from 'react-native';
-import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
@@ -233,6 +232,13 @@ const buttonStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    shadowColor: '#D7DE92',
+    shadowOpacity: 0.6,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: 10,
   },
   image: {
     width: 60,

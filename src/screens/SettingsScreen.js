@@ -12,6 +12,7 @@ import { useUserContext } from '../contexts/UserContext';
 import { useNavigation } from '@react-navigation/native';
 import axios from 'axios';
 import { useMainContext } from '../contexts/MainContext';
+import { BlurView } from 'expo-blur';
 
 const SettingScreen = () => {
   const { nickname, account, jwt } = useUserContext();
@@ -49,6 +50,7 @@ const SettingScreen = () => {
       >
         <View style={styles.wrapper}>
           <View style={styles.myInfo}>
+            <BlurView style={styles.blur} intensity={10} tint="light" />
             <View>
               <Text style={styles.myInfoText}>내 정보</Text>
               <Text style={styles.myInfoContent}>닉네임: {nickname}</Text>
@@ -91,17 +93,17 @@ const styles = StyleSheet.create({
   wrapper: {
     width: '100%',
     paddingTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   myInfo: {
-    width: '100%',
+    width: '90%',
     height: 200,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-evenly',
-    //backgroundColor: 'white',
-    // borderWidth: 1,
-    borderColor: '#ebebeb',
     borderRadius: 10,
+    marginVertical: 20,
   },
   myInfoText: {
     fontSize: 20,
@@ -130,6 +132,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   listWrapper: {
+    width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -161,6 +164,9 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontSize: 18,
+  },
+  blur: {
+    ...StyleSheet.absoluteFillObject,
   },
 });
 

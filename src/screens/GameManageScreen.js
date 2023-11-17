@@ -11,6 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
@@ -282,22 +283,21 @@ const GameManageScreen = () => {
       >
         <View style={styles.top}>
           <View style={styles.topLeft}>
+            <View style={styles.exit}>
+              <Pressable
+                onPress={sendExitRequest}
+                style={({ pressed }) => [styles.icon_each, pressed && {}]}
+              >
+                <MaterialIcons name="arrow-back-ios" size={25} color="white" />
+              </Pressable>
+            </View>
+          </View>
+          <View style={styles.topMiddle}>
             <View style={styles.gameTitle}>
               <Text style={{ fontSize: 25, color: 'white' }}>{gameName}</Text>
             </View>
           </View>
           <View style={styles.topRight}>
-            <View style={styles.exit}>
-              <Pressable
-                onPress={sendExitRequest}
-                style={({ pressed }) => [
-                  styles.icon_each,
-                  pressed && { backgroundColor: 'lightgrey' },
-                ]}
-              >
-                <Text style={{ color: 'white', fontSize: 23 }}> 종료 </Text>
-              </Pressable>
-            </View>
             <View style={styles.next}>
               {!gameName.startsWith('모') && (
                 <Pressable
@@ -381,33 +381,40 @@ const styles = StyleSheet.create({
   top: {
     flex: 1.5,
     flexDirection: 'row',
-    // backgroundColor: 'aqua',
+    //backgroundColor: 'aqua',
     justifyContent: 'center',
     alignItems: 'flex-start',
     paddingBottom: 10,
   },
   topLeft: {
-    width: '50%',
-    // backgroundColor: 'red',
+    flex: 1,
+    //backgroundColor: 'red',
+  },
+  topMiddle: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 20,
   },
   gameTitle: {
-    //  backgroundColor: 'yellow',
-    margin: 20,
-    paddingTop: 15,
+    //backgroundColor: 'yellow',
+    marginTop: 30,
   },
   topRight: {
-    width: '50%',
-    // backgroundColor: 'green',
+    flex: 1,
+    //backgroundColor: 'green',
     alignItems: 'flex-end',
+    justifyContent: 'center',
   },
   exit: {
-    // backgroundColor: 'blue',
-    paddingTop: 15,
-    margin: 10,
+    //backgroundColor: 'blue',
+    paddingTop: 20,
+    marginLeft: 20,
   },
   next: {
-    //backgroundColor: 'skyblue',
+    //backgroundColor: 'grey',
     marginRight: 10,
+    marginTop: 80,
   },
   main: {
     flex: 6,

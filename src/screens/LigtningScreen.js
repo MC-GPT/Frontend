@@ -254,6 +254,13 @@ const buttonStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 10,
+    shadowColor: '#D7DE92',
+    shadowOpacity: 0.6,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: 10,
   },
   image: {
     //backgroundColor: 'yellow',

@@ -43,8 +43,6 @@ const GameListScreen = ({ navigation }) => {
       if (data.data != null) {
         // 개별 게임방 id context에 저장
         setGamePlayId(data.data);
-        console.log(gamePlayId);
-        console.log('게임방생성완료');
         navigation.navigate('GameManage');
       } else {
         Alert.alert('게임방 생성 실패');
@@ -84,7 +82,6 @@ const GameListScreen = ({ navigation }) => {
 
   useEffect(() => {
     setJsonData(games);
-    console.log(jsonData);
   }, []);
 
   return (
@@ -98,7 +95,7 @@ const GameListScreen = ({ navigation }) => {
       >
         <View style={styles.wrapper}>
           <View style={styles.top}>
-            <Text style={styles.title}>게임 방을 생성하세요</Text>
+            <Text style={styles.title}>파티 게임으로 분위기를 높여보세요</Text>
           </View>
           <View style={styles.main}>
             <View style={styles.gameButton}>
@@ -161,6 +158,13 @@ const buttonStyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 20,
+    shadowColor: '#D7DE92',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: 10,
   },
   image: {
     width: 40,
@@ -187,9 +191,11 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 30,
-    marginTop: 25,
-    color: 'white',
+    fontSize: 18,
+    marginTop: 45,
+    color: 'lightgrey',
+    textShadowColor: '#D7DE92',
+    textShadowRadius: 3,
   },
   main: {
     flex: 5,
