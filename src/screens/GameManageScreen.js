@@ -12,6 +12,8 @@ import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
+import { useUserContext } from '../contexts/UserContext';
 
 const GameManageScreen = () => {
   const { gameName } = useGameContext();
@@ -21,6 +23,8 @@ const GameManageScreen = () => {
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+
+  const { jwt } = useUserContext();
 
   let ws = useRef(null);
 
@@ -272,6 +276,24 @@ const GameManageScreen = () => {
     console.log('Exit 메시지 전송 완료');
   };
 
+  const AnswerOrder = async () => {
+    try {
+      const data = await axios.post(
+        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/register-serial?roomId=` +
+          gamePlayId,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <SafeInputView>
       <ImageBackground
@@ -294,7 +316,7 @@ const GameManageScreen = () => {
           </View>
           <View style={styles.topMiddle}>
             <View style={styles.gameTitle}>
-              <Text style={{ fontSize: 25, color: 'white' }}>{gameName}</Text>
+              <Text style={{ fontSize: 27, color: 'white' }}>{gameName}</Text>
             </View>
           </View>
           <View style={styles.topRight}>
@@ -304,10 +326,13 @@ const GameManageScreen = () => {
                   onPress={gameStart ? sendNextRequest : sendGameStartRequest}
                   style={({ pressed }) => [
                     styles.icon_each,
-                    pressed && { backgroundColor: 'lightgrey' },
+                    pressed && {
+                      backgroundColor: 'lightgrey',
+                      borderRadius: 10,
+                    },
                   ]}
                 >
-                  <Text style={{ color: 'white', fontSize: 20 }}>
+                  <Text style={{ color: 'black', fontSize: 18 }}>
                     {gameStart ? '다음 문제' : '게임 시작'}
                   </Text>
                 </Pressable>
@@ -320,9 +345,15 @@ const GameManageScreen = () => {
                     pressed && { backgroundColor: 'lightgrey' },
                   ]}
                 >
-                  <Text style={{ color: 'white', fontSize: 20 }}>
-                    {gameStart ? '' : '게임 시작'}
-                  </Text>
+                  {gameStart ? (
+                    <Text style={{ color: 'black', fontSize: 15 }}>
+                      게임 진행 중
+                    </Text>
+                  ) : (
+                    <Text style={{ color: 'black', fontSize: 18 }}>
+                      게임 시작
+                    </Text>
+                  )}
                 </Pressable>
               )}
             </View>
@@ -398,8 +429,11 @@ const styles = StyleSheet.create({
   },
   gameTitle: {
     //backgroundColor: 'yellow',
-    marginTop: 30,
+    marginTop: 28,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
+
   topRight: {
     flex: 1,
     //backgroundColor: 'green',
@@ -412,9 +446,14 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   next: {
-    //backgroundColor: 'grey',
+    backgroundColor: 'white',
     marginRight: 10,
     marginTop: 80,
+    borderRadius: 10,
+    height: 33,
+    width: 82,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   main: {
     flex: 6,

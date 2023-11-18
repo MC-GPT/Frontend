@@ -12,6 +12,8 @@ import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
+import axios from 'axios';
+import { useUserContext } from '../contexts/UserContext';
 
 const GamePlayScreen = () => {
   const { gameName } = useGameContext();
@@ -20,6 +22,7 @@ const GamePlayScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [gameStart, setGameStart] = useState(false);
+  const { jwt } = useUserContext();
 
   let ws = useRef(null);
   useEffect(() => {
@@ -75,6 +78,24 @@ const GamePlayScreen = () => {
     navigation.goBack();
   };
 
+  const PressAnswer = async () => {
+    try {
+      const data = await axios.post(
+        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/get-serial?roomId=` +
+          gamePlayId,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${jwt}`,
+          },
+        }
+      );
+      console.log(data);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <SafeInputView>
       <ImageBackground
@@ -117,6 +138,7 @@ const GamePlayScreen = () => {
           <View style={styles.answer}>
             {gameStart && (
               <Pressable
+                onPress={PressAnswer}
                 style={({ pressed }) => [
                   styles.ans,
                   { opacity: pressed ? 0.5 : 1 },
