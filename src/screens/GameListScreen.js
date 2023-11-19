@@ -195,7 +195,7 @@ const styles = StyleSheet.create({
     marginTop: 45,
     color: 'lightgrey',
     textShadowColor: '#D7DE92',
-    textShadowRadius: 3,
+    textShadowRadius: 1,
   },
   main: {
     flex: 5,

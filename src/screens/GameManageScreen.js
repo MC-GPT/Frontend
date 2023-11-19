@@ -11,7 +11,7 @@ import { useEffect, useRef, useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons, AntDesign } from '@expo/vector-icons';
 import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
 
@@ -156,7 +156,6 @@ const GameManageScreen = () => {
       'ws://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/ws/game'
     );
     ws.current.onopen = () => {
-      console.log('웹소켓 연결 성공!');
       const enterMessage = {
         messageType: 'ENTER',
         roomId: gamePlayId,
@@ -164,18 +163,12 @@ const GameManageScreen = () => {
         message: '',
       };
       ws.current.send(JSON.stringify(enterMessage));
-      console.log(JSON.stringify(enterMessage));
-      console.log('enter 메시지 전송 완료');
     };
 
     ws.current.onmessage = (event) => {
       try {
-        console.log('event : ', event);
         const message = JSON.parse(event.data);
-        console.log('host message : ', message);
-        console.log('message[0]:', message[0]);
         setImageSource(message[0]);
-        //handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
       }
@@ -185,13 +178,10 @@ const GameManageScreen = () => {
       console.log(e.message);
     };
 
-    ws.current.onclose = () => {
-      console.log('close');
-    };
+    ws.current.onclose = () => {};
 
     return () => {
       ws.current.close();
-      console.log('clear');
     };
   }, []);
 
@@ -199,8 +189,7 @@ const GameManageScreen = () => {
     setGameStart(true); // 게임 시작 상태를 true로 설정
     setImageIndex((prevIndex) => prevIndex + 1);
     setImageSource(nextImageData.image);
-    console.log('nextImageData의 내용은 아래와 같다');
-    console.log(nextImageData);
+
     const nextMessage = {
       messageType: 'NEXT',
       roomId: gamePlayId,
@@ -208,7 +197,7 @@ const GameManageScreen = () => {
       message: '',
       imageUrls: [nextImageData.image],
     };
-    console.log('보내는 next 메세지 내용 : ', nextMessage);
+
     const answerMessage = {
       messageType: 'ANSWER',
       roomId: gamePlayId,
@@ -216,10 +205,8 @@ const GameManageScreen = () => {
       message: '',
       imageUrls: [nextImageData.area],
     };
-    console.log('보내는 answer 메세지 내용 : ', answerMessage);
+
     ws.current.send(JSON.stringify(nextMessage, answerMessage));
-    console.log(imageIndex);
-    console.log('게임 시작 완료');
   };
 
   const sendNextRequest = () => {
@@ -227,8 +214,7 @@ const GameManageScreen = () => {
       setPressed(false);
       setImageIndex((prevIndex) => prevIndex + 1);
       setImageSource(nextImageData.image);
-      console.log('nextImageData의 내용은 아래와 같다');
-      console.log(nextImageData);
+
       const nextMessage = {
         messageType: 'NEXT',
         roomId: gamePlayId,
@@ -242,8 +228,6 @@ const GameManageScreen = () => {
       } catch (e) {
         console.log(e.message);
       }
-      console.log(imageIndex);
-      console.log('next message 전송완료');
     }
   };
 
@@ -276,10 +260,14 @@ const GameManageScreen = () => {
     console.log('Exit 메시지 전송 완료');
   };
 
+  //선착순 리스트용 상태변수
+  const [name, setName] = useState('');
+  const [showAnswer, setShowAnswer] = useState(false);
+
   const AnswerOrder = async () => {
     try {
       const data = await axios.post(
-        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/register-serial?roomId=` +
+        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/get-serial?roomId=` +
           gamePlayId,
         {},
         {
@@ -288,7 +276,8 @@ const GameManageScreen = () => {
           },
         }
       );
-      console.log(data);
+      setShowAnswer(true);
+      setName(data.data);
     } catch (e) {
       console.error(e);
     }
@@ -316,7 +305,16 @@ const GameManageScreen = () => {
           </View>
           <View style={styles.topMiddle}>
             <View style={styles.gameTitle}>
-              <Text style={{ fontSize: 27, color: 'white' }}>{gameName}</Text>
+              <Text
+                style={{
+                  fontSize: 27,
+                  color: 'white',
+                  textShadowColor: '#D7DE92',
+                  textShadowRadius: 1,
+                }}
+              >
+                {gameName}
+              </Text>
             </View>
           </View>
           <View style={styles.topRight}>
@@ -365,8 +363,10 @@ const GameManageScreen = () => {
               <Image style={styles.image} source={{ uri: imageSource }} />
             </View>
           ) : (
-            <Text style={{ color: 'white', fontSize: 20, textAlign: 'center' }}>
-              게임 시작 버튼을 눌러 게임을 시작하세요!
+            <Text
+              style={{ color: 'lightgrey', fontSize: 20, textAlign: 'center' }}
+            >
+              게임 시작 버튼을 누르세요
             </Text>
           )}
         </View>
@@ -390,9 +390,36 @@ const GameManageScreen = () => {
           {gameStart && !gameName.startsWith('모') && (
             <View style={styles.list}>
               <Text style={{ color: 'white', fontSize: 20, paddingBottom: 10 }}>
-                선착순 LIST
+                선착순 리스트
               </Text>
-              <View style={styles.listContainer}></View>
+              <View style={{ flexDirection: 'row' }}>
+                <View style={styles.listContainer}>
+                  {showAnswer ? (
+                    <Text style={{ color: 'white', fontSize: 18 }}>{name}</Text>
+                  ) : (
+                    <Text style={{ color: 'lightgrey', fontSize: 15 }}>
+                      ? 버튼을 눌러 1등을 확인해보세요
+                    </Text>
+                  )}
+                </View>
+                <View style={styles.buttonContainer}>
+                  <Pressable
+                    onPress={AnswerOrder}
+                    style={({ pressed }) => [
+                      {
+                        color: 'white',
+                        opacity: pressed || showAnswer ? 0.5 : 1,
+                      },
+                    ]}
+                  >
+                    {showAnswer ? (
+                      <AntDesign name="doubleright" size={30} color="white" />
+                    ) : (
+                      <AntDesign name="question" size={30} color="white" />
+                    )}
+                  </Pressable>
+                </View>
+              </View>
             </View>
           )}
         </View>
@@ -492,7 +519,19 @@ const styles = StyleSheet.create({
     //backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
-    width: '90%',
+    width: '67%',
+    height: 70,
+    borderWidth: 1,
+    borderColor: '#ebebeb',
+    borderRadius: 10,
+    flexDirection: 'row',
+    marginRight: 10,
+  },
+  buttonContainer: {
+    //backgroundColor: 'yellow',
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '22.5%',
     height: 70,
     borderWidth: 1,
     borderColor: '#ebebeb',

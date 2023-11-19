@@ -32,7 +32,6 @@ const GamePlayScreen = () => {
     );
 
     ws.current.onopen = () => {
-      console.log('player 웹소켓 연결 성공!');
       const enterMessage = {
         messageType: 'ENTER',
         roomId: gamePlayId,
@@ -50,7 +49,6 @@ const GamePlayScreen = () => {
           setGameStart(true);
         }
         setImageSource(message[0]);
-        //handleWebSocketMessage(message);
       } catch (error) {
         console.error('Error parsing message:', error);
       }
@@ -81,7 +79,7 @@ const GamePlayScreen = () => {
   const PressAnswer = async () => {
     try {
       const data = await axios.post(
-        `http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/get-serial?roomId=` +
+        'http://ec2-13-124-239-111.ap-northeast-2.compute.amazonaws.com:8080/register-serial?roomId=' +
           gamePlayId,
         {},
         {
@@ -90,9 +88,9 @@ const GamePlayScreen = () => {
           },
         }
       );
-      console.log(data);
+      console.log(data.data);
     } catch (e) {
-      console.error(e);
+      console.error(e.response.data);
     }
   };
 
@@ -207,6 +205,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 10,
+    marginBottom: 50,
   },
   image: {
     width: 320,
