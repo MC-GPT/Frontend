@@ -50,7 +50,7 @@ const GamePlayScreen = () => {
         }
         setImageSource(message[0]);
       } catch (error) {
-        console.error('Error parsing message:', error);
+        error;
       }
     };
 

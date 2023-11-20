@@ -32,17 +32,17 @@ const GameManageScreen = () => {
     {
       answer: '에펠탑',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=48.858844,2.294351&heading=140&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=48.858114,2.293191&heading=10&fov=90&pitch=38&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
       answer: '자유의 여신상',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=40.689247,-74.044502&heading=10&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=40.689249,-74.044502&heading=220&fov=130&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
       answer: '콜로세움',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=41.89021,12.492231&heading=20&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=41.89121,12.492231&heading=180&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
       answer: '만리장성',
@@ -50,32 +50,32 @@ const GameManageScreen = () => {
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=40.431908,116.570374&heading=300&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
-      answer: '베네치아 캐널',
+      answer: '베네치아',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=45.440847,12.315515&heading=170&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=45.440848,12.315515&heading=270&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
       answer: '피사의 사탑',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=43.722952,10.396597&heading=230&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=43.722952,10.396597&heading=10&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
       answer: '시드니 오페라 하우스',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=-33.856159,151.214234&heading=70&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=-33.856159,151.214234&heading=15&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
       answer: '피라미드',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=30&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=29.977296,31.132495&heading=1&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
       answer: '타지마할',
       image:
-        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=27.175142,78.042442&heading=10&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
+        'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=27.175142,78.042448&heading=100&fov=100&pitch=10&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
     {
-      answer: '기차이쿠',
+      answer: '도쿄 스카이트리',
       image:
         'https://maps.googleapis.com/maps/api/streetview?size=1080x560&location=35.710063,139.8107&heading=360&fov=120&pitch=30&key=AIzaSyBfIFxNGNnYqmSKRz3x-stcQoZiAyjq6T0',
     },
@@ -212,6 +212,7 @@ const GameManageScreen = () => {
   const sendNextRequest = () => {
     {
       setPressed(false);
+      setShowAnswer(false);
       setImageIndex((prevIndex) => prevIndex + 1);
       setImageSource(nextImageData.image);
 
@@ -257,7 +258,6 @@ const GameManageScreen = () => {
     };
     ws.current.send(JSON.stringify(exitMessage));
     navigation.goBack();
-    console.log('Exit 메시지 전송 완료');
   };
 
   //선착순 리스트용 상태변수
@@ -407,13 +407,13 @@ const GameManageScreen = () => {
                     onPress={AnswerOrder}
                     style={({ pressed }) => [
                       {
-                        color: 'white',
-                        opacity: pressed || showAnswer ? 0.5 : 1,
+                        color: 'lightgrey',
+                        opacity: pressed ? 0.6 : 1,
                       },
                     ]}
                   >
                     {showAnswer ? (
-                      <AntDesign name="doubleright" size={30} color="white" />
+                      <AntDesign name="right" size={30} color="white" />
                     ) : (
                       <AntDesign name="question" size={30} color="white" />
                     )}

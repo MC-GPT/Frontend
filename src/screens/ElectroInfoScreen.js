@@ -6,6 +6,7 @@ import {
   Pressable,
   Image,
 } from 'react-native';
+import { useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -15,6 +16,18 @@ import { BlurView } from 'expo-blur';
 const ElectroInfoScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const [isOn, setIsOn] = useState(false);
+  const [isOff, setIsOff] = useState(true);
+
+  const toggleOn = () => {
+    setIsOn(true);
+    setIsOff(false);
+  };
+
+  const toggleOff = () => {
+    setIsOff(true);
+    setIsOn(false);
+  };
 
   return (
     <SafeInputView>
@@ -52,8 +65,9 @@ const ElectroInfoScreen = () => {
                 <Pressable
                   style={({ pressed }) => [
                     styles.pressable,
-                    { opacity: pressed ? 0.5 : 1 },
+                    { opacity: pressed || isOn ? 1 : 0.5 },
                   ]}
+                  onPress={toggleOn}
                 >
                   <Image
                     style={styles.button}
@@ -63,8 +77,9 @@ const ElectroInfoScreen = () => {
                 <Pressable
                   style={({ pressed }) => [
                     styles.pressable,
-                    { opacity: pressed ? 0.5 : 1 },
+                    { opacity: pressed || isOff ? 1 : 0.5 },
                   ]}
+                  onPress={toggleOff}
                 >
                   <Image
                     style={styles.button}

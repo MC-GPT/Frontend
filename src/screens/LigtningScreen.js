@@ -105,6 +105,16 @@ const LightningScreen = ({ navigation }) => {
     ]);
   };
 
+  const [powerButtonStates, setPowerButtonStates] = useState(
+    Array(jsonData.filter((v) => v.light).length).fill(false)
+  );
+
+  const togglePowerButton = (index) => {
+    const newButtonStates = [...powerButtonStates];
+    newButtonStates[index] = !newButtonStates[index];
+    setPowerButtonStates(newButtonStates);
+  };
+
   useEffect(() => {
     setJsonData(apps);
   }, [apps]);
@@ -189,19 +199,25 @@ const LightningScreen = ({ navigation }) => {
                               },
                             ]}
                           >
-                            <FontAwesome
-                              name={v.locked ? 'lock' : 'unlock'}
-                              size={18}
-                              color="black"
-                            />
+                            {owner && (
+                              <FontAwesome
+                                name={v.locked ? 'lock' : 'unlock'}
+                                size={18}
+                                color="black"
+                              />
+                            )}
                           </Pressable>
                         </View>
 
                         <Pressable
-                          onPress={() => {}}
+                          onPress={() => togglePowerButton(v.id)}
                           style={({ pressed }) => [
                             {
-                              opacity: pressed ? 0.5 : 1,
+                              opacity: pressed
+                                ? 1
+                                : powerButtonStates[v.id]
+                                ? 1
+                                : 0.5,
                             },
                           ]}
                         >

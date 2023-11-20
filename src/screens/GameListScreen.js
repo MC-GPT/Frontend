@@ -21,11 +21,10 @@ const GameListScreen = ({ navigation }) => {
   const { jwt } = useUserContext();
   const { home_id, games } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
-  const { gamePlayId, setGamePlayId, setGameName } = useGameContext();
+  const { setGamePlayId, setGameName } = useGameContext();
   const insets = useSafeAreaInsets();
 
-  const postCreateGame = async (game_id, game_name) => {
-    console.log(home_id, game_id, game_name, 'home_id, game_id, game_name');
+  const postCreateGame = async (game_id) => {
     try {
       // eslint-disable-next-line no-unused-vars
       const data = await axios.post(

@@ -5,7 +5,7 @@ import {
   ImageBackground,
   Pressable,
 } from 'react-native';
-// import PropTypes from 'prop-types';
+import { useState } from 'react';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
@@ -16,6 +16,18 @@ import { Image } from 'react-native';
 const MoodLightScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
+  const [isOn, setIsOn] = useState(false);
+  const [isOff, setIsOff] = useState(true);
+
+  const toggleOn = () => {
+    setIsOn(true);
+    setIsOff(false);
+  };
+
+  const toggleOff = () => {
+    setIsOff(true);
+    setIsOn(false);
+  };
 
   return (
     <SafeInputView>
@@ -54,8 +66,9 @@ const MoodLightScreen = () => {
                 <Pressable
                   style={({ pressed }) => [
                     styles.pressable,
-                    { opacity: pressed ? 0.5 : 1 },
+                    { opacity: pressed || isOn ? 1 : 0.5 },
                   ]}
+                  onPress={toggleOn}
                 >
                   <Image
                     style={styles.button}
@@ -65,8 +78,9 @@ const MoodLightScreen = () => {
                 <Pressable
                   style={({ pressed }) => [
                     styles.pressable,
-                    { opacity: pressed ? 0.5 : 1 },
+                    { opacity: pressed || isOff ? 1 : 0.5 },
                   ]}
+                  onPress={toggleOff}
                 >
                   <Image
                     style={styles.button}

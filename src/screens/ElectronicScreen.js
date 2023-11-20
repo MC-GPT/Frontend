@@ -176,11 +176,13 @@ const ElectronicScreen = ({ navigation }) => {
                           },
                         ]}
                       >
-                        <FontAwesome
-                          name={v.locked ? 'lock' : 'unlock'}
-                          size={18}
-                          color="black"
-                        />
+                        {owner && (
+                          <FontAwesome
+                            name={v.locked ? 'lock' : 'unlock'}
+                            size={18}
+                            color="black"
+                          />
+                        )}
                       </Pressable>
                     </View>
 
