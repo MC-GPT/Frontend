@@ -15,7 +15,7 @@ import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useUserContext } from '../contexts/UserContext';
 import { useMainContext } from '../contexts/MainContext';
-import { MaterialIcons, FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 
 const ElectronicScreen = ({ navigation }) => {

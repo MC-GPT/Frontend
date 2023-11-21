@@ -2,7 +2,6 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { PRIMARY, WHITE } from '../colors';
 import SignInScreen from '../screens/SignInScreen';
 import SignUpScreen from '../screens/SignUpScreen';
-import HeaderLeftButton from '../components/HeaderLeftButton';
 
 const Stack = createNativeStackNavigator();
 
@@ -11,7 +10,6 @@ const AuthStack = () => {
     <Stack.Navigator
       screenOptions={{
         contentStyle: { backgroundColor: WHITE },
-        headerLeft: HeaderLeftButton,
         headerTintColor: PRIMARY.DEFAULT,
       }}
     >

@@ -1,5 +1,4 @@
 import {
-  View,
   Text,
   ActivityIndicator,
   StyleSheet,

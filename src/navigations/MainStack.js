@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { WHITE } from '../colors';
-import HeaderLeftButton from '../components/HeaderLeftButton';
 import ContentTab from './ContentTab';
 import SettingsScreen from '../screens/SettingsScreen';
 import RoomScreen from '../screens/RoomScreen';
@@ -21,7 +20,6 @@ const MainStack = () => {
         headerTintColor: 'black',
         headerTitleStyle: { fontWeight: '700' },
         headerBackTitleVisible: false,
-        headerLeft: HeaderLeftButton,
         headerShown: false,
       }}
     >

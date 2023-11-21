@@ -7,7 +7,6 @@ import {
   Image,
   Text,
 } from 'react-native';
-import Button, { ButtonTypes } from '../components/Button';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
