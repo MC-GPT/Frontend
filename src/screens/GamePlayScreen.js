@@ -16,7 +16,6 @@ import axios from 'axios';
 import { useUserContext } from '../contexts/UserContext';
 
 const GamePlayScreen = () => {
-  const { gameName } = useGameContext();
   const [imageSource, setImageSource] = useState('');
   const { gamePlayId } = useGameContext();
   const insets = useSafeAreaInsets();
@@ -88,7 +87,6 @@ const GamePlayScreen = () => {
           },
         }
       );
-      console.log(data.data);
     } catch (e) {
       console.error(e.response.data);
     }
@@ -116,7 +114,7 @@ const GamePlayScreen = () => {
           </View>
           <View style={styles.topMiddle}>
             <View style={styles.gameTitle}>
-              <Text style={{ fontSize: 25, color: 'white' }}>{gameName}</Text>
+              <Text style={{ fontSize: 25, color: 'white' }}></Text>
             </View>
           </View>
           <View style={styles.topRight}></View>

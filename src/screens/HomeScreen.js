@@ -14,7 +14,8 @@ import { ButtonTypes } from '../components/Button';
 import { useState } from 'react';
 import { useMainContext } from '../contexts/MainContext';
 import TextAnimation from '../components/TextAnimation';
-import { BlurView, FontAwesome, Entypo, Octicons, Zocial } from 'expo-blur';
+import { BlurView } from 'expo-blur';
+import { FontAwesome, Entypo, Octicons, Zocial } from '@expo/vector-icons';
 
 // eslint-disable-next-line react/prop-types
 const HomeScreen = ({ navigation }) => {
