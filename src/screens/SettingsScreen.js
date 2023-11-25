@@ -50,7 +50,7 @@ const SettingScreen = () => {
       >
         <View style={styles.wrapper}>
           <View style={styles.myInfo}>
-            <BlurView style={styles.blur} intensity={10} tint="light" />
+            <BlurView style={styles.blur} intensity={5} tint="light" />
             <View>
               <Text style={styles.myInfoText}>내 정보</Text>
               <Text style={styles.myInfoContent}>닉네임: {nickname}</Text>

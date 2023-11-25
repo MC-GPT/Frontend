@@ -16,21 +16,17 @@ import { useMainContext } from '../contexts/MainContext';
 import TextAnimation from '../components/TextAnimation';
 import { BlurView } from 'expo-blur';
 import { FontAwesome, Entypo, Octicons, Zocial } from '@expo/vector-icons';
+import { Ionicons } from '@expo/vector-icons';
 
 // eslint-disable-next-line react/prop-types
 const HomeScreen = ({ navigation }) => {
   const insets = useSafeAreaInsets();
   const { home_name, home_code, owner } = useMainContext();
-  const [isPlaying, setIsPlaying] = useState(false);
-
-  const togglePlayback = () => {
-    setIsPlaying((prevState) => !prevState);
-  };
 
   return (
     <SafeInputView>
       <ImageBackground
-        source={require('../../assets/background.png')}
+        source={require('../../assets/home_background.gif')}
         style={[
           styles.container,
           { paddingTop: insets.top, paddingBottom: insets.bottom - 26 },
@@ -67,113 +63,69 @@ const HomeScreen = ({ navigation }) => {
         </View>
         <View style={styles.notice}>
           <BlurView style={styles.blur} intensity={10} tint="light" />
-          <TextAnimation />
-        </View>
-        <View style={styles.dashboard}>
-          <View style={styles.temperature}>
-            <BlurView style={styles.blur} intensity={10} tint="light" />
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Text style={{ fontSize: 16, color: 'lightgrey', marginLeft: 8 }}>
+              공지 :
+            </Text>
             <Text
               style={{
+                fontSize: 17,
                 color: 'white',
-                fontSize: 18,
-                marginLeft: 55,
-                marginTop: 3,
+                marginLeft: 8,
+                fontStyle: 'italic',
               }}
             >
-              실내 온도
+              Happy New Year ~~! 🎉
             </Text>
-            <View style={styles.tempIcon}>
-              <FontAwesome name="thermometer-quarter" size={35} color="white" />
-              <Text style={{ color: 'white', fontSize: 20, marginLeft: 10 }}>
-                8℃
-              </Text>
-            </View>
-          </View>
-          <View style={styles.air}>
-            <BlurView style={styles.blur} intensity={10} tint="light" />
-            <Text
-              style={{
-                color: 'white',
-                fontSize: 18,
-                marginLeft: 55,
-                marginTop: 3,
-              }}
-            >
-              실내 공기질
-            </Text>
-            <View style={styles.tempIcon}>
-              <Entypo name="air" size={35} color="skyblue" />
-              <Text style={{ color: 'white', fontSize: 20, marginLeft: 5 }}>
-                청정
-              </Text>
-            </View>
           </View>
         </View>
-        <View style={styles.musicbox}>
-          {/* <BlurView style={styles.blur} intensity={4} tint="light" /> */}
-          <View style={styles.imageWrapper}>
-            <View style={styles.image}>
-              <Image
-                source={require('../../assets/NewJeans.png')}
-                style={styles.image}
-              />
-            </View>
-          </View>
-
-          <Text style={styles.title}>Hype Boy</Text>
-          <Text style={styles.artist}>NewJeans</Text>
-          <View style={styles.music_icon}>
-            {[
-              {
-                name: 'shuffle',
-                action: () => {},
-              },
-              {
-                name: 'skip-previous',
-                action: () => {},
-              },
-              {
-                name: isPlaying ? 'pause' : 'play-arrow',
-                action: togglePlayback,
-              },
-              {
-                name: 'skip-next',
-                action: () => {},
-              },
-              {
-                name: 'replay',
-                action: () => {},
-              },
-            ].map((icon, index) => (
-              <Pressable
-                key={index}
-                style={({ pressed }) => [
-                  styles.icon_each,
-                  pressed && { backgroundColor: '#3B306F' },
-                ]}
-                onPress={icon.action}
-              >
-                <MaterialIcons name={icon.name} size={35} color="white" />
-              </Pressable>
-            ))}
-          </View>
-        </View>
+        <View style={styles.center}></View>
         <View style={styles.bottom}>
-          <BlurView style={styles.blur} intensity={6} tint="light" />
-          <Text style={styles.musiclist}>다음 곡 : </Text>
-          <Text style={styles.listTitle}> FIESTA - 아이즈원</Text>
-          <View style={styles.upIcon}>
-            <Entypo name="chevron-up" size={24} color="white" />
-          </View>
+          <Pressable
+            onPress={() => {}}
+            style={({ pressed }) => [
+              buttonStyles.container,
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+            ]}
+          ></Pressable>
+          <Pressable
+            onPress={() => {}}
+            style={({ pressed }) => [
+              buttonStyles.container,
+              {
+                opacity: pressed ? 0.5 : 1,
+              },
+            ]}
+          ></Pressable>
         </View>
       </ImageBackground>
     </SafeInputView>
   );
 };
 
-HomeScreen.propTypes = {
-  // navigation: PropTypes.object,
-};
+HomeScreen.propTypes = {};
+
+const buttonStyles = StyleSheet.create({
+  container: {
+    width: 170,
+    height: 150,
+    backgroundColor: 'white',
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    shadowColor: '#D7DE92',
+    shadowOpacity: 0.6,
+    shadowOffset: {
+      width: 0,
+      height: 0,
+    },
+    shadowRadius: 10,
+  },
+  image: {},
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -184,10 +136,8 @@ const styles = StyleSheet.create({
     backgroundColor: WHITE,
   },
   top: {
-    flex: 2,
+    flex: 3,
     width: '100%',
-    //backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    //backgroundColor: '#2D1F6C',
     borderRadius: 30,
     alignItems: 'center',
     flexDirection: 'row',
@@ -242,96 +192,17 @@ const styles = StyleSheet.create({
     marginTop: 10,
     width: '100%',
     justifyContent: 'center',
-  },
-  dashboard: {
-    flex: 1.6,
-    width: '100%',
-    marginTop: 10,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  temperature: {
-    width: '49%',
-  },
-  tempIcon: {
-    marginTop: 10,
-    justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row',
-  },
-  air: {
-    width: '49%',
-  },
-  musicbox: {
-    flex: 8,
-    width: '70%',
-    height: 500,
-    justifyContent: 'center',
-    alignItems: 'center',
-    // backgroundColor: '#342483',
-    borderRadius: 30,
-    paddingTop: 15,
-  },
-  title: {
-    fontSize: 25,
-    padding: 10,
-    height: 50,
-    color: 'white',
-    fontStyle: 'italic',
-  },
-  artist: {
-    fontSize: 16,
-    height: 20,
-    color: 'white',
-    fontStyle: 'italic',
-  },
-  imageWrapper: {
-    width: 230,
-    height: 230,
-    borderRadius: 10,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  image: {
-    width: 215,
-    height: 215,
-  },
-  music_icon: {
-    flexDirection: 'row',
-    padding: 10,
-    alignItems: 'space-between',
-    height: 70,
-  },
-  icon_each: {
-    margin: 8,
-  },
-  bottom: {
-    flex: 1,
-    flexDirection: 'row',
-    marginTop: 5,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    width: '100%',
-    borderRadius: 10,
-  },
-  musiclist: {
-    marginLeft: 34,
-    fontSize: 16,
-    color: 'white',
-  },
-  listTitle: {
-    fontSize: 14,
-    color: 'lightgrey',
-  },
-  upIcon: {
-    marginLeft: 138,
-  },
-  gradient: {
-    ...StyleSheet.absoluteFillObject,
   },
   blur: {
     ...StyleSheet.absoluteFillObject,
+  },
+  center: {
+    flex: 10,
+  },
+  bottom: {
+    flex: 5,
+    flexDirection: 'row',
   },
 });
 

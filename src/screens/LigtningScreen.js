@@ -17,6 +17,8 @@ import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useMainContext } from '../contexts/MainContext';
 import { useUserContext } from '../contexts/UserContext';
 import { FontAwesome } from '@expo/vector-icons';
+import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
 
 const LightningScreen = ({ navigation }) => {
   const { home_id, apps, setApps, owner } = useMainContext();
@@ -118,9 +120,7 @@ const LightningScreen = ({ navigation }) => {
     setJsonData(apps);
   }, [apps]);
 
-  const onSubmit = () => {
-    Alert.alert('입력완료');
-  };
+  const handlePress = (color) => {};
 
   const imageMapping = {
     111: require('../../assets/app/WashingMachine.png'),
@@ -136,6 +136,7 @@ const LightningScreen = ({ navigation }) => {
     214: require('../../assets/app/MoodupFridge.png'),
     215: require('../../assets/app/LightBulb.png'),
     216: require('../../assets/app/Hanger.png'),
+    311: require('../../assets/app/disco-ball.png'),
   };
 
   return (
@@ -144,19 +145,53 @@ const LightningScreen = ({ navigation }) => {
         source={require('../../assets/background.png')}
         style={[
           styles.container,
-          { paddingTop: insets.top - 45, paddingBottom: insets.bottom },
+          { paddingTop: insets.top - 40, paddingBottom: insets.bottom },
         ]}
       >
         <View style={styles.top}>
-          <Input
-            value={input}
-            onChangeText={(text) => setInput(text.trim())}
-            title={'원하시는 조명을 입력하세요'}
-            placeholder={''}
-            keyboardType={KeyboardTypes.EMAIL}
-            returnKeyType={ReturnKeyTypes.DONE}
-            onSubmitEditing={onSubmit}
-          />
+          <BlurView style={styles.blur} intensity={5} tint="light" />
+          <Text style={{ color: 'lightgrey', fontSize: 18, marginBottom: 10 }}>
+            GPT가 생성한 테마로 조명 색상을 설정해보세요
+          </Text>
+          <View
+            style={{ flexDirection: 'row', marginTop: 3, marginBottom: 10 }}
+          >
+            <Pressable
+              onPress={handlePress('#A543E0')}
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+            >
+              <Text style={{ fontSize: 16, color: '#A543E0' }}>
+                #연말 분위기
+              </Text>
+            </Pressable>
+            <Pressable
+              onPress={handlePress('#EEC493')}
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+            >
+              <Text style={{ fontSize: 16, color: '#EEC493' }}> #따뜻한 </Text>
+            </Pressable>
+            <LinearGradient
+              colors={['#FF6347', '#32CD32']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 0 }}
+              style={{ flexDirection: 'row' }}
+            >
+              <Pressable
+                onPress={handlePress('#FF6347')}
+                style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+              >
+                <Text style={{ fontSize: 16, color: 'white' }}>
+                  #크리스마스
+                </Text>
+              </Pressable>
+            </LinearGradient>
+            <Pressable
+              onPress={handlePress('yellow')}
+              style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
+            >
+              <Text style={{ fontSize: 16, color: 'yellow' }}> #신나는</Text>
+            </Pressable>
+          </View>
         </View>
 
         <View style={styles.main}>
@@ -278,16 +313,16 @@ const buttonStyles = StyleSheet.create({
     shadowRadius: 10,
   },
   image: {
-    //backgroundColor: 'yellow',
     width: 65,
     height: 65,
     marginBottom: 2,
   },
   wrapper: {
-    width: 80,
-    //backgroundColor: 'green',
+    width: 85,
+    backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
+    borderRadius: 5,
   },
   power: {
     //backgroundColor: 'black',
@@ -309,8 +344,7 @@ const styles = StyleSheet.create({
   top: {
     flex: 3,
     width: '100%',
-    flexDirection: 'row',
-    //backgroundColor: 'skyblue',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -347,6 +381,10 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 320,
     justifyContent: 'top',
+  },
+  blur: {
+    ...StyleSheet.absoluteFillObject,
+    height: 95,
   },
 });
 

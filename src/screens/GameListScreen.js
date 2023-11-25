@@ -77,6 +77,7 @@ const GameListScreen = ({ navigation }) => {
     0: require('../../assets/Disney.png'),
     1: require('../../assets/Geo.png'),
     2: require('../../assets/Gatherup.png'),
+    3: require('../../assets/Mafia.png'),
   };
 
   useEffect(() => {
@@ -94,7 +95,9 @@ const GameListScreen = ({ navigation }) => {
       >
         <View style={styles.wrapper}>
           <View style={styles.top}>
-            <Text style={styles.title}>파티 게임으로 분위기를 높여보세요</Text>
+            <Text style={styles.title}>
+              생성형 AI 게임으로 분위기를 높여보세요
+            </Text>
           </View>
           <View style={styles.main}>
             <View style={styles.gameButton}>
@@ -121,7 +124,31 @@ const GameListScreen = ({ navigation }) => {
                         source={imageMapping[v.gameType]}
                         style={buttonStyles.image}
                       />
-                      <Text style={buttonStyles.text}>{v.name}</Text>
+                      <View style={{ flexDirection: 'column' }}>
+                        <Text style={buttonStyles.text}>{v.name}</Text>
+                        {v.gameType === 0 || v.gameType === 1 ? (
+                          <Text
+                            style={{
+                              marginLeft: 25,
+                              fontSize: 14,
+                              color: '#65676D',
+                            }}
+                          >
+                            powered by GPT
+                          </Text>
+                        ) : null}
+                        {(v.gameType === 2 || v.gameType === 3) && (
+                          <Text
+                            style={{
+                              marginLeft: 25,
+                              fontSize: 14,
+                              color: '#65676D',
+                            }}
+                          >
+                            powered by NUGU
+                          </Text>
+                        )}
+                      </View>
                     </View>
                   </Pressable>
                 );
@@ -131,7 +158,7 @@ const GameListScreen = ({ navigation }) => {
           <View style={styles.bottom}>
             <View style={styles.createButton}>
               <Button
-                title={'게임 입장'}
+                title={'AI 게임 참가'}
                 onPress={() => EnterGame()}
                 buttonType={ButtonTypes.GAME}
               ></Button>
@@ -190,8 +217,8 @@ const styles = StyleSheet.create({
   },
   title: {
     flex: 1,
-    fontSize: 18,
-    marginTop: 45,
+    fontSize: 20,
+    marginTop: 50,
     color: 'lightgrey',
     textShadowColor: '#D7DE92',
     textShadowRadius: 1,

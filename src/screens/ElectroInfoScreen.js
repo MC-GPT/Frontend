@@ -46,13 +46,13 @@ const ElectroInfoScreen = () => {
               </Pressable>
             </View>
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>LG HomeBrew</Text>
+              <Text style={styles.name}>LG WHISEN</Text>
             </View>
           </View>
           <View style={styles.image}>
             <Image
               style={styles.lightImg}
-              source={require('../../assets/app/Beer.png')}
+              source={require('../../assets/app/AirConditioner.png')}
             />
           </View>
         </View>
@@ -92,11 +92,8 @@ const ElectroInfoScreen = () => {
           <View style={styles.brightness}>
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
-              <Text style={styles.title}>시간 </Text>
-              <View style={{ flexDirection: 'column', paddingLeft: 5 }}>
-                <Text style={styles.info}>브루잉 시작일 : 2023/11/15 </Text>
-                <Text style={styles.info}>브루잉 완료 예정일 : 2023/11/22</Text>
-              </View>
+              <Text style={styles.title}>바람 </Text>
+              <View style={{ flexDirection: 'column', paddingLeft: 5 }}></View>
             </View>
           </View>
           <View style={styles.lightColor}>
@@ -110,9 +107,9 @@ const ElectroInfoScreen = () => {
             <View style={styles.textWrapper}>
               <Text style={styles.title}>정보</Text>
               <View style={{ flexDirection: 'column', paddingTop: 30 }}>
-                <Text style={styles.info}>Name : LG HomeBrew </Text>
+                <Text style={styles.info}>Name : LG WHISEN </Text>
                 <Text style={styles.info}>Manufacturer : LG Electronics </Text>
-                <Text style={styles.info}>Serial Number : 206 </Text>
+                <Text style={styles.info}>Serial Number : 117 </Text>
                 <Text style={styles.info}>Added Date : 2023/9/13 </Text>
                 <Text style={styles.info}>Warranty : 2024/9/13 </Text>
               </View>
