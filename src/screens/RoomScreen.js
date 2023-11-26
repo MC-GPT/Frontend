@@ -203,7 +203,7 @@ const RoomScreen = ({ navigation }) => {
         </View>
         <View style={styles.main}>
           <View style={styles.myHomeBox}>
-            <Text style={styles.myHome}>마이홈</Text>
+            <Text style={styles.myHome}>My HOME</Text>
           </View>
           <View style={styles.roomButton}>
             {jsonData.length > 0 ? (
@@ -251,7 +251,7 @@ const RoomScreen = ({ navigation }) => {
         </View>
         <View style={styles.mainGuest}>
           <View style={styles.myHomeBox}>
-            <Text style={styles.myHome}>게스트</Text>
+            <Text style={styles.myHome}>GUEST</Text>
           </View>
           <View style={styles.roomButton}>
             {guestData.length > 0 ? (
@@ -322,7 +322,6 @@ RoomScreen.propTypes = {
 const buttonStyles = StyleSheet.create({
   container: {
     width: 135,
-    //backgroundColor: 'pink',
     marginHorizontal: 10,
     paddingTop: 20,
     marginTop: 10,
@@ -348,16 +347,14 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '100%',
     flexDirection: 'row',
-    // backgroundColor: 'skyblue',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
   title: {
-    //backgroundColor: 'pink',
     marginLeft: 10,
   },
   logoutButton: {
-    marginLeft: 140,
+    marginLeft: 100,
   },
   logoutRow: {
     marginLeft: 20,
@@ -396,6 +393,7 @@ const styles = StyleSheet.create({
     marginLeft: 40,
     fontSize: 24,
     color: 'white',
+    fontFamily: 'Arial',
   },
   roomButton: {
     //backgroundColor: 'aqua',

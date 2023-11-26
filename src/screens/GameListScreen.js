@@ -129,12 +129,12 @@ const GameListScreen = ({ navigation }) => {
                         {v.gameType === 0 || v.gameType === 1 ? (
                           <Text
                             style={{
-                              marginLeft: 25,
+                              marginLeft: 20,
                               fontSize: 14,
                               color: '#65676D',
                             }}
                           >
-                            powered by GPT
+                            powered by GPT 4.0
                           </Text>
                         ) : null}
                         {(v.gameType === 2 || v.gameType === 3) && (

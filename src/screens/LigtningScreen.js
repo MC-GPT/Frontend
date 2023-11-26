@@ -7,13 +7,12 @@ import {
   Image,
   Text,
 } from 'react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import PopupB, { PopupTypesB } from '../components/PopupB';
 import SafeInputView from '../components/SafeInputView';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Input, { KeyboardTypes, ReturnKeyTypes } from '../components/Input';
 import { useMainContext } from '../contexts/MainContext';
 import { useUserContext } from '../contexts/UserContext';
 import { FontAwesome } from '@expo/vector-icons';
@@ -24,7 +23,6 @@ const LightningScreen = ({ navigation }) => {
   const { home_id, apps, setApps, owner } = useMainContext();
   const [jsonData, setJsonData] = useState([]);
   const [visibleLight, setVisibleLight] = useState(false);
-  const [input, setInput] = useState('');
   const { jwt } = useUserContext();
   const [number, setNumber] = useState('');
   const [name, setName] = useState('');
@@ -120,7 +118,94 @@ const LightningScreen = ({ navigation }) => {
     setJsonData(apps);
   }, [apps]);
 
-  const handlePress = (color) => {};
+  const [buttonOpacity, setButtonOpacity] = useState(0);
+  const intervalTime = 20;
+  const maxOpacity = 1;
+  const minOpacity = 0;
+  const step = 0.01;
+  let increasing = true;
+
+  const updateOpacity = () => {
+    setButtonOpacity((prevOpacity) => {
+      let nextOpacity;
+      if (increasing) {
+        nextOpacity = prevOpacity + step;
+        if (nextOpacity >= maxOpacity) {
+          increasing = false;
+        }
+      } else {
+        nextOpacity = prevOpacity - step;
+        if (nextOpacity <= minOpacity) {
+          increasing = true;
+        }
+      }
+      return nextOpacity;
+    });
+  };
+
+  useEffect(() => {
+    const opacityInterval = setInterval(updateOpacity, intervalTime);
+
+    return () => clearInterval(opacityInterval);
+  }, []);
+
+  const [selectedColor, setSelectedColor] = useState('');
+
+  const handlePress = useCallback((color) => {
+    setSelectedColor(color);
+  }, []);
+
+  const getButtonStyles = () => {
+    const baseBackgroundColor = selectedColor || 'white';
+    const backgroundColorWithOpacity = selectedColor
+      ? `${selectedColor}${Math.round(buttonOpacity * 255).toString(16)}`
+      : `white${Math.round(buttonOpacity * 255).toString(16)}`;
+
+    return {
+      container: {
+        width: 152,
+        height: 120,
+        backgroundColor: selectedColor
+          ? backgroundColorWithOpacity
+          : baseBackgroundColor,
+        marginHorizontal: 10,
+        marginTop: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10,
+        shadowColor: '#D7DE92',
+        shadowOpacity: 0.6,
+        shadowOffset: {
+          width: 0,
+          height: 0,
+        },
+        shadowRadius: 10,
+        opacity: buttonOpacity,
+      },
+      title: {
+        fontFamily: 'Verdana',
+        fontSize: 14,
+      },
+      image: {
+        width: 65,
+        height: 65,
+        marginBottom: 2,
+      },
+      wrapper: {
+        width: 85,
+        backgroundColor: 'transparent',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+      },
+      power: {
+        width: 42,
+        height: 42,
+        marginLeft: 7,
+        marginBottom: 30,
+      },
+    };
+  };
 
   const imageMapping = {
     111: require('../../assets/app/WashingMachine.png'),
@@ -157,18 +242,16 @@ const LightningScreen = ({ navigation }) => {
             style={{ flexDirection: 'row', marginTop: 3, marginBottom: 10 }}
           >
             <Pressable
-              onPress={handlePress('#A543E0')}
+              onPress={() => handlePress('#0B14FB')}
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
             >
-              <Text style={{ fontSize: 16, color: '#A543E0' }}>
-                #연말 분위기
-              </Text>
+              <Text style={{ fontSize: 16, color: 'skyblue' }}>#바닷속</Text>
             </Pressable>
             <Pressable
-              onPress={handlePress('#EEC493')}
+              onPress={() => handlePress('#FFE3CA')}
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
             >
-              <Text style={{ fontSize: 16, color: '#EEC493' }}> #따뜻한 </Text>
+              <Text style={{ fontSize: 16, color: '#FFE3CA' }}> #따뜻한 </Text>
             </Pressable>
             <LinearGradient
               colors={['#FF6347', '#32CD32']}
@@ -177,7 +260,7 @@ const LightningScreen = ({ navigation }) => {
               style={{ flexDirection: 'row' }}
             >
               <Pressable
-                onPress={handlePress('#FF6347')}
+                onPress={() => handlePress('#6CFF9E')}
                 style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
               >
                 <Text style={{ fontSize: 16, color: 'white' }}>
@@ -186,10 +269,10 @@ const LightningScreen = ({ navigation }) => {
               </Pressable>
             </LinearGradient>
             <Pressable
-              onPress={handlePress('yellow')}
+              onPress={() => handlePress('#FFFDC4')}
               style={({ pressed }) => [{ opacity: pressed ? 0.5 : 1 }]}
             >
-              <Text style={{ fontSize: 16, color: 'yellow' }}> #신나는</Text>
+              <Text style={{ fontSize: 16, color: 'yellow' }}> #은은한</Text>
             </Pressable>
           </View>
         </View>
@@ -198,7 +281,9 @@ const LightningScreen = ({ navigation }) => {
           <View style={styles.roomButton}>
             {jsonData
               .filter((v) => v.light)
-              .map((v) => {
+              .map((v, index) => {
+                const buttonStyles = getButtonStyles(selectedColor, index);
+
                 return (
                   <Pressable
                     key={v.id}
@@ -219,7 +304,7 @@ const LightningScreen = ({ navigation }) => {
                           source={imageMapping[v.serialNumber]}
                           style={buttonStyles.image}
                         />
-                        <Text>{v.name}</Text>
+                        <Text style={buttonStyles.title}>{v.name}</Text>
                       </View>
                       <View style={{ alignItems: 'center', marginBottom: 10 }}>
                         <View style={{ marginLeft: 37, paddingBottom: 10 }}>
@@ -293,45 +378,6 @@ const LightningScreen = ({ navigation }) => {
 LightningScreen.propTypes = {
   navigation: PropTypes.object,
 };
-
-const buttonStyles = StyleSheet.create({
-  container: {
-    width: 152,
-    height: 120,
-    backgroundColor: 'white',
-    marginHorizontal: 10,
-    marginTop: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 10,
-    shadowColor: '#D7DE92',
-    shadowOpacity: 0.6,
-    shadowOffset: {
-      width: 0,
-      height: 0,
-    },
-    shadowRadius: 10,
-  },
-  image: {
-    width: 65,
-    height: 65,
-    marginBottom: 2,
-  },
-  wrapper: {
-    width: 85,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 5,
-  },
-  power: {
-    //backgroundColor: 'black',
-    width: 42,
-    height: 42,
-    marginLeft: 7,
-    marginBottom: 30,
-  },
-});
 
 const styles = StyleSheet.create({
   container: {
