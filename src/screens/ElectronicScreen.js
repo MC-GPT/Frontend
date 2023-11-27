@@ -197,9 +197,11 @@ const ElectronicScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.bottom}>
-          <Text style={{ color: 'lightgrey', paddingBottom: 10 }}>
-            길게 눌러서 삭제
-          </Text>
+          {owner && (
+            <Text style={{ color: 'lightgrey', paddingBottom: 10 }}>
+              길게 눌러서 삭제
+            </Text>
+          )}
           {owner && (
             <Pressable onPress={() => setVisibleLight(true)}>
               <FontAwesome name="plus-circle" size={40} color="white" />

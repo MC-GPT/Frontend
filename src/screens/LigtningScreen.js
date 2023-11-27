@@ -173,13 +173,6 @@ const LightningScreen = ({ navigation }) => {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10,
-        shadowColor: '#D7DE92',
-        shadowOpacity: 0.6,
-        shadowOffset: {
-          width: 0,
-          height: 0,
-        },
-        shadowRadius: 10,
         opacity: buttonOpacity,
       },
       title: {
@@ -353,9 +346,11 @@ const LightningScreen = ({ navigation }) => {
           </View>
         </View>
         <View style={styles.bottom}>
-          <Text style={{ color: 'lightgrey', paddingBottom: 10 }}>
-            길게 눌러서 삭제
-          </Text>
+          {owner && (
+            <Text style={{ color: 'lightgrey', paddingBottom: 10 }}>
+              길게 눌러서 삭제
+            </Text>
+          )}
           {owner && (
             <Pressable onPress={() => setVisibleLight(true)}>
               <FontAwesome name="plus-circle" size={40} color="white" />
