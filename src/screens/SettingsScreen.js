@@ -104,6 +104,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
     borderRadius: 10,
     marginVertical: 20,
+    borderWidth: 1,
+    borderColor: '#ebebeb',
   },
   myInfoText: {
     fontSize: 20,
@@ -119,7 +121,6 @@ const styles = StyleSheet.create({
     marginTop: 15,
     height: 150,
     width: 100,
-    //backgroundColor: '#ebebeb',
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',

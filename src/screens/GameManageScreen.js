@@ -482,14 +482,12 @@ const styles = StyleSheet.create({
   top: {
     flex: 1.5,
     flexDirection: 'row',
-    //backgroundColor: 'aqua',
     justifyContent: 'center',
     alignItems: 'flex-start',
     paddingBottom: 10,
   },
   topLeft: {
     flex: 1,
-    //backgroundColor: 'red',
   },
   topMiddle: {
     flex: 1,
@@ -498,7 +496,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   gameTitle: {
-    //backgroundColor: 'yellow',
     marginTop: 28,
     justifyContent: 'center',
     alignItems: 'center',
@@ -506,12 +503,10 @@ const styles = StyleSheet.create({
 
   topRight: {
     flex: 1,
-    //backgroundColor: 'green',
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
   exit: {
-    //backgroundColor: 'blue',
     paddingTop: 20,
     marginLeft: 20,
   },
@@ -527,7 +522,6 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 6,
-    // backgroundColor: 'pink',
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -548,7 +542,6 @@ const styles = StyleSheet.create({
   bottom: {
     flex: 1,
     width: '100%',
-    // backgroundColor: 'yellow',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
@@ -559,7 +552,6 @@ const styles = StyleSheet.create({
   },
   list: {},
   listContainer: {
-    //backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
     width: '67%',
@@ -571,7 +563,6 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   buttonContainer: {
-    //backgroundColor: 'yellow',
     justifyContent: 'center',
     alignItems: 'center',
     width: '22.5%',

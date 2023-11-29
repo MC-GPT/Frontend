@@ -133,7 +133,6 @@ const styles = StyleSheet.create({
   top: {
     flex: 1,
     width: '100%',
-    //backgroundColor: 'green',
     flexDirection: 'row',
   },
   topLeft: {
@@ -143,7 +142,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-end',
     paddingLeft: 25,
-    //backgroundColor: 'white',
   },
   image: {
     flex: 1,
@@ -160,7 +158,6 @@ const styles = StyleSheet.create({
     flex: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    //backgroundColor: 'yellow',
   },
   name: {
     color: 'white',
@@ -205,7 +202,6 @@ const styles = StyleSheet.create({
     height: 100,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    //backgroundColor: 'black',
     flexDirection: 'row',
     marginLeft: 30,
   },

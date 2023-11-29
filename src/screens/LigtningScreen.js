@@ -161,6 +161,20 @@ const LightningScreen = ({ navigation }) => {
       ? `${selectedColor}${Math.round(buttonOpacity * 255).toString(16)}`
       : `white${Math.round(buttonOpacity * 255).toString(16)}`;
 
+    const getContrastingTextColor = (hexColor) => {
+      // Convert hex color to RGB
+      const hex = hexColor.replace('#', '');
+      const r = parseInt(hex.substring(0, 2), 16);
+      const g = parseInt(hex.substring(2, 4), 16);
+      const b = parseInt(hex.substring(4, 6), 16);
+
+      // Calculate brightness using the formula
+      const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+
+      // Return white or black based on the brightness for contrast
+      return brightness > 125 ? 'black' : 'white';
+    };
+
     return {
       container: {
         width: 152,
@@ -178,6 +192,8 @@ const LightningScreen = ({ navigation }) => {
       title: {
         fontFamily: 'Verdana',
         fontSize: 14,
+        textAlign: 'center',
+        color: selectedColor ? getContrastingTextColor(selectedColor) : 'black',
       },
       image: {
         width: 65,
@@ -392,14 +408,12 @@ const styles = StyleSheet.create({
   main: {
     flex: 10,
     width: '100%',
-    //backgroundColor: 'yellow',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   roomButton: {
     width: '100%',
-    //backgroundColor: 'aqua',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -407,18 +421,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 54,
   },
-  lightContainer: {
-    //backgroundColor: 'black',
-  },
+  lightContainer: {},
   bottom: {
     flex: 2,
     width: '100%',
-    //backgroundColor: 'brown',
     justifyContent: 'center',
     alignItems: 'center',
   },
   createButton: {
-    // backgroundColor: 'black',
     flex: 1,
     width: 320,
     justifyContent: 'top',

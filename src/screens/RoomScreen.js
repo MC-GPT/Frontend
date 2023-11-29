@@ -364,13 +364,11 @@ const styles = StyleSheet.create({
   main: {
     flex: 4,
     width: '100%',
-    //backgroundColor: 'yellow',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
   },
   createButton: {
-    //backgroundColor: 'white',
     flex: 1,
     width: '100%',
     justifyContent: 'center',
@@ -378,7 +376,6 @@ const styles = StyleSheet.create({
   },
   mainGuest: {
     width: '100%',
-    // backgroundColor: 'skyblue',
     flex: 4,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -386,17 +383,15 @@ const styles = StyleSheet.create({
   },
   myHomeBox: {
     width: '100%',
-    //  backgroundColor: 'aqua',
     justifyContent: 'flex-start',
   },
   myHome: {
-    marginLeft: 40,
+    marginLeft: 45,
     fontSize: 24,
     color: 'white',
     fontFamily: 'Arial',
   },
   roomButton: {
-    //backgroundColor: 'aqua',
     flex: 1,
     width: '82%',
     flexDirection: 'row',
@@ -405,7 +400,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 35,
   },
   enterButton: {
-    //backgroundColor: 'brown',
     flex: 1,
     width: '100%',
     justifyContent: 'center',

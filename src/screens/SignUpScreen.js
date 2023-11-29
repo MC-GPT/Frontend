@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
   },
   top: {
     flex: 1,
-    // backgroundColor: 'lightblue',
     width: '100%',
     marginLeft: 40,
     marginTop: 35,
@@ -182,7 +181,7 @@ const styles = StyleSheet.create({
     color: 'white',
     textShadowColor: '#7f1d1d',
     textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 20, // 그림자의 블러 정도
+    textShadowRadius: 20,
   },
   subText: {
     paddingTop: 20,
@@ -190,7 +189,7 @@ const styles = StyleSheet.create({
     color: 'lightgrey',
     textShadowColor: '#7f1d1d',
     textShadowOffset: { width: 2, height: 2 },
-    textShadowRadius: 20, // 그림자의 블러 정도
+    textShadowRadius: 20,
   },
   content: {
     flex: 4,

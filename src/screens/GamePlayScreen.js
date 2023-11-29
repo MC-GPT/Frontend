@@ -167,7 +167,6 @@ const styles = StyleSheet.create({
   },
   topLeft: {
     flex: 1,
-    //backgroundColor: 'red',
   },
   gameTitle: {
     marginTop: 30,
@@ -180,18 +179,15 @@ const styles = StyleSheet.create({
   },
   topRight: {
     flex: 1,
-    //backgroundColor: 'green',
     alignItems: 'flex-end',
     justifyContent: 'center',
   },
   exit: {
-    // backgroundColor: 'blue',
     paddingTop: 20,
     marginLeft: 20,
   },
   main: {
     flex: 5,
-    // backgroundColor: 'pink',
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center',
@@ -218,12 +214,10 @@ const styles = StyleSheet.create({
   ans: {
     width: 200,
     height: 200,
-    //borderRadius: 30,
   },
   bottom: {
     flex: 3,
     width: '100%',
-    // backgroundColor: 'yellow',
     justifyContent: 'flex-start',
     alignItems: 'center',
   },

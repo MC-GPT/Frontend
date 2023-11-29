@@ -226,11 +226,9 @@ const styles = StyleSheet.create({
   main: {
     flex: 5,
     width: '100%',
-    // backgroundColor: 'yellow',
     flexDirection: 'column',
   },
   gameButton: {
-    // backgroundColor: 'aqua',
     flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -243,7 +241,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   createButton: {
-    // backgroundColor: 'black',
     flex: 1,
     width: 300,
     justifyContent: 'top',
