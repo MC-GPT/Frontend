@@ -27,6 +27,6 @@ export const GUEST = {
 
 export const GAME = {
   LIGHT: '#7BC7E7',
-  DEFAULT: '#AF6BE4',
+  DEFAULT: '#711FDA',
   DARK: '#1B6A8C',
 };

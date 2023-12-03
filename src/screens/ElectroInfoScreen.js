@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { BlurView } from 'expo-blur';
+import { AntDesign } from '@expo/vector-icons';
 
 const ElectroInfoScreen = () => {
   const insets = useSafeAreaInsets();
@@ -93,13 +94,48 @@ const ElectroInfoScreen = () => {
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
               <Text style={styles.title}>바람 </Text>
-              <View style={{ flexDirection: 'column', paddingLeft: 5 }}></View>
+              <View
+                style={{
+                  alignItems: 'center',
+                  flexDirection: 'row',
+                  marginLeft: 170,
+                }}
+              >
+                <AntDesign name="left" size={24} color="white" />
+                <View style={{ flexDirection: 'column', alignItems: 'center' }}>
+                  <Image
+                    style={styles.fan}
+                    source={require('../../assets/fan.png')}
+                  />
+                  <Text style={{ color: 'skyblue', fontSize: 15 }}>약풍</Text>
+                </View>
+
+                <AntDesign name="right" size={24} color="white" />
+              </View>
             </View>
           </View>
           <View style={styles.lightColor}>
             <BlurView style={styles.blur} intensity={10} tint="light" />
             <View style={styles.textWrapper}>
-              <Text style={styles.title}>모드</Text>
+              <Text style={styles.title}>냉방</Text>
+              <View
+                style={{
+                  alignItems: 'center',
+                  flexDirection: 'column',
+                  marginLeft: 60,
+                  paddingBottom: 8,
+                }}
+              >
+                <Text
+                  style={{ color: 'skyblue', fontSize: 17, marginLeft: 38 }}
+                >
+                  26℃
+                </Text>
+                <Image
+                  style={styles.button}
+                  source={require('../../assets/windtemp.png')}
+                />
+              </View>
             </View>
           </View>
           <View style={styles.lightInfo}>
@@ -213,6 +249,16 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: 'lightgrey',
     marginLeft: 55,
+  },
+  wind: {
+    color: 'white',
+    marginHorizontal: 10,
+    fontSize: 18,
+  },
+  fan: {
+    marginHorizontal: 10,
+    width: 70,
+    height: 70,
   },
 });
 

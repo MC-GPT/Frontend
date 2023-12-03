@@ -21,7 +21,7 @@ const GamePlayScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
   const [gameStart, setGameStart] = useState(false);
-  const { jwt } = useUserContext();
+  const { jwt, nickname } = useUserContext();
 
   let ws = useRef(null);
   useEffect(() => {
@@ -114,7 +114,9 @@ const GamePlayScreen = () => {
           </View>
           <View style={styles.topMiddle}>
             <View style={styles.gameTitle}>
-              <Text style={{ fontSize: 25, color: 'white' }}></Text>
+              <Text style={{ fontSize: 18, color: 'white' }}>
+                닉네임 : {nickname}
+              </Text>
             </View>
           </View>
           <View style={styles.topRight}></View>

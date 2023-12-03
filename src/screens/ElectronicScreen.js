@@ -124,6 +124,16 @@ const ElectronicScreen = ({ navigation }) => {
     216: require('../../assets/app/Hanger.png'),
   };
 
+  const handleLockToggle = (appId) => {
+    const updatedApps = jsonData.map((app) => {
+      if (app.id === appId) {
+        return { ...app, locked: !app.locked };
+      }
+      return app;
+    });
+    setJsonData(updatedApps);
+  };
+
   useEffect(() => {
     setJsonData(apps);
   }, [apps]);
@@ -168,7 +178,7 @@ const ElectronicScreen = ({ navigation }) => {
                     <View style={{ marginLeft: 110 }}>
                       <Pressable
                         onPress={() => {
-                          v.locked = !v.locked;
+                          handleLockToggle(v.id);
                         }}
                         style={({ pressed }) => [
                           {

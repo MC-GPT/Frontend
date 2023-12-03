@@ -231,6 +231,8 @@ const LightningScreen = ({ navigation }) => {
     215: require('../../assets/app/LightBulb.png'),
     216: require('../../assets/app/Hanger.png'),
     311: require('../../assets/app/disco-ball.png'),
+    312: require('../../assets/app/Speaker.png'),
+    313: require('../../assets/app/MoodupFridge.png'),
   };
 
   return (

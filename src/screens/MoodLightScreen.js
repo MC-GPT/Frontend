@@ -16,8 +16,8 @@ import { Image } from 'react-native';
 const MoodLightScreen = () => {
   const insets = useSafeAreaInsets();
   const navigation = useNavigation();
-  const [isOn, setIsOn] = useState(false);
-  const [isOff, setIsOff] = useState(true);
+  const [isOn, setIsOn] = useState(true);
+  const [isOff, setIsOff] = useState(false);
 
   const toggleOn = () => {
     setIsOn(true);

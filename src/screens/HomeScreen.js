@@ -230,7 +230,7 @@ const styles = StyleSheet.create({
     borderColor: 'white',
     borderTopWidth: 0.5,
     borderRightWidth: 2,
-    borderLeftWidth: 1.5,
+    borderLeftWidth: 0.5,
     flexDirection: 'row',
   },
   imageBorder: {
@@ -272,14 +272,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 15,
     color: 'white',
   },
-  // gradientOverlay: {
-  //   position: 'absolute',
-  //   left: 0,
-  //   right: 0,
-  //   top: 0,
-  //   height: '100%',
-  //   borderRadius: 20,
-  // },
 });
 
 export default HomeScreen;
